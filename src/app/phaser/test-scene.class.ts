@@ -20,6 +20,15 @@ export class TestScene extends Phaser.Scene {
     },
     rbone2: {
       file: "rbone2"
+    },
+    test1: {
+      file: "test1"
+    },
+    test2: {
+      file: "test2"
+    },
+    test3: {
+      file: "test3"
     }
   };
 
@@ -63,7 +72,6 @@ export class TestScene extends Phaser.Scene {
   }
 
   constructRobot() {
-
     let global = this.add.container(300, 300);
     let head = this.add.sprite(300, 200, "head");
     global.add(head);
@@ -76,7 +84,18 @@ export class TestScene extends Phaser.Scene {
 
   testBones() {
     let boneNode1 = new BoneNode();
-    let head = this.add.sprite(0, 0, "head");
-    boneNode1.addChild(head);
+
+    let test1 = this.add.sprite(120, 0, "test1");
+    boneNode1.addChild(test1);
+
+    let test2 = this.add.sprite(0, -100, "test2");
+    boneNode1.addChild(test2);
+
+    let test3 = this.add.sprite(0, 100, "test3");
+    boneNode1.addChild(test3);
+
+    boneNode1.x = boneNode1.y = 300;
+    //boneNode1.rotation = Math.PI / 4;
+    boneNode1.render();
   }
 }
