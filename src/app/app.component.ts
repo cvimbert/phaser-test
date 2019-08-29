@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
       width: 800,
       height: 600,
       scene: TestScene,
-      backgroundColor: '#000000',
+      backgroundColor: '#ffffff',
       parent: this.ref.nativeElement
     }; 
 
