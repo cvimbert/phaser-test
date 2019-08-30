@@ -4,7 +4,12 @@ export class BoneNode {
 
     rotation: number = 0;
     parentNode: BoneNode;
+
     childrenObjects: ChildObjectData[] = [];
+    childrenObjectsById: { [key: string]: ChildObjectData } = {};
+
+    childrenNodes: ChildObjectData[] = [];
+    childrenNodesById: { [key: string]: ChildObjectData } = {};
 
     constructor(
         public x: number = 0,
@@ -29,17 +34,50 @@ export class BoneNode {
             obj.object.y = this.y + newY;
             obj.object.rotation = obj.rotation - this.rotation;
         });
+
+        this.childrenNodes.forEach(data => {
+            (<BoneNode>data.object).render();
+        });
     }
 
-    addChild(child: Phaser.GameObjects.Sprite) {
-        this.childrenObjects.push({
+    addChild(child: Phaser.GameObjects.Sprite, id?: string) {
+
+        let data: ChildObjectData = {
+            id: id,
+            x: child.x,
+            y: child.y,
+            rotation: child.rotation || 0,
+            object: child,
+            relativeAngle: Math.atan(child.y / child.x),
+            hypothenus: Math.sqrt(Math.pow(child.x, 2) + Math.pow(child.y, 2))
+        };
+
+        this.childrenObjects.push(data);
+
+        if (id) {
+            this.childrenObjectsById[id] = data;
+        }
+    }
+
+    addChildNode(child: BoneNode, id?: string) {
+
+        let data = {
+            id: id,
             x: child.x,
             y: child.y,
             rotation: child.rotation,
             object: child,
             relativeAngle: Math.atan(child.y / child.x),
             hypothenus: Math.sqrt(Math.pow(child.x, 2) + Math.pow(child.y, 2))
-        });
+        };
+
+        this.childrenNodes.push(data);
+
+        if (id) {
+            this.childrenNodesById[id] = data;
+        }
+
+        child.parentNode = this;
     }
 
     removeChild(child: Phaser.GameObjects.Sprite) {

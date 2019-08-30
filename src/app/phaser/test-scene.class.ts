@@ -5,6 +5,7 @@ export class TestScene extends Phaser.Scene {
 
   private loadedFiles: string[] = [];
   private b1: BoneNode;
+  private b2: BoneNode;
 
   private sprites: { [key: string]: SpriteDefinition } = {
     head: {
@@ -30,6 +31,15 @@ export class TestScene extends Phaser.Scene {
     },
     test3: {
       file: "test3"
+    },
+    r1: {
+      file: "r1"
+    },
+    r2: {
+      file: "r2"
+    },
+    r3: {
+      file: "r3"
     }
   };
 
@@ -98,6 +108,20 @@ export class TestScene extends Phaser.Scene {
 
     boneNode1.x = boneNode1.y = 300;
     //boneNode1.rotation = Math.PI / 4;
+
+    let boneNode2 = new BoneNode();
+    this.b2 = boneNode2;
+
+    // attention, bizarrerie à étudier un peu
+    let r1 = this.add.sprite(1, 1, "r1");
+    
+    boneNode2.addChild(r1);
+    boneNode2.x = 600;
+    boneNode2.y = 100;
+
+    boneNode1.addChildNode(boneNode2);
+
+    //boneNode2.render();
     boneNode1.render();
   }
 
