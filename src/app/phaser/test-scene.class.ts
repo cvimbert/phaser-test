@@ -4,6 +4,7 @@ import { BoneNode } from './bones/bone-node.class';
 export class TestScene extends Phaser.Scene {
 
   private loadedFiles: string[] = [];
+  private b1: BoneNode;
 
   private sprites: { [key: string]: SpriteDefinition } = {
     head: {
@@ -84,6 +85,7 @@ export class TestScene extends Phaser.Scene {
 
   testBones() {
     let boneNode1 = new BoneNode();
+    this.b1 = boneNode1;
 
     let test1 = this.add.sprite(120, 0, "test1");
     boneNode1.addChild(test1);
@@ -97,5 +99,25 @@ export class TestScene extends Phaser.Scene {
     boneNode1.x = boneNode1.y = 300;
     //boneNode1.rotation = Math.PI / 4;
     boneNode1.render();
+  }
+
+  tweenAngleTest() {
+    this.b1.rotation = 0;
+    //this.b1.x = 300;
+
+    this.tweens.add({
+      targets: this.b1,
+      rotation: Math.PI,
+      duration: 2000,
+      onStart: () => {
+        this.b1.render();
+      },
+      onComplete: () => {
+        console.log("finished");
+      },
+      onUpdate: () => {
+        this.b1.render();
+      }
+    });
   }
 }

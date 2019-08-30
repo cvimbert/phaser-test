@@ -3,4 +3,6 @@ export interface ChildObjectData {
     y: number;
     rotation: number;
     object: Phaser.GameObjects.Sprite;
+    relativeAngle: number;
+    hypothenus: number;
 }

@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   scene:Phaser.Scene;
 
   private phaserSprite: Phaser.GameObjects.Sprite;
+  private testScene: TestScene;
 
   constructor(
     public ref: ElementRef
@@ -24,16 +25,23 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.testScene = new TestScene();
+
     let config: Phaser.Types.Core.GameConfig = {
       type: Phaser.CANVAS,
       width: 800,
       height: 600,
-      scene: TestScene,
+      scene: this.testScene,
       backgroundColor: '#ffffff',
       parent: this.ref.nativeElement
     }; 
 
     this.game = new Game(config);
+  }
+
+  testTween() {
+    this.testScene.tweenAngleTest();
   }
 
 }

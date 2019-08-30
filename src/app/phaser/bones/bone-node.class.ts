@@ -16,12 +16,18 @@ export class BoneNode {
     render() {
         // il va falloir rendre tout ça récursif !
         this.childrenObjects.forEach(obj => {
-            console.log(Math.cos(this.rotation), Math.sin(this.rotation));
-            
-            // pas bon tout ça !
-            obj.object.x = this.x + obj.x * Math.cos(this.rotation);
-            obj.object.y = this.y + obj.y * Math.sin(this.rotation);
-            obj.object.rotation = obj.object.rotation + this.rotation;
+            var angle = obj.relativeAngle - this.rotation;
+
+            // Est-ce que ces deux lignes sont vraiment utiles ?
+            /*angle = angle < 0 ? angle + 2 * Math.PI : angle;
+            angle = angle >= 2 * Math.PI ? angle - 2 * Math.PI : angle;*/
+
+            var newX = Math.cos(angle) * obj.hypothenus;
+            var newY = Math.sin(angle) * obj.hypothenus;
+
+            obj.object.x = this.x + newX;
+            obj.object.y = this.y + newY;
+            obj.object.rotation = obj.rotation - this.rotation;
         });
     }
 
@@ -30,7 +36,9 @@ export class BoneNode {
             x: child.x,
             y: child.y,
             rotation: child.rotation,
-            object: child
+            object: child,
+            relativeAngle: Math.atan(child.y / child.x),
+            hypothenus: Math.sqrt(Math.pow(child.x, 2) + Math.pow(child.y, 2))
         });
     }
 
