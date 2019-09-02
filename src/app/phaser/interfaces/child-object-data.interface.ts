@@ -6,6 +6,9 @@ export interface ChildObjectData {
     y: number;
     rotation: number;
     object: Phaser.GameObjects.Sprite | BoneNode;
-    relativeAngle: number;
+
+    // pas bien nommé
+    initAngle: number;
+
     hypothenus: number;
 }

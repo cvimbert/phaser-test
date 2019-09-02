@@ -1,5 +1,5 @@
 //declare var Phaser = require("phaser");
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { Game, Scene } from 'phaser';
 import { TestScene } from './phaser/test-scene.class';
 
@@ -38,6 +38,15 @@ export class AppComponent implements OnInit {
     }; 
 
     this.game = new Game(config);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(evt: KeyboardEvent) {
+    switch (evt.key) {
+      case "a":
+        this.testTween();
+        break;
+    }
   }
 
   testTween() {

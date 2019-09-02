@@ -114,10 +114,13 @@ export class TestScene extends Phaser.Scene {
 
     // attention, bizarrerie à étudier un peu
     let r1 = this.add.sprite(1, 1, "r1");
+    r1.x = 1;
+    r1.y = 1;
+    //r1.rotation = Math.PI;
     
     boneNode2.addChild(r1);
-    boneNode2.x = 600;
-    boneNode2.y = 100;
+    boneNode2.x = 30;
+    boneNode2.y = 30;
 
     boneNode1.addChildNode(boneNode2);
 

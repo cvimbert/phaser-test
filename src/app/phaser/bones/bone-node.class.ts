@@ -11,6 +11,14 @@ export class BoneNode {
     childrenNodes: ChildObjectData[] = [];
     childrenNodesById: { [key: string]: ChildObjectData } = {};
 
+    relativeX: number = 0;
+    relativeY: number = 0;
+    relativeRotation: number = 0;
+
+    calculatedX: number = 0;
+    calculatedY: number = 0;
+    calculatedRotation: number = 0;
+
     constructor(
         public x: number = 0,
         public y: number = 0
@@ -18,25 +26,49 @@ export class BoneNode {
 
     }
 
-    render() {
-        // il va falloir rendre tout ça récursif !
-        this.childrenObjects.forEach(obj => {
-            var angle = obj.relativeAngle - this.rotation;
+    render(data?: ChildObjectData) {
 
-            // Est-ce que ces deux lignes sont vraiment utiles ?
+        // calcul des positions relatives
+        //let nodeAngle = (data ? data.initAngle : 0) - this.rotation;
+
+        //let newNodeX = Math.cos(nodeAngle) * (data ? )
+
+        if (data) {
+            this.relativeRotation = data.initAngle - this.parentNode.rotation;
+            this.relativeX = Math.cos(this.relativeRotation) * data.hypothenus;
+            this.relativeY = Math.sin(this.relativeRotation) * data.hypothenus;
+
+            this.calculatedX = this.relativeX + this.parentNode.x + this.parentNode.relativeX;
+            this.calculatedY = this.relativeY + this.parentNode.y + this.parentNode.relativeY;
+            this.calculatedRotation = this.rotation + this.parentNode.calculatedRotation;
+        } else {
+            this.calculatedX = this.relativeX;
+            this.calculatedY = this.relativeY;
+            this.calculatedRotation = this.rotation;
+        }
+
+        this.childrenObjects.forEach(obj => {
+            let angle = obj.initAngle - this.rotation;
+
+            // Il faudra voir plus tard si on a besoin de ces deux lignes
             /*angle = angle < 0 ? angle + 2 * Math.PI : angle;
             angle = angle >= 2 * Math.PI ? angle - 2 * Math.PI : angle;*/
 
-            var newX = Math.cos(angle) * obj.hypothenus;
-            var newY = Math.sin(angle) * obj.hypothenus;
+            let newX = Math.cos(angle) * obj.hypothenus;
+            let newY = Math.sin(angle) * obj.hypothenus;
 
-            obj.object.x = this.x + newX;
-            obj.object.y = this.y + newY;
-            obj.object.rotation = obj.rotation - this.rotation;
+            obj.object.x = this.x + newX + this.calculatedX;
+            obj.object.y = this.y + newY + this.calculatedY;
+
+            if (this.parentNode) {
+                console.log(this.x, newX, this.parentNode.x, this.calculatedX);
+            }
+
+            obj.object.rotation = obj.rotation - this.calculatedRotation;
         });
 
         this.childrenNodes.forEach(data => {
-            (<BoneNode>data.object).render();
+            (<BoneNode>data.object).render(data);
         });
     }
 
@@ -46,9 +78,9 @@ export class BoneNode {
             id: id,
             x: child.x,
             y: child.y,
-            rotation: child.rotation || 0,
+            rotation: child.rotation,
             object: child,
-            relativeAngle: Math.atan(child.y / child.x),
+            initAngle: Math.atan(child.y / child.x),
             hypothenus: Math.sqrt(Math.pow(child.x, 2) + Math.pow(child.y, 2))
         };
 
@@ -67,7 +99,7 @@ export class BoneNode {
             y: child.y,
             rotation: child.rotation,
             object: child,
-            relativeAngle: Math.atan(child.y / child.x),
+            initAngle: Math.atan(child.y / child.x),
             hypothenus: Math.sqrt(Math.pow(child.x, 2) + Math.pow(child.y, 2))
         };
 
