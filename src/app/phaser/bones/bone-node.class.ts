@@ -31,7 +31,7 @@ export class BoneNode {
         if (data) {
             this.relativeRotation = data.initAngle - this.parentNode.rotation;
 
-            var ng = data.initAngle - this.rotation;
+            var ng = data.initAngle - this.rotation - this.parentNode.rotation;
 
             this.relativeX = Math.cos(ng) * data.hypothenus;
             this.relativeY = Math.sin(ng) * data.hypothenus;
