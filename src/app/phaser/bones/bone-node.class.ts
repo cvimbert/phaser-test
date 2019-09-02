@@ -15,9 +15,9 @@ export class BoneNode {
     relativeY: number = 0;
     relativeRotation: number = 0;
 
-    calculatedX: number = 0;
-    calculatedY: number = 0;
-    calculatedRotation: number = 0;
+    absoluteX: number = 0;
+    absoluteY: number = 0;
+    absoluteRotation: number = 0;
 
     constructor(
         public x: number = 0,
@@ -28,23 +28,25 @@ export class BoneNode {
 
     render(data?: ChildObjectData) {
 
-        // calcul des positions relatives
-        //let nodeAngle = (data ? data.initAngle : 0) - this.rotation;
-
-        //let newNodeX = Math.cos(nodeAngle) * (data ? )
-
         if (data) {
             this.relativeRotation = data.initAngle - this.parentNode.rotation;
-            this.relativeX = Math.cos(this.relativeRotation) * data.hypothenus;
-            this.relativeY = Math.sin(this.relativeRotation) * data.hypothenus;
 
-            this.calculatedX = this.relativeX + this.parentNode.x + this.parentNode.relativeX;
-            this.calculatedY = this.relativeY + this.parentNode.y + this.parentNode.relativeY;
-            this.calculatedRotation = this.rotation + this.parentNode.calculatedRotation;
+            var ng = data.initAngle - this.rotation;
+
+            this.relativeX = Math.cos(ng) * data.hypothenus;
+            this.relativeY = Math.sin(ng) * data.hypothenus;
+
+            // ça devrait être par là que ça débloque
+            this.absoluteX = this.relativeX + this.parentNode.absoluteX;
+            this.absoluteY = this.relativeY + this.parentNode.absoluteY;
+
+            console.log(data.hypothenus, this.absoluteX, this.absoluteY);
+            
+            this.absoluteRotation = this.rotation + this.parentNode.absoluteRotation;
         } else {
-            this.calculatedX = this.relativeX;
-            this.calculatedY = this.relativeY;
-            this.calculatedRotation = this.rotation;
+            this.absoluteX = this.x;
+            this.absoluteY = this.y;
+            this.absoluteRotation = this.rotation;
         }
 
         this.childrenObjects.forEach(obj => {
@@ -57,14 +59,10 @@ export class BoneNode {
             let newX = Math.cos(angle) * obj.hypothenus;
             let newY = Math.sin(angle) * obj.hypothenus;
 
-            obj.object.x = this.x + newX + this.calculatedX;
-            obj.object.y = this.y + newY + this.calculatedY;
+            obj.object.x = newX + this.absoluteX;
+            obj.object.y = newY + this.absoluteY;
 
-            if (this.parentNode) {
-                console.log(this.x, newX, this.parentNode.x, this.calculatedX);
-            }
-
-            obj.object.rotation = obj.rotation - this.calculatedRotation;
+            obj.object.rotation = obj.rotation - this.absoluteRotation;
         });
 
         this.childrenNodes.forEach(data => {

@@ -97,7 +97,7 @@ export class TestScene extends Phaser.Scene {
     let boneNode1 = new BoneNode();
     this.b1 = boneNode1;
 
-    let test1 = this.add.sprite(120, 0, "test1");
+    let test1 = this.add.sprite(150, 0, "test1");
     boneNode1.addChild(test1);
 
     let test2 = this.add.sprite(0, -100, "test2");
@@ -113,14 +113,15 @@ export class TestScene extends Phaser.Scene {
     this.b2 = boneNode2;
 
     // attention, bizarrerie à étudier un peu
-    let r1 = this.add.sprite(1, 1, "r1");
-    r1.x = 1;
-    r1.y = 1;
+    let r1 = this.add.sprite(20, 20, "r1");
+    /*r1.x = 20;
+    r1.y = 20;*/
     //r1.rotation = Math.PI;
     
     boneNode2.addChild(r1);
-    boneNode2.x = 30;
-    boneNode2.y = 30;
+    boneNode2.x = 130;
+    boneNode2.y = 130;
+    //boneNode2.rotation = Math.PI / 4;
 
     boneNode1.addChildNode(boneNode2);
 
