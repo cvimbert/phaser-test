@@ -1,15 +1,16 @@
 import { ChildObjectData } from '../interfaces/child-object-data.interface';
+import { ObjectContainer } from './object-container.class';
 
 export class BoneNode {
 
     rotation: number = 0;
     parentNode: BoneNode;
 
-    childrenObjects: ChildObjectData[] = [];
-    childrenObjectsById: { [key: string]: ChildObjectData } = {};
+    childrenObjects: ObjectContainer[] = [];
+    childrenObjectsById: { [key: string]: ObjectContainer } = {};
 
-    childrenNodes: ChildObjectData[] = [];
-    childrenNodesById: { [key: string]: ChildObjectData } = {};
+    childrenNodes: ObjectContainer[] = [];
+    childrenNodesById: { [key: string]: ObjectContainer } = {};
 
     relativeX: number = 0;
     relativeY: number = 0;
@@ -20,13 +21,14 @@ export class BoneNode {
     absoluteRotation: number = 0;
 
     constructor(
+        public scene: Phaser.Scene,
         public x: number = 0,
         public y: number = 0
     ) {
 
     }
 
-    render(data?: ChildObjectData) {
+    render(data?: ObjectContainer) {
 
         if (data) {
             this.relativeRotation = data.initAngle - this.parentNode.rotation;
@@ -72,39 +74,23 @@ export class BoneNode {
 
     addChild(child: Phaser.GameObjects.Sprite, id?: string) {
 
-        let data: ChildObjectData = {
-            id: id,
-            x: child.x,
-            y: child.y,
-            rotation: child.rotation,
-            object: child,
-            initAngle: Math.atan(child.y / child.x),
-            hypothenus: Math.sqrt(Math.pow(child.x, 2) + Math.pow(child.y, 2))
-        };
+        let container = new ObjectContainer(this.scene, id, child.x, child.y, child.rotation, child);
 
-        this.childrenObjects.push(data);
+        this.childrenObjects.push(container);
 
         if (id) {
-            this.childrenObjectsById[id] = data;
+            this.childrenObjectsById[id] = container;
         }
     }
 
     addChildNode(child: BoneNode, id?: string) {
 
-        let data = {
-            id: id,
-            x: child.x,
-            y: child.y,
-            rotation: child.rotation,
-            object: child,
-            initAngle: Math.atan(child.y / child.x),
-            hypothenus: Math.sqrt(Math.pow(child.x, 2) + Math.pow(child.y, 2))
-        };
+        let container = new ObjectContainer(this.scene, id, child.x, child.y, child.rotation, child);
 
-        this.childrenNodes.push(data);
+        this.childrenNodes.push(container);
 
         if (id) {
-            this.childrenNodesById[id] = data;
+            this.childrenNodesById[id] = container;
         }
 
         child.parentNode = this;
