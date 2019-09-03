@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
 
   private phaserSprite: Phaser.GameObjects.Sprite;
   private testScene: TestScene;
+  gridVisibility = true;
 
   constructor(
     public ref: ElementRef
@@ -29,9 +30,12 @@ export class AppComponent implements OnInit {
     this.testScene = new TestScene();
 
     let config: Phaser.Types.Core.GameConfig = {
-      type: Phaser.CANVAS,
+      type: Phaser.WEBGL,
       width: 800,
       height: 600,
+      scale: {
+        mode: Phaser.Scale.NONE
+      },
       scene: this.testScene,
       backgroundColor: '#ffffff',
       parent: this.ref.nativeElement

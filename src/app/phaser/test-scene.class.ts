@@ -7,6 +7,8 @@ export class TestScene extends Phaser.Scene {
   private b1: BoneNode;
   private b2: BoneNode;
 
+  private gridSprite: Phaser.GameObjects.Graphics;
+
   private sprites: { [key: string]: SpriteDefinition } = {
     head: {
       file: "head"
@@ -68,6 +70,7 @@ export class TestScene extends Phaser.Scene {
 
   create(): void {
     //this.constructRobot();
+    this.generateGrid();
     this.testBones();
   }
 
@@ -127,6 +130,39 @@ export class TestScene extends Phaser.Scene {
 
     //boneNode2.render();
     boneNode1.render();
+  }
+
+  generateGrid() {
+
+    // Lignes verticales
+    this.gridSprite = this.add.graphics();
+
+    let step = 25;
+
+    for (let i = 0; i <= 800; i += step) {
+
+      //console.log(i);
+
+      if (i % 100 === 0) {
+        this.gridSprite.lineStyle(0.5, 0x000000, 0.8);
+      } else {
+        this.gridSprite.lineStyle(0.5, 0x000000, 0.2);
+      }
+
+      let line = new Phaser.Geom.Line(i, 0, i, 600);
+      this.gridSprite.strokeLineShape(line);
+    }
+
+    for (let i = 0; i <= 600; i += step) {
+      if (i % 100 === 0) {
+        this.gridSprite.lineStyle(0.5, 0x000000, 0.8);
+      } else {
+        this.gridSprite.lineStyle(0.5, 0x000000, 0.2);
+      }
+
+      let line = new Phaser.Geom.Line(0, i, 800, i);
+      this.gridSprite.strokeLineShape(line);
+    }
   }
 
   tweenAngleTest() {

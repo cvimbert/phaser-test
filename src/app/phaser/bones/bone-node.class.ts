@@ -40,7 +40,7 @@ export class BoneNode {
             this.absoluteX = this.relativeX + this.parentNode.absoluteX;
             this.absoluteY = this.relativeY + this.parentNode.absoluteY;
 
-            console.log(data.hypothenus, this.absoluteX, this.absoluteY);
+            //console.log(data.hypothenus, this.absoluteX, this.absoluteY);
             
             this.absoluteRotation = this.rotation + this.parentNode.absoluteRotation;
         } else {
