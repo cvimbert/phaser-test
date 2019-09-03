@@ -64,6 +64,8 @@ export class BoneNode {
             obj.object.x = newX + this.absoluteX;
             obj.object.y = newY + this.absoluteY;
 
+            //console.log(obj.object.x, obj.object.y);
+
             obj.object.rotation = obj.rotation - this.absoluteRotation;
         });
 
@@ -74,7 +76,7 @@ export class BoneNode {
 
     addChild(child: Phaser.GameObjects.Sprite, id?: string) {
 
-        let container = new ObjectContainer(this.scene, id, child.x, child.y, child.rotation, child);
+        let container = new ObjectContainer(this.scene, id, child.x, child.y, child);
 
         this.childrenObjects.push(container);
 
@@ -85,7 +87,7 @@ export class BoneNode {
 
     addChildNode(child: BoneNode, id?: string) {
 
-        let container = new ObjectContainer(this.scene, id, child.x, child.y, child.rotation, child);
+        let container = new ObjectContainer(this.scene, id, child.x, child.y, child);
 
         this.childrenNodes.push(container);
 
