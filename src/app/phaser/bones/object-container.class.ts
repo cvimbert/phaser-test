@@ -24,23 +24,22 @@ export class ObjectContainer {
 
 
     displayOrigin() {
-        this.originDisplayer = this.scene.add.container(0, 0);
+        this.originDisplayer = this.scene.add.container(50, 50);
 
         let graph = this.scene.add.graphics({
             lineStyle: {
                 color: 0x0000ff,
-                width: 1
+                width: 2
             },
             fillStyle: {
-                color: 0xff0000
+                color: 0x0000ff
             }
         });
 
         this.originDisplayer.add(graph);
-        graph.fillCircle(100, 100, 5);
-
-        let line = new Phaser.Geom.Line(-20, 0, 20, 0);
-        graph.strokeLineShape(line);
+        graph.fillCircle(0, 0, 5);
+        graph.lineBetween(-10, 0, 10, 0);
+        graph.lineBetween(0, -10, 0, 10);
     }
 
 
