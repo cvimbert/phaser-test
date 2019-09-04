@@ -94,7 +94,7 @@ export class TestScene extends Phaser.Scene {
 
     node1.displayOrigin();
 
-    let container1 = node1.addChild(sprite1);
+    let container1 = node1.addChild(sprite1, "container1");
     container1.x = 100;
     container1.y = 100;
 
@@ -103,6 +103,7 @@ export class TestScene extends Phaser.Scene {
 
     node1.x = 400;
     node1.y = 300;
+    node1.id = "node1";
 
     node1.rotation = Math.PI / 4;
 

@@ -9,9 +9,6 @@ export class ObjectContainer {
     xPos: number = 0;
     yPos: number = 0;
 
-    relativeX: number = 0;
-    relativeY: number = 0;
-
     relativeRotation: number = 0;
 
     debugColor: number = 0xff0000;
@@ -26,8 +23,8 @@ export class ObjectContainer {
         public object?: BoneNode | Transformable,
         public parentContainer?: ObjectContainer
     ) {
-        this.relativeX = xInit;
-        this.relativeY = yInit;
+        this.xPos = xInit;
+        this.yPos = yInit;
 
         if (object) {
             object.x = xInit;
@@ -40,13 +37,13 @@ export class ObjectContainer {
     }
 
     calculateInitAngleAndHypothenus() {
-        this.initAngle = this.relativeX !== 0 ? Math.atan(this.relativeY / this.relativeX) : 0;
-        this.hypothenus = Math.sqrt(Math.pow(this.relativeX, 2) + Math.pow(this.relativeY, 2));
+        this.initAngle = this.xPos !== 0 ? Math.atan(this.yPos / this.xPos) : 0;
+        this.hypothenus = Math.sqrt(Math.pow(this.xPos, 2) + Math.pow(this.yPos, 2));
     }
 
     // Valeur relative de x
     set x(value: number) {
-        this.relativeX = value;
+        this.xPos = value;
 
         // calcul du nouvel angle de départ
         this.calculateInitAngleAndHypothenus();
@@ -54,6 +51,20 @@ export class ObjectContainer {
 
     get x(): number {
         return this.relativeX;
+    }
+
+    get relativeX(): number {
+        // doute sur relativeRotation
+
+        if (this.parentContainer) {
+            console.log(this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos);
+        }
+        
+        return this.parentContainer ? Math.cos(this.parentContainer.relativeRotation) * this.hypothenus : this.xPos;
+    }
+
+    get relativeY(): number {
+        return this.parentContainer ? Math.sin(this.parentContainer.relativeRotation) * this.hypothenus : this.yPos;
     }
 
     get absoluteX(): number {
@@ -66,7 +77,7 @@ export class ObjectContainer {
 
     // Valeur relative de y
     set y(value: number) {
-        this.relativeY = value;
+        this.yPos = value;
 
         // calcul du nouvel angle de départ
         this.calculateInitAngleAndHypothenus();
@@ -91,7 +102,11 @@ export class ObjectContainer {
     }
 
     render() {
+        console.log("render", this.id);
+        
         if (this.object) {
+            console.log("Apply transforms to object", this.id);
+            
             this.applyTransformsTo(<Transformable>this.object);
         }
 
@@ -101,6 +116,8 @@ export class ObjectContainer {
     }
 
     applyTransformsTo(obj: Transformable) {
+        console.log("x:", this.absoluteX, "y:", this.absoluteY, "rot:", this.absoluteRotation);
+        
         obj.x = this.absoluteX;
         obj.y = this.absoluteY;
         obj.rotation = this.absoluteRotation;

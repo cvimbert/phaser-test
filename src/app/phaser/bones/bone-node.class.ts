@@ -32,7 +32,6 @@ export class BoneNode extends ObjectContainer {
         this.relativeRotation = value;
 
         // update des positions relatives
-        let angle = this.initAngle - this.relativeRotation;
         
         //this.relativeX = Math.cos(angle) * this.hypothenus;
         //this.relativeY = Math.sin(angle) * this.hypothenus;
