@@ -12,35 +12,45 @@ export class ObjectContainer {
     absoluteX: number = 0;
     absoluteY: number = 0;
 
-    private _rotation: number = 0;
+    private localRotation: number = 0;
 
     absoluteRotation: number = 0;
+
+    debugColor: number = 0xff0000;
 
     private originDisplayer: Phaser.GameObjects.Container;
 
     constructor(
-        private scene?: Phaser.Scene,
+        protected scene?: Phaser.Scene,
         public id?: string,
         xInit?: number,
         yInit?: number,
         public object?: BoneNode | Transformable,
-        public parentNode?: BoneNode
+        public parentContainer?: ObjectContainer
     ) {
-        this.initAngle = Math.atan(yInit / xInit);
-        this.hypothenus = Math.sqrt(Math.pow(xInit, 2) + Math.pow(yInit, 2));
-
         this.relativeX = xInit;
         this.relativeY = yInit;
 
-        this.displayOrigin();
+        object.x = xInit;
+        object.y = yInit;
+
+        this.calculateInitAngleAndHypothenus();
+    }
+
+    calculateInitAngleAndHypothenus() {
+        this.initAngle = Math.atan(this.relativeY / this.relativeX);
+        this.hypothenus = Math.sqrt(Math.pow(this.relativeX, 2) + Math.pow(this.relativeY, 2));
     }
 
     // Valeur relative de x
     set x(value: number) {
         this.relativeX = value;
 
-        // calcul de absoluteX
-        
+        // calcul de la position absolue sur x
+        this.absoluteX = this.relativeX + (this.parentContainer ? this.parentContainer.absoluteX : 0);
+
+        // calcul du nouvel angle de départ
+        this.calculateInitAngleAndHypothenus();
     }
 
     get x(): number {
@@ -50,6 +60,12 @@ export class ObjectContainer {
     // Valeur relative de y
     set y(value: number) {
         this.relativeY = value;
+
+        // calcul de la position absolue sur y
+        this.absoluteY = this.relativeY + (this.parentContainer ? this.parentContainer.absoluteY : 0);
+
+        // calcul du nouvel angle de départ
+        this.calculateInitAngleAndHypothenus();
     }
 
     get y(): number {
@@ -57,26 +73,32 @@ export class ObjectContainer {
     }
 
     set rotation(value: number) {
-        this._rotation = value;
+        this.localRotation = value;
 
         // update des positions relatives
+        let angle = this.initAngle - this.localRotation;
+        this.relativeX = Math.cos(angle) * this.hypothenus;
+        this.relativeY = Math.sin(angle) * this.hypothenus;
 
+        this.absoluteRotation = this.localRotation + (this.parentContainer ? this.parentContainer.absoluteRotation : 0);
     }
 
     get rotation(): number {
-        return this._rotation;
+        return this.localRotation;
     }
 
     render() {
-        this.object.x = this.absoluteX;
-        this.object.y = this.absoluteY;
-        this.object.rotation = this.absoluteRotation;
+        this.applyTransformsTo(<Transformable>this.object);
 
         if (this.originDisplayer) {
-            this.originDisplayer.x = this.absoluteX;
-            this.originDisplayer.y = this.absoluteY;
-            this.originDisplayer.rotation = this.absoluteRotation;
+            this.applyTransformsTo(this.originDisplayer);
         }
+    }
+
+    applyTransformsTo(obj: Transformable) {
+        obj.x = this.absoluteX;
+        obj.y = this.absoluteY;
+        obj.rotation = this.absoluteRotation;
     }
 
     displayOrigin() {
@@ -84,11 +106,11 @@ export class ObjectContainer {
 
         let graph = this.scene.add.graphics({
             lineStyle: {
-                color: 0x0000ff,
+                color: this.debugColor,
                 width: 2
             },
             fillStyle: {
-                color: 0x0000ff
+                color: this.debugColor
             }
         });
 
@@ -96,6 +118,8 @@ export class ObjectContainer {
         graph.fillCircle(0, 0, 5);
         graph.lineBetween(-10, 0, 10, 0);
         graph.lineBetween(0, -10, 0, 10);
+
+        //this.originDisplayer.blendMode = Phaser.BlendModes.MULTIPLY;
     }
 
 

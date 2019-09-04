@@ -1,5 +1,6 @@
 import { SpriteDefinition } from './interfaces/sprite-definition.class';
 import { BoneNode } from './bones/bone-node.class';
+import { ObjectContainer } from './bones/object-container.class';
 
 export class TestScene extends Phaser.Scene {
 
@@ -71,7 +72,23 @@ export class TestScene extends Phaser.Scene {
   create(): void {
     //this.constructRobot();
     this.generateGrid();
-    this.testBones();
+    //this.testBones();
+    this.testContainer();
+  }
+
+  testContainer() {
+    let sprite = this.add.sprite(0, 0, "r1");
+    let container = new ObjectContainer(this, "", 20, 20, sprite);
+
+    container.debugColor = 0xffff00;
+
+    container.x = 200;
+    container.y = 200;
+
+    container.rotation = Math.PI / 4;
+
+    container.displayOrigin();
+    container.render();
   }
 
   basicGenerateSprites() {
@@ -110,6 +127,7 @@ export class TestScene extends Phaser.Scene {
     boneNode1.addChild(test3);
 
     boneNode1.x = boneNode1.y = 300;
+    boneNode1.displayOrigin();
     //boneNode1.rotation = Math.PI / 4;
 
     let boneNode2 = new BoneNode(this);

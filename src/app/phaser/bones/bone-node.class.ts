@@ -1,7 +1,7 @@
 import { ChildObjectData } from '../interfaces/child-object-data.interface';
 import { ObjectContainer } from './object-container.class';
 
-export class BoneNode {
+export class BoneNode extends ObjectContainer {
 
     rotation: number = 0;
     parentNode: BoneNode;
@@ -12,20 +12,20 @@ export class BoneNode {
     childrenNodes: ObjectContainer[] = [];
     childrenNodesById: { [key: string]: ObjectContainer } = {};
 
-    relativeX: number = 0;
+    /*relativeX: number = 0;
     relativeY: number = 0;
-    relativeRotation: number = 0;
 
     absoluteX: number = 0;
     absoluteY: number = 0;
-    absoluteRotation: number = 0;
+    absoluteRotation: number = 0;*/
+    relativeRotation: number = 0;
 
     constructor(
-        public scene: Phaser.Scene,
-        public x: number = 0,
-        public y: number = 0
+        scene: Phaser.Scene,
+        x: number = 0,
+        y: number = 0
     ) {
-
+        super(scene, "", x, y);
     }
 
     render(data?: ObjectContainer) {
@@ -74,7 +74,7 @@ export class BoneNode {
         });
     }
 
-    addChild(child: Phaser.GameObjects.Sprite, id?: string) {
+    addChild(child: Phaser.GameObjects.Sprite, id?: string): ObjectContainer {
 
         let container = new ObjectContainer(this.scene, id, child.x, child.y, child);
 
@@ -83,6 +83,8 @@ export class BoneNode {
         if (id) {
             this.childrenObjectsById[id] = container;
         }
+
+        return container;
     }
 
     addChildNode(child: BoneNode, id?: string) {
