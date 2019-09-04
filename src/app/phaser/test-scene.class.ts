@@ -77,18 +77,31 @@ export class TestScene extends Phaser.Scene {
   }
 
   testContainer() {
-    let sprite = this.add.sprite(0, 0, "r1");
-    let container = new ObjectContainer(this, "", 20, 20, sprite);
+    /*let sprite = this.add.sprite(0, 0, "r1");
+    let container1 = new ObjectContainer(this, "", 20, 20, sprite);
 
-    container.debugColor = 0xffff00;
+    container1.debugColor = 0xffff00;
 
-    container.x = 200;
-    container.y = 200;
+    container1.x = 200;
+    container1.y = 200;
 
-    container.rotation = Math.PI / 4;
+    container1.rotation = Math.PI / 4;
 
-    container.displayOrigin();
-    container.render();
+    container1.displayOrigin();*/
+
+    let node1 = new BoneNode(this, 0, 0);
+    let sprite1 = this.add.sprite(0, 0, "r2");
+
+    node1.displayOrigin();
+
+    let container1 = node1.addChild(sprite1);
+    container1.x = 100;
+    container1.y = 100;
+
+    container1.debugColor = 0x00ffff;
+    container1.displayOrigin();
+
+    node1.render();
   }
 
   basicGenerateSprites() {

@@ -1,4 +1,3 @@
-import { ChildObjectData } from '../interfaces/child-object-data.interface';
 import { ObjectContainer } from './object-container.class';
 
 export class BoneNode extends ObjectContainer {
@@ -12,12 +11,6 @@ export class BoneNode extends ObjectContainer {
     childrenNodes: ObjectContainer[] = [];
     childrenNodesById: { [key: string]: ObjectContainer } = {};
 
-    /*relativeX: number = 0;
-    relativeY: number = 0;
-
-    absoluteX: number = 0;
-    absoluteY: number = 0;
-    absoluteRotation: number = 0;*/
     relativeRotation: number = 0;
 
     constructor(

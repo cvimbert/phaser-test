@@ -31,8 +31,10 @@ export class ObjectContainer {
         this.relativeX = xInit;
         this.relativeY = yInit;
 
-        object.x = xInit;
-        object.y = yInit;
+        if (object) {
+            object.x = xInit;
+            object.y = yInit;
+        }
 
         this.calculateInitAngleAndHypothenus();
     }
