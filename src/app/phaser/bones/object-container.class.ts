@@ -6,15 +6,13 @@ export class ObjectContainer {
     initAngle: number;
     hypothenus: number;
 
+    xPos: number = 0;
+    yPos: number = 0;
+
     relativeX: number = 0;
     relativeY: number = 0;
 
-    absoluteX: number = 0;
-    absoluteY: number = 0;
-
-    private localRotation: number = 0;
-
-    absoluteRotation: number = 0;
+    relativeRotation: number = 0;
 
     debugColor: number = 0xff0000;
 
@@ -36,20 +34,19 @@ export class ObjectContainer {
             object.y = yInit;
         }
 
+        //console.log("là");
+        
         this.calculateInitAngleAndHypothenus();
     }
 
     calculateInitAngleAndHypothenus() {
-        this.initAngle = Math.atan(this.relativeY / this.relativeX);
+        this.initAngle = this.relativeX !== 0 ? Math.atan(this.relativeY / this.relativeX) : 0;
         this.hypothenus = Math.sqrt(Math.pow(this.relativeX, 2) + Math.pow(this.relativeY, 2));
     }
 
     // Valeur relative de x
     set x(value: number) {
         this.relativeX = value;
-
-        // calcul de la position absolue sur x
-        this.absoluteX = this.relativeX + (this.parentContainer ? this.parentContainer.absoluteX : 0);
 
         // calcul du nouvel angle de départ
         this.calculateInitAngleAndHypothenus();
@@ -59,12 +56,17 @@ export class ObjectContainer {
         return this.relativeX;
     }
 
+    get absoluteX(): number {
+        return this.relativeX + (this.parentContainer ? this.parentContainer.absoluteX : 0);
+    };
+
+    get absoluteY(): number {
+        return this.relativeY + (this.parentContainer ? this.parentContainer.absoluteY : 0);
+    }
+
     // Valeur relative de y
     set y(value: number) {
         this.relativeY = value;
-
-        // calcul de la position absolue sur y
-        this.absoluteY = this.relativeY + (this.parentContainer ? this.parentContainer.absoluteY : 0);
 
         // calcul du nouvel angle de départ
         this.calculateInitAngleAndHypothenus();
@@ -75,22 +77,23 @@ export class ObjectContainer {
     }
 
     set rotation(value: number) {
-        this.localRotation = value;
+        console.log("Nouvelle rotation", value);
+        
+        this.relativeRotation = value;
+    }
 
-        // update des positions relatives
-        let angle = this.initAngle - this.localRotation;
-        this.relativeX = Math.cos(angle) * this.hypothenus;
-        this.relativeY = Math.sin(angle) * this.hypothenus;
-
-        this.absoluteRotation = this.localRotation + (this.parentContainer ? this.parentContainer.absoluteRotation : 0);
+    get absoluteRotation(): number {
+        return this.relativeRotation + (this.parentContainer ? this.parentContainer.absoluteRotation : 0);
     }
 
     get rotation(): number {
-        return this.localRotation;
+        return this.relativeRotation;
     }
 
     render() {
-        this.applyTransformsTo(<Transformable>this.object);
+        if (this.object) {
+            this.applyTransformsTo(<Transformable>this.object);
+        }
 
         if (this.originDisplayer) {
             this.applyTransformsTo(this.originDisplayer);

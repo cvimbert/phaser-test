@@ -101,6 +101,11 @@ export class TestScene extends Phaser.Scene {
     container1.debugColor = 0x00ffff;
     container1.displayOrigin();
 
+    node1.x = 400;
+    node1.y = 300;
+
+    node1.rotation = Math.PI / 4;
+
     node1.render();
   }
 
