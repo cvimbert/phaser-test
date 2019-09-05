@@ -28,7 +28,6 @@ export class BoneNode extends ObjectContainer {
     }
 
     set rotation(value: number) {
-        //console.log("ok");
         this.relativeRotation = value;
 
         // update des positions relatives
@@ -36,7 +35,11 @@ export class BoneNode extends ObjectContainer {
         //this.relativeX = Math.cos(angle) * this.hypothenus;
         //this.relativeY = Math.sin(angle) * this.hypothenus;
 
-        console.log(this.relativeX, this.relativeY);
+        //console.log(this.relativeX, this.relativeY);
+    }
+
+    get rotation(): number {
+        return this.relativeRotation;
     }
 
     addChild(child: Phaser.GameObjects.Sprite, id?: string): ObjectContainer {

@@ -37,8 +37,18 @@ export class ObjectContainer {
     }
 
     calculateInitAngleAndHypothenus() {
+        
+        
         this.initAngle = this.xPos !== 0 ? Math.atan(this.yPos / this.xPos) : 0;
+
+        if (this.xPos < 0) {
+            this.initAngle += Math.PI;
+        }
+
         this.hypothenus = Math.sqrt(Math.pow(this.xPos, 2) + Math.pow(this.yPos, 2));
+
+        // console.log("ia", this.id, this.initAngle, this.hypothenus);
+        // console.log(this.id, this.initAngle, this.hypothenus);
     }
 
     // Valeur relative de x
@@ -54,20 +64,16 @@ export class ObjectContainer {
     }
 
     get relativeX(): number {
-        // doute sur relativeRotation
-
-        if (this.parentContainer) {
-            console.log(this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos);
-        }
-        
-        return this.parentContainer ? Math.cos(this.parentContainer.relativeRotation) * this.hypothenus : this.xPos;
+        return this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos;
     }
 
     get relativeY(): number {
-        return this.parentContainer ? Math.sin(this.parentContainer.relativeRotation) * this.hypothenus : this.yPos;
+        return this.parentContainer ? Math.sin(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.yPos;
     }
 
     get absoluteX(): number {
+        // console.log(this.id, "relX", this.relativeX);
+        
         return this.relativeX + (this.parentContainer ? this.parentContainer.absoluteX : 0);
     };
 
@@ -88,12 +94,14 @@ export class ObjectContainer {
     }
 
     set rotation(value: number) {
-        console.log("Nouvelle rotation", value);
+        // console.log("Nouvelle rotation", value);
         
         this.relativeRotation = value;
     }
 
     get absoluteRotation(): number {
+        // console.log(this.relativeRotation);
+        
         return this.relativeRotation + (this.parentContainer ? this.parentContainer.absoluteRotation : 0);
     }
 
@@ -102,10 +110,10 @@ export class ObjectContainer {
     }
 
     render() {
-        console.log("render", this.id);
+        // console.log("render", this.id);
         
         if (this.object) {
-            console.log("Apply transforms to object", this.id);
+            // console.log("Apply transforms to object", this.id);
             
             this.applyTransformsTo(<Transformable>this.object);
         }
@@ -116,11 +124,14 @@ export class ObjectContainer {
     }
 
     applyTransformsTo(obj: Transformable) {
-        console.log("x:", this.absoluteX, "y:", this.absoluteY, "rot:", this.absoluteRotation);
+        // console.log("x:", this.absoluteX, "y:", this.absoluteY, "rot:", this.absoluteRotation);
+
+        // console.log(this.id, "xx", this.absoluteX, this.absoluteY);
+        
         
         obj.x = this.absoluteX;
         obj.y = this.absoluteY;
-        obj.rotation = this.absoluteRotation;
+        obj.rotation = -this.absoluteRotation;
     }
 
     displayOrigin() {

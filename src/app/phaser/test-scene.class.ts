@@ -6,7 +6,6 @@ export class TestScene extends Phaser.Scene {
 
   private loadedFiles: string[] = [];
   private b1: BoneNode;
-  private b2: BoneNode;
 
   private gridSprite: Phaser.GameObjects.Graphics;
 
@@ -43,6 +42,9 @@ export class TestScene extends Phaser.Scene {
     },
     r3: {
       file: "r3"
+    },
+    r4: {
+      file: "r4"
     }
   };
 
@@ -77,20 +79,13 @@ export class TestScene extends Phaser.Scene {
   }
 
   testContainer() {
-    /*let sprite = this.add.sprite(0, 0, "r1");
-    let container1 = new ObjectContainer(this, "", 20, 20, sprite);
-
-    container1.debugColor = 0xffff00;
-
-    container1.x = 200;
-    container1.y = 200;
-
-    container1.rotation = Math.PI / 4;
-
-    container1.displayOrigin();*/
-
     let node1 = new BoneNode(this, 0, 0);
-    let sprite1 = this.add.sprite(0, 0, "r2");
+    node1.id = "node1";
+
+    let sprite1 = this.add.sprite(0, 0, "r1");
+    let sprite2 = this.add.sprite(0, 0, "r2");
+    let sprite3 = this.add.sprite(0, 0, "r3");
+    let sprite4 = this.add.sprite(0, 0, "r4");
 
     node1.displayOrigin();
 
@@ -98,14 +93,29 @@ export class TestScene extends Phaser.Scene {
     container1.x = 100;
     container1.y = 100;
 
+    let container2 = node1.addChild(sprite2, "container2");
+    container2.x = -100;
+    container2.y = -100;
+
+    let container3 = node1.addChild(sprite3, "container3");
+    container3.x = 100;
+    container3.y = -100;
+
+    let container4 = node1.addChild(sprite4, "container4");
+    container4.x = -100;
+    container4.y = 100;
+
+
     container1.debugColor = 0x00ffff;
     container1.displayOrigin();
 
+    container2.debugColor = 0x00ff00;
+    container2.displayOrigin();
+
     node1.x = 400;
     node1.y = 300;
-    node1.id = "node1";
 
-    node1.rotation = Math.PI / 4;
+    this.b1 = node1;
 
     node1.render();
   }
@@ -134,7 +144,8 @@ export class TestScene extends Phaser.Scene {
 
   testBones() {
     let boneNode1 = new BoneNode(this);
-    this.b1 = boneNode1;
+    
+    //this.b1 = boneNode1;
 
     let test1 = this.add.sprite(150, 0, "test1");
     boneNode1.addChild(test1);
@@ -150,7 +161,7 @@ export class TestScene extends Phaser.Scene {
     //boneNode1.rotation = Math.PI / 4;
 
     let boneNode2 = new BoneNode(this);
-    this.b2 = boneNode2;
+    //this.b2 = boneNode2;
 
     // attention, bizarrerie à étudier un peu
     let r1 = this.add.sprite(20, 20, "r1");
@@ -203,8 +214,13 @@ export class TestScene extends Phaser.Scene {
   }
 
   tweenAngleTest() {
-    this.b1.rotation = 0;
-    //this.b1.x = 300;
+
+    console.log("ici");
+    
+    //this.b1.rotation = Math.PI / 4;
+    //this.b1.render();
+
+    // return;
 
     this.tweens.add({
       targets: this.b1,
