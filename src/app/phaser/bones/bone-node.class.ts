@@ -25,21 +25,10 @@ export class BoneNode extends ObjectContainer {
         this.childrenObjects.forEach(obj => {
             obj.render();
         });
-    }
 
-    set rotation(value: number) {
-        this.relativeRotation = value;
-
-        // update des positions relatives
-        
-        //this.relativeX = Math.cos(angle) * this.hypothenus;
-        //this.relativeY = Math.sin(angle) * this.hypothenus;
-
-        //console.log(this.relativeX, this.relativeY);
-    }
-
-    get rotation(): number {
-        return this.relativeRotation;
+        this.childrenNodes.forEach(obj => {
+            obj.render();
+        });
     }
 
     addChild(child: Phaser.GameObjects.Sprite, id?: string): ObjectContainer {
@@ -59,15 +48,15 @@ export class BoneNode extends ObjectContainer {
 
     addChildNode(child: BoneNode, id?: string) {
 
-        let container = new ObjectContainer(this.scene, id, child.x, child.y, child);
+        this.childrenNodes.push(child);
 
-        this.childrenNodes.push(container);
+        child.parentContainer = this;
 
         if (id) {
-            this.childrenNodesById[id] = container;
+            this.childrenNodesById[id] = child;
         }
 
-        child.parentNode = this;
+        // child.parentNode = this;
     }
 
     removeChild(child: Phaser.GameObjects.Sprite) {

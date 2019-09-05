@@ -93,7 +93,7 @@ export class TestScene extends Phaser.Scene {
     container1.x = 100;
     container1.y = 100;
 
-    let container2 = node1.addChild(sprite2, "container2");
+    /*let container2 = node1.addChild(sprite2, "container2");
     container2.x = -100;
     container2.y = -100;
 
@@ -103,17 +103,28 @@ export class TestScene extends Phaser.Scene {
 
     let container4 = node1.addChild(sprite4, "container4");
     container4.x = -100;
-    container4.y = 100;
+    container4.y = 100;*/
 
 
     container1.debugColor = 0x00ffff;
     container1.displayOrigin();
 
-    container2.debugColor = 0x00ff00;
-    container2.displayOrigin();
+    // container2.debugColor = 0x00ff00;
+    // container2.displayOrigin();
 
     node1.x = 400;
     node1.y = 300;
+
+
+    let node2 = new BoneNode(this, 0, 0);
+    node2.id = "node2";
+
+    node2.debugColor = 0xffffff;
+    node2.displayOrigin();
+    node1.addChildNode(node2);
+
+    node2.x = 100;
+    node2.y = 100;
 
     this.b1 = node1;
 

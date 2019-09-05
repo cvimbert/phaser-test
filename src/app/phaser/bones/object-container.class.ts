@@ -47,7 +47,7 @@ export class ObjectContainer {
 
         this.hypothenus = Math.sqrt(Math.pow(this.xPos, 2) + Math.pow(this.yPos, 2));
 
-        // console.log("ia", this.id, this.initAngle, this.hypothenus);
+         console.log("ia", this.id, this.initAngle, this.hypothenus);
         // console.log(this.id, this.initAngle, this.hypothenus);
     }
 
@@ -64,6 +64,8 @@ export class ObjectContainer {
     }
 
     get relativeX(): number {
+        console.log("-->", this.id, this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos);
+        
         return this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos;
     }
 
@@ -124,11 +126,6 @@ export class ObjectContainer {
     }
 
     applyTransformsTo(obj: Transformable) {
-        // console.log("x:", this.absoluteX, "y:", this.absoluteY, "rot:", this.absoluteRotation);
-
-        // console.log(this.id, "xx", this.absoluteX, this.absoluteY);
-        
-        
         obj.x = this.absoluteX;
         obj.y = this.absoluteY;
         obj.rotation = -this.absoluteRotation;
