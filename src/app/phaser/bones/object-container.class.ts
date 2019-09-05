@@ -14,6 +14,8 @@ export class ObjectContainer {
     debugColor: number = 0xff0000;
 
     private originDisplayer: Phaser.GameObjects.Container;
+    private linkDisplayer: Phaser.GameObjects.Container;
+    private linkGraphics: Phaser.GameObjects.Graphics;
 
     constructor(
         protected scene?: Phaser.Scene,
@@ -45,7 +47,7 @@ export class ObjectContainer {
 
         this.hypothenus = Math.sqrt(Math.pow(this.xPos, 2) + Math.pow(this.yPos, 2));
 
-        console.log("ia", this.id, this.xPos, this.yPos, this.initAngle, this.hypothenus);
+        // console.log("ia", this.id, this.xPos, this.yPos, this.initAngle, this.hypothenus);
         // console.log(this.id, this.initAngle, this.hypothenus);
     }
 
@@ -53,14 +55,14 @@ export class ObjectContainer {
     set x(value: number) {
         this.xPos = value;
 
-        console.log(this.id, "set", value);
+        // console.log(this.id, "set", value);
 
         // calcul du nouvel angle de départ
         this.calculateInitAngleAndHypothenus();
     }
 
     get x(): number {
-        console.log(this.id, "get", this.relativeX);
+        // console.log(this.id, "get", this.relativeX);
         
         return this.relativeX;
     }
@@ -124,6 +126,8 @@ export class ObjectContainer {
         if (this.originDisplayer) {
             this.applyTransformsTo(this.originDisplayer);
         }
+
+        this.drawLink();
     }
 
     applyTransformsTo(obj: Transformable) {
@@ -132,8 +136,34 @@ export class ObjectContainer {
         obj.rotation = -this.absoluteRotation;
     }
 
+    displayLinkToParent() {
+
+        if (!this.parentContainer) {
+            return;
+        }
+
+        this.linkDisplayer = this.scene.add.container(0, 0);
+
+        this.linkGraphics = this.scene.add.graphics({
+            lineStyle: {
+                color: 0xff00ff,
+                width: 3
+            }
+        });
+
+        this.linkDisplayer.add(this.linkGraphics);
+        this.drawLink();
+    }
+    
+    drawLink() {
+        if (this.linkGraphics) {
+            this.linkGraphics.clear();
+            this.linkGraphics.lineBetween(this.absoluteX, this.absoluteY, this.parentContainer.absoluteX, this.parentContainer.absoluteY);
+        }
+    }
+
     displayOrigin() {
-        this.originDisplayer = this.scene.add.container(50, 50);
+        this.originDisplayer = this.scene.add.container(0, 0);
 
         let graph = this.scene.add.graphics({
             lineStyle: {
@@ -149,8 +179,6 @@ export class ObjectContainer {
         graph.fillCircle(0, 0, 5);
         graph.lineBetween(-10, 0, 10, 0);
         graph.lineBetween(0, -10, 0, 10);
-
-        //this.originDisplayer.blendMode = Phaser.BlendModes.MULTIPLY;
     }
 
 

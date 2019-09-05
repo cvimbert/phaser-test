@@ -47,6 +47,18 @@ export class BoneNode extends ObjectContainer {
         return container;
     }
 
+    displayLinks(recursive = false) {
+        this.childrenObjects.forEach(obj => {
+            obj.displayLinkToParent();
+        });
+
+        this.displayLinkToParent();
+
+        this.childrenNodes.forEach(node => {
+            (<BoneNode>node).displayLinks(recursive);
+        });
+    }
+
     addChildNode(child: BoneNode, id?: string) {
 
         this.childrenNodes.push(child);

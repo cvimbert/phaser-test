@@ -98,35 +98,37 @@ export class TestScene extends Phaser.Scene {
     // container2.debugColor = 0x00ff00;
     // container2.displayOrigin();
 
-    node1.x = 400;
-    node1.y = 300;
+    node1.x = 100;
+    node1.y = 100;
 
 
     let node2 = new BoneNode(this, 0, 0);
     node2.id = "node2";
 
-    node2.debugColor = 0xffffff;
+    node2.debugColor = 0x0000ff;
     node2.displayOrigin();
     node1.addChildNode(node2);
 
 
     let container3 = node2.addChild(sprite3);
-    container3.x = 80;
+    container3.x = 100;
     container3.displayOrigin();
 
     let container4 = node2.addChild(sprite4);
-    container4.x = -90;
-    container4.y = 30;
+    container4.x = -100;
+    container4.y = 100;
 
     let container2 = node2.addChild(sprite2);
 
     container2.x = 100;
-    container2.y = 50;
+    container2.y = 100;
 
-    node2.x = 200;
-    node2.y = 200;
+    node2.x = 300;
+    node2.y = 100;
 
     this.b1 = node2;
+
+    node1.displayLinks();
 
     node1.render();
   }
@@ -227,12 +229,12 @@ export class TestScene extends Phaser.Scene {
   tweenAngleTest() {
     
     if (!this.tween) {
-      this.b1.x = 0;
+      this.b1.rotation = 0;
       this.b1.render();
   
       this.tween = this.tweens.add({
         targets: this.b1,
-        x: 200,
+        rotation: Math.PI,
         duration: 2000,
         onStart: () => {
           this.b1.render();
