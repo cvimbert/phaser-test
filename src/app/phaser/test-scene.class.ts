@@ -123,8 +123,10 @@ export class TestScene extends Phaser.Scene {
     node2.displayOrigin();
     node1.addChildNode(node2);
 
-    node2.x = 100;
-    node2.y = 100;
+    node2.addChild(sprite2);
+
+    node2.x = 200;
+    node2.y = 200;
 
     this.b1 = node1;
 
