@@ -9,6 +9,8 @@ export class TestScene extends Phaser.Scene {
 
   private gridSprite: Phaser.GameObjects.Graphics;
 
+  private tween: Phaser.Tweens.Tween;
+
   private sprites: { [key: string]: SpriteDefinition } = {
     head: {
       file: "head"
@@ -93,22 +95,6 @@ export class TestScene extends Phaser.Scene {
     container1.x = 100;
     container1.y = 100;
 
-    /*let container2 = node1.addChild(sprite2, "container2");
-    container2.x = -100;
-    container2.y = -100;
-
-    let container3 = node1.addChild(sprite3, "container3");
-    container3.x = 100;
-    container3.y = -100;
-
-    let container4 = node1.addChild(sprite4, "container4");
-    container4.x = -100;
-    container4.y = 100;*/
-
-
-    container1.debugColor = 0x00ffff;
-    container1.displayOrigin();
-
     // container2.debugColor = 0x00ff00;
     // container2.displayOrigin();
 
@@ -123,12 +109,24 @@ export class TestScene extends Phaser.Scene {
     node2.displayOrigin();
     node1.addChildNode(node2);
 
-    node2.addChild(sprite2);
+
+    let container3 = node2.addChild(sprite3);
+    container3.x = 80;
+    container3.displayOrigin();
+
+    let container4 = node2.addChild(sprite4);
+    container4.x = -90;
+    container4.y = 30;
+
+    let container2 = node2.addChild(sprite2);
+
+    container2.x = 100;
+    container2.y = 50;
 
     node2.x = 200;
     node2.y = 200;
 
-    this.b1 = node1;
+    this.b1 = node2;
 
     node1.render();
   }
@@ -227,27 +225,30 @@ export class TestScene extends Phaser.Scene {
   }
 
   tweenAngleTest() {
-
-    console.log("ici");
     
-    //this.b1.rotation = Math.PI / 4;
-    //this.b1.render();
-
-    // return;
-
-    this.tweens.add({
-      targets: this.b1,
-      rotation: Math.PI,
-      duration: 2000,
-      onStart: () => {
-        this.b1.render();
-      },
-      onComplete: () => {
-        console.log("finished");
-      },
-      onUpdate: () => {
-        this.b1.render();
-      }
-    });
+    if (!this.tween) {
+      this.b1.x = 0;
+      this.b1.render();
+  
+      this.tween = this.tweens.add({
+        targets: this.b1,
+        x: 200,
+        duration: 2000,
+        onStart: () => {
+          this.b1.render();
+        },
+        onComplete: () => {
+          console.log("finished");
+          this.tween = null;
+        },
+        onUpdate: () => {
+          this.b1.render();
+        }
+      });
+    } else {
+      this.tween.stop();
+      this.tween = null;
+    }
+    
   }
 }

@@ -30,8 +30,6 @@ export class ObjectContainer {
             object.x = xInit;
             object.y = yInit;
         }
-
-        //console.log("là");
         
         this.calculateInitAngleAndHypothenus();
     }
@@ -39,7 +37,7 @@ export class ObjectContainer {
     calculateInitAngleAndHypothenus() {
         
         
-        this.initAngle = this.xPos !== 0 ? Math.atan(this.yPos / this.xPos) : 0;
+        this.initAngle = this.xPos !== 0 ? Math.atan(this.yPos / this.xPos) : Math.PI / 2;
 
         if (this.xPos < 0) {
             this.initAngle += Math.PI;
@@ -47,7 +45,7 @@ export class ObjectContainer {
 
         this.hypothenus = Math.sqrt(Math.pow(this.xPos, 2) + Math.pow(this.yPos, 2));
 
-        //  console.log("ia", this.id, this.initAngle, this.hypothenus);
+        console.log("ia", this.id, this.xPos, this.yPos, this.initAngle, this.hypothenus);
         // console.log(this.id, this.initAngle, this.hypothenus);
     }
 
@@ -55,22 +53,27 @@ export class ObjectContainer {
     set x(value: number) {
         this.xPos = value;
 
+        console.log(this.id, "set", value);
+
         // calcul du nouvel angle de départ
         this.calculateInitAngleAndHypothenus();
     }
 
     get x(): number {
+        console.log(this.id, "get", this.relativeX);
+        
         return this.relativeX;
     }
 
     get relativeX(): number {
-        // console.log("-->", this.id, this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos);
+        // if (this.id == "node2")
+        //     console.log("-->", this.id, this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos);
         
-        return this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.xPos;
+        return this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.absoluteRotation) * this.hypothenus : this.xPos;
     }
 
     get relativeY(): number {
-        return this.parentContainer ? Math.sin(this.initAngle - this.parentContainer.relativeRotation) * this.hypothenus : this.yPos;
+        return this.parentContainer ? Math.sin(this.initAngle - this.parentContainer.absoluteRotation) * this.hypothenus : this.yPos;
     }
 
     get absoluteX(): number {
@@ -101,9 +104,7 @@ export class ObjectContainer {
         this.relativeRotation = value;
     }
 
-    get absoluteRotation(): number {
-        // console.log(this.relativeRotation);
-        
+    get absoluteRotation(): number {  
         return this.relativeRotation + (this.parentContainer ? this.parentContainer.absoluteRotation : 0);
     }
 

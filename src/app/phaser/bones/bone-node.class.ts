@@ -14,9 +14,10 @@ export class BoneNode extends ObjectContainer {
     constructor(
         scene: Phaser.Scene,
         x: number = 0,
-        y: number = 0
+        y: number = 0,
+        id: string = ""
     ) {
-        super(scene, "", x, y);
+        super(scene, id, x, y);
     }
 
     render() {
