@@ -1,11 +1,10 @@
 import { SpriteDefinition } from './interfaces/sprite-definition.class';
-import { BoneNode } from './bones/bone-node.class';
 import { ObjectContainer } from './bones/object-container.class';
 
 export class TestScene extends Phaser.Scene {
 
   private loadedFiles: string[] = [];
-  private b1: BoneNode;
+  // private b1: BoneNode;
 
   private gridSprite: Phaser.GameObjects.Graphics;
 
@@ -76,61 +75,6 @@ export class TestScene extends Phaser.Scene {
   create(): void {
     this.generateGrid();
     this.constructRobot();
-    //this.testBones();
-    // this.testContainer();
-  }
-
-  testContainer() {
-    let node1 = new BoneNode(this, 0, 0);
-    node1.id = "node1";
-
-    let sprite1 = this.add.sprite(0, 0, "r1");
-    let sprite2 = this.add.sprite(0, 0, "r2");
-    let sprite3 = this.add.sprite(0, 0, "r3");
-    let sprite4 = this.add.sprite(0, 0, "r4");
-
-    node1.displayOrigin();
-
-    let container1 = node1.addChild(sprite1, "container1");
-    container1.x = 100;
-    container1.y = 100;
-
-    // container2.debugColor = 0x00ff00;
-    // container2.displayOrigin();
-
-    node1.x = 100;
-    node1.y = 100;
-
-
-    let node2 = new BoneNode(this, 0, 0);
-    node2.id = "node2";
-
-    node2.debugColor = 0x0000ff;
-    node2.displayOrigin();
-    node1.addChildNode(node2);
-
-
-    let container3 = node2.addChild(sprite3);
-    container3.x = 100;
-    container3.displayOrigin();
-
-    let container4 = node2.addChild(sprite4);
-    container4.x = -100;
-    container4.y = 100;
-
-    let container2 = node2.addChild(sprite2);
-
-    container2.x = 100;
-    container2.y = 100;
-
-    node2.x = 300;
-    node2.y = 100;
-
-    this.b1 = node1;
-
-    node1.displayLinks();
-
-    node1.render();
   }
 
   basicGenerateSprites() {
@@ -145,7 +89,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   constructRobot() {
-    let baseScale = .4;
+    /* let baseScale = .4;
 
     let mainBone = new BoneNode(this);
     let head = this.add.sprite(0, 0, "head").setScale(baseScale);
@@ -155,59 +99,18 @@ export class TestScene extends Phaser.Scene {
 
     let rightArm = new BoneNode(this, 0, 0);
     let rb2 = this.add.sprite(-14, -16, "rbone2").setScale(baseScale).setOrigin(0, 0);
-    rightArm.addChild(rb2);
+    let cont = rightArm.addChild(rb2);
 
     mainBone.addChildNode(rightArm);
     rightArm.displayOrigin();
     rightArm.x = 70;
 
     let rb1 = this.add.sprite(0, 0, "rbone1").setScale(baseScale).setOrigin(0, 0);
-    
-
-    // rightArm.rotation = Math.PI / 4;
 
     mainBone.x = 400;
     mainBone.y = 200;
 
-    mainBone.render();
-  }
-
-  testBones() {
-    let boneNode1 = new BoneNode(this);
-    
-    //this.b1 = boneNode1;
-
-    let test1 = this.add.sprite(150, 0, "test1");
-    boneNode1.addChild(test1);
-
-    let test2 = this.add.sprite(0, -100, "test2");
-    boneNode1.addChild(test2);
-
-    let test3 = this.add.sprite(0, 100, "test3");
-    boneNode1.addChild(test3);
-
-    boneNode1.x = boneNode1.y = 300;
-    boneNode1.displayOrigin();
-    //boneNode1.rotation = Math.PI / 4;
-
-    let boneNode2 = new BoneNode(this);
-    //this.b2 = boneNode2;
-
-    // attention, bizarrerie à étudier un peu
-    let r1 = this.add.sprite(20, 20, "r1");
-    /*r1.x = 20;
-    r1.y = 20;*/
-    //r1.rotation = Math.PI;
-    
-    boneNode2.addChild(r1);
-    boneNode2.x = 130;
-    boneNode2.y = 130;
-    //boneNode2.rotation = Math.PI / 4;
-
-    boneNode1.addChildNode(boneNode2);
-
-    //boneNode2.render();
-    boneNode1.render();
+    mainBone.render(); */
   }
 
   generateGrid() {
@@ -245,7 +148,7 @@ export class TestScene extends Phaser.Scene {
 
   tweenAngleTest() {
     
-    if (!this.tween) {
+    /* if (!this.tween) {
       this.b1.rotation = 0;
       this.b1.render();
   
@@ -268,6 +171,6 @@ export class TestScene extends Phaser.Scene {
       this.tween.stop();
       this.tween = null;
     }
-    
+     */
   }
 }

@@ -1,5 +1,4 @@
 import { Transformable } from '../interfaces/transformable.interface';
-import { BoneNode } from './bone-node.class';
 
 export class ObjectContainer {
 
@@ -11,27 +10,30 @@ export class ObjectContainer {
 
     relativeRotation: number = 0;
 
-    debugColor: number = 0xff0000;
+    debugColor: number = 0x000000;
 
     private originDisplayer: Phaser.GameObjects.Container;
     private linkDisplayer: Phaser.GameObjects.Container;
     private linkGraphics: Phaser.GameObjects.Graphics;
 
+    childrenObjects: ObjectContainer[] = [];
+    childrenObjectsById: { [key: string]: ObjectContainer } = {};
+
+    parentContainer: ObjectContainer;
+
     constructor(
         protected scene?: Phaser.Scene,
         public id?: string,
         xInit?: number,
-        yInit?: number,
-        public object?: BoneNode | Transformable,
-        public parentContainer?: ObjectContainer
+        yInit?: number
     ) {
         this.xPos = xInit;
         this.yPos = yInit;
 
-        if (object) {
+        /*if (object) {
             object.x = xInit;
             object.y = yInit;
-        }
+        }*/
         
         this.calculateInitAngleAndHypothenus();
     }
@@ -114,18 +116,59 @@ export class ObjectContainer {
         return this.relativeRotation;
     }
 
+    displayLinks(recursive = false) {
+        this.childrenObjects.forEach(obj => {
+            obj.displayLinkToParent();
+        });
+
+        this.displayLinkToParent();
+    }
+
+    addChild(child: Phaser.GameObjects.Sprite, id?: string): ObjectContainer {
+
+        let container = new ObjectContainer(this.scene, id, child.x, child.y);
+
+        container.parentContainer = this;
+
+        this.childrenObjects.push(container);
+
+        if (id) {
+            this.childrenObjectsById[id] = container;
+        }
+
+        return container;
+    }
+
+    addChildContainer(x: number, y: number, id?: string) {
+        let container = new ObjectContainer(this.scene, id, x, y);
+
+        container.parentContainer = this;
+
+        this.childrenObjects.push(container);
+
+        if (id) {
+            this.childrenObjectsById[id] = container;
+        }
+
+        return container;
+    }
+
     render() {
         // console.log("render", this.id);
         
-        if (this.object) {
-            // console.log("Apply transforms to object", this.id);
+        // if (this.object) {
+        //     // console.log("Apply transforms to object", this.id);
             
-            this.applyTransformsTo(<Transformable>this.object);
-        }
+        //     this.applyTransformsTo(<Transformable>this.object);
+        // }
 
         if (this.originDisplayer) {
             this.applyTransformsTo(this.originDisplayer);
         }
+
+        this.childrenObjects.forEach(obj => {
+            obj.render();
+        });
 
         this.drawLink();
     }
@@ -146,7 +189,7 @@ export class ObjectContainer {
 
         this.linkGraphics = this.scene.add.graphics({
             lineStyle: {
-                color: 0xff00ff,
+                color: 0x000000,
                 width: 3
             }
         });
