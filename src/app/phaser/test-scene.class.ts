@@ -74,10 +74,10 @@ export class TestScene extends Phaser.Scene {
   }
 
   create(): void {
-    //this.constructRobot();
     this.generateGrid();
+    this.constructRobot();
     //this.testBones();
-    this.testContainer();
+    // this.testContainer();
   }
 
   testContainer() {
@@ -126,7 +126,7 @@ export class TestScene extends Phaser.Scene {
     node2.x = 300;
     node2.y = 100;
 
-    this.b1 = node2;
+    this.b1 = node1;
 
     node1.displayLinks();
 
@@ -145,14 +145,31 @@ export class TestScene extends Phaser.Scene {
   }
 
   constructRobot() {
-    let global = this.add.container(300, 300);
-    let head = this.add.sprite(300, 200, "head");
-    global.add(head);
+    let baseScale = .4;
 
-    let arm1 = this.add.container(0, 0);
-    global.add(arm1);
+    let mainBone = new BoneNode(this);
+    let head = this.add.sprite(0, 0, "head").setScale(baseScale);
 
-    global.scale = 0.5;
+    mainBone.addChild(head);
+    mainBone.displayOrigin();
+
+    let rightArm = new BoneNode(this, 0, 0);
+    let rb2 = this.add.sprite(-14, -16, "rbone2").setScale(baseScale).setOrigin(0, 0);
+    rightArm.addChild(rb2);
+
+    mainBone.addChildNode(rightArm);
+    rightArm.displayOrigin();
+    rightArm.x = 70;
+
+    let rb1 = this.add.sprite(0, 0, "rbone1").setScale(baseScale).setOrigin(0, 0);
+    
+
+    // rightArm.rotation = Math.PI / 4;
+
+    mainBone.x = 400;
+    mainBone.y = 200;
+
+    mainBone.render();
   }
 
   testBones() {
