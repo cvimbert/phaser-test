@@ -40,9 +40,6 @@ export class ObjectContainer {
         }
         
         this.calculateInitAngleAndHypothenus();
-
-        console.log("ok");
-        
     }
 
     calculateInitAngleAndHypothenus() {

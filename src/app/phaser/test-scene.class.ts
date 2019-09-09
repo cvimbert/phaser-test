@@ -11,6 +11,8 @@ export class TestScene extends Phaser.Scene {
 
   private tween: Phaser.Tweens.Tween;
 
+  private mainManager: StructureManager;
+
   private sprites: { [key: string]: Object } = {
     head: {
       file: "head"
@@ -19,7 +21,7 @@ export class TestScene extends Phaser.Scene {
       file: "lbone1"
     },
     lbone2: {
-      file: "lbone1"
+      file: "lbone2"
     },
     rbone1: {
       file: "rbone1"
@@ -54,27 +56,46 @@ export class TestScene extends Phaser.Scene {
     globalSpritesScale: 0.4,
     nodes: {
       body: {
+        x: 400,
+        y: 200,
         sprites: {
           head: {}
         },
         nodes: {
           rightArm: {
+            x: 68,
             sprites: {
               rbone2: {
-
+                x: -15,
+                y: -15,
+                originX: 0,
+                originY: 0
               }
             },
             nodes: {
               rightArmB: {
+                x: 70,
+                y: 68,
                 sprites: {
-                  rbone1: {}
+                  rbone1: {
+                    x: -14,
+                    y: -14,
+                    originX: 0,
+                    originY: 0
+                  }
                 }
               }
             }
           },
           leftArm: {
+            x: -70,
             sprites: {
-  
+              lbone2: {
+                x: 18,
+                y: -14,
+                originX: 1,
+                originY: 0
+              }
             },
             nodes: {
   
@@ -90,7 +111,7 @@ export class TestScene extends Phaser.Scene {
       key: "MainScene"
     });
 
-    let manager = new StructureManager(this, this.robotStructure);
+    
   }
 
   preload(): void {
@@ -108,7 +129,15 @@ export class TestScene extends Phaser.Scene {
 
   create(): void {
     this.generateGrid();
-    this.constructRobot();
+    // this.constructRobot();
+
+    let manager = new StructureManager(this, this.robotStructure);
+    console.log(manager.nodeContainers, manager.spriteContainers);
+
+    manager.nodeContainers.forEach(container => container.displayOrigin());
+    manager.nodeContainers[0].render();
+
+    this.mainManager = manager;
   }
 
   basicGenerateSprites() {
@@ -181,7 +210,7 @@ export class TestScene extends Phaser.Scene {
     }
 
     for (let i = 0; i <= 600; i += step) {
-      if (i % 100 === 0) {
+      if (i % 100 == 0) {
         this.gridSprite.lineStyle(0.5, 0x000000, 0.8);
       } else {
         this.gridSprite.lineStyle(0.5, 0x000000, 0.2);
@@ -193,6 +222,8 @@ export class TestScene extends Phaser.Scene {
   }
 
   tweenAngleTest() {
+
+    this.b1 = this.mainManager.nodeContainers[1];
     
     if (!this.tween) {
       this.b1.rotation = 0;
