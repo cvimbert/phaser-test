@@ -1,4 +1,5 @@
 import { Transformable } from '../interfaces/transformable.interface';
+import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 
 export class ObjectContainer {
 
@@ -18,6 +19,8 @@ export class ObjectContainer {
 
     childrenObjects: ObjectContainer[] = [];
     childrenObjectsById: { [key: string]: ObjectContainer } = {};
+    
+
 
     parentContainer: ObjectContainer;
 
@@ -25,15 +28,16 @@ export class ObjectContainer {
         protected scene?: Phaser.Scene,
         public id?: string,
         xInit?: number,
-        yInit?: number
+        yInit?: number,
+        private object?: Transformable
     ) {
         this.xPos = xInit;
         this.yPos = yInit;
 
-        /*if (object) {
+        if (object) {
             object.x = xInit;
             object.y = yInit;
-        }*/
+        }
         
         this.calculateInitAngleAndHypothenus();
     }
@@ -118,15 +122,15 @@ export class ObjectContainer {
 
     displayLinks(recursive = false) {
         this.childrenObjects.forEach(obj => {
-            obj.displayLinkToParent();
+            obj.displayLinks();
         });
 
         this.displayLinkToParent();
     }
 
-    addChild(child: Phaser.GameObjects.Sprite, id?: string): ObjectContainer {
+    addChild(child: Transformable, id?: string): ObjectContainer {
 
-        let container = new ObjectContainer(this.scene, id, child.x, child.y);
+        let container = new ObjectContainer(this.scene, id, child.x, child.y, child);
 
         container.parentContainer = this;
 
@@ -139,28 +143,25 @@ export class ObjectContainer {
         return container;
     }
 
-    addChildContainer(x: number, y: number, id?: string) {
-        let container = new ObjectContainer(this.scene, id, x, y);
+    addChildContainer(child: ObjectContainer, id?: string) {
 
-        container.parentContainer = this;
+        child.parentContainer = this;
 
-        this.childrenObjects.push(container);
+        this.childrenObjects.push(child);
 
         if (id) {
-            this.childrenObjectsById[id] = container;
+            this.childrenObjectsById[id] = child;
         }
-
-        return container;
     }
 
     render() {
         // console.log("render", this.id);
         
-        // if (this.object) {
-        //     // console.log("Apply transforms to object", this.id);
+        if (this.object) {
+            // console.log(this.id, this.object);
             
-        //     this.applyTransformsTo(<Transformable>this.object);
-        // }
+            this.applyTransformsTo(<Transformable>this.object);
+        }
 
         if (this.originDisplayer) {
             this.applyTransformsTo(this.originDisplayer);
