@@ -11,7 +11,7 @@ export class TestScene extends Phaser.Scene {
 
   private tween: Phaser.Tweens.Tween;
 
-  private mainManager: StructureManager;
+  mainManager: StructureManager;
 
   private sprites: { [key: string]: Object } = {
     head: {
@@ -98,7 +98,18 @@ export class TestScene extends Phaser.Scene {
               }
             },
             nodes: {
-  
+              leftArmB: {
+                x: -66,
+                y: 56,
+                sprites: {
+                  lbone1: {
+                    x: 15,
+                    y: -19,
+                    originX: 1,
+                    originY: 0
+                  }
+                }
+              }
             }
           }
         }
@@ -132,7 +143,7 @@ export class TestScene extends Phaser.Scene {
     // this.constructRobot();
 
     let manager = new StructureManager(this, this.robotStructure);
-    console.log(manager.nodeContainers, manager.spriteContainers);
+    // console.log(manager.nodeContainers, manager.spriteContainers);
 
     manager.nodeContainers.forEach(container => container.displayOrigin());
     manager.nodeContainers[0].render();

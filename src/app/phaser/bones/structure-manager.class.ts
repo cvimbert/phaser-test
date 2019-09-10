@@ -65,8 +65,8 @@ export class StructureManager {
     private parseSprite(name: string, data: SpriteData, parent: ObjectContainer) {
 
         let sprite = this.scene.add.sprite(
-            data.x | 0,
-            data.y | 0,
+            data.x || 0,
+            data.y || 0,
             data.file || name
         ).setOrigin(
             data.originX !== null ? data.originX : .5,
