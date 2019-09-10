@@ -1,0 +1,6 @@
+<div>
+  <b>{{ container.id }} : </b>
+  x: <input type="number" [(ngModel)]="container.xPos" (ngModelChange)="onChanged($event)">,
+  y: <input type="number" [(ngModel)]="container.yPos" (ngModelChange)="onChanged($event)">,
+  rotation: <input type="number" [(ngModel)]="container.rotation" (ngModelChange)="onChanged($event)">
+</div>

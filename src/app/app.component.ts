@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
   testScene: TestScene;
   gridVisibility = true;
 
+  selectedContainer: ObjectContainer;
+
   @ViewChild("canvasContainer") canvasContainer: ElementRef;
 
   constructor(
@@ -75,6 +77,10 @@ export class AppComponent implements OnInit {
 
   testTween() {
     this.testScene.tweenAngleTest();
+  }
+
+  selectNode(node: ObjectContainer) {
+    this.selectedContainer = node;
   }
 
 }

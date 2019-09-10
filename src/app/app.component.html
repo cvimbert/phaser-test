@@ -1,14 +1,12 @@
 <router-outlet></router-outlet>
 <!--<input type="button" value="Test tween" (click)="testTween()">-->
-
+<div #canvasContainer></div>
 <div class="rub">Nodes : </div>
-<div *ngFor="let node of nodes">
-    <b>{{ node.id }} : </b>x: {{ node.xPos }}, y: {{ node.yPos }}, rotation: {{ node.rotation }}
+<div *ngFor="let node of nodes" (click)="selectNode(node)" [class.selected]="node === selectedContainer">
+    <b>{{ node.id }} : </b>x: {{ node.xPos }}, y: {{ node.yPos }}, rotation: {{ node.rotation | toDegrees }}
 </div>
 <div class="rub">Sprites : </div>
-<div *ngFor="let sprite of sprites">
-    <b>{{ sprite.id }} : </b>x: {{ sprite.xPos }}, y: {{ sprite.yPos}}, rotation: {{ sprite.rotation }}, in: {{ sprite.parentContainer.id }}
+<div *ngFor="let sprite of sprites" (click)="selectNode(sprite)" [class.selected]="sprite === selectedContainer">
+    <b>{{ sprite.id }} : </b>x: {{ sprite.xPos }}, y: {{ sprite.yPos }}, rotation: {{ sprite.rotation | toDegrees }}, in: {{ sprite.parentContainer.id }}
 </div>
-<div #canvasContainer></div>
-
-<!--<input type="checkbox" [(ngModel)]="gridVisibility">-->
+<app-node-editor [nodeContainer]="selectedContainer" *ngIf="selectedContainer"></app-node-editor>
