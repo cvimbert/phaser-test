@@ -8,6 +8,7 @@ import { ToDegreesPipe } from './phaser/pipes/to-degrees.pipe';
 import { NodeEditorComponent } from './node-editor/node-editor.component';
 
 import { FormsModule } from '@angular/forms'
+import { NodeEditorService } from './node-editor.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { FormsModule } from '@angular/forms'
   exports: [
     ToDegreesPipe
   ],
-  providers: [],
+  providers: [
+    NodeEditorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ObjectContainer } from '../phaser/bones/object-container.class';
+import { NodeEditorService } from '../node-editor.service';
 
 @Component({
   selector: 'app-node-editor',
@@ -12,7 +13,9 @@ export class NodeEditorComponent implements OnInit {
 
   movementFactor = 10;
 
-  constructor() { }
+  constructor(
+    public editorService: NodeEditorService
+  ) { }
 
   ngOnInit() {
   }

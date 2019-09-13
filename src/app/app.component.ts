@@ -73,12 +73,13 @@ export class AppComponent implements OnInit {
 
     if (this.selectedContainer) {
       this.initContainerRotationAngle = this.selectedContainer.rotation;
+      this.initRotationAngle = this.calculateRotationAngle(pointer.x, pointer.y, this.selectedContainer);
     }
 
     this.testScene.input.on("pointermove", this.onPointerMove, this);
   }
 
-  private onMouseUp(pointer: Phaser.Input.Pointer) {
+  private onMouseUp() {
     
     this.testScene.input.off("pointermove", this.onPointerMove, this);
   }
@@ -86,18 +87,25 @@ export class AppComponent implements OnInit {
   private onPointerMove(pointer: Phaser.Input.Pointer) {
     
     if (this.selectedContainer) {
-      let xd = pointer.x - this.selectedContainer.absoluteX;
-      let yd = pointer.y - this.selectedContainer.absoluteY;
+      let angle = this.calculateRotationAngle(pointer.x, pointer.y, this.selectedContainer);
 
-      let angle = xd !== 0 ? Math.atan(yd / xd) : Math.PI / 2;
-
-      if (xd < 0) {
-        angle += Math.PI;
-      }
-
-      this.selectedContainer.rotation = -angle - this.initContainerRotationAngle;
+      this.selectedContainer.rotation = this.initContainerRotationAngle + this.initRotationAngle - angle;
       this.selectedContainer.render();
     }
+  }
+
+  private calculateRotationAngle(xPos: number, yPos: number, container: ObjectContainer): number {
+
+    let xd = xPos - container.absoluteX;
+    let yd = yPos - container.absoluteY;
+
+    let angle = xd !== 0 ? Math.atan(yd / xd) : Math.PI / 2;
+
+    if (xd < 0) {
+      angle += Math.PI;
+    }
+
+    return angle;
   }
 
   get nodes(): ObjectContainer[] {
