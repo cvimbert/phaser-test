@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ObjectContainer } from '../phaser/bones/object-container.class';
 import { NodeEditorService } from '../node-editor.service';
+import { EditionMode } from '../enums/edition-mode.enum';
 
 @Component({
   selector: 'app-node-editor',
@@ -33,6 +34,10 @@ export class NodeEditorComponent implements OnInit {
   onRotationChanged(value: number) {
     //this.container.rotation = value;
     this.container.render();
+  }
+
+  selectMode(mode: EditionMode) {
+    this.editorService.editionMode = mode;
   }
 
 }

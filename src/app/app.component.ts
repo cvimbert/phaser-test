@@ -3,6 +3,8 @@ import { Component, OnInit, ElementRef, HostListener, ViewChild } from '@angular
 import { Game, Scene } from 'phaser';
 import { TestScene } from './phaser/test-scene.class';
 import { ObjectContainer } from './phaser/bones/object-container.class';
+import { NodeEditorService } from './node-editor.service';
+import { EditionMode } from './enums/edition-mode.enum';
 
 
 
@@ -24,12 +26,16 @@ export class AppComponent implements OnInit {
 
   initContainerRotationAngle: number;
   initRotationAngle: number;
+
+  startTranslationX: number;
+  startTranslationY: number;
   
 
   @ViewChild("canvasContainer") canvasContainer: ElementRef;
 
   constructor(
-    public ref: ElementRef
+    public ref: ElementRef,
+    public editorService: NodeEditorService
   ) {
 
   }
@@ -72,8 +78,20 @@ export class AppComponent implements OnInit {
   private onMouseDown(pointer: Phaser.Input.Pointer) {
 
     if (this.selectedContainer) {
-      this.initContainerRotationAngle = this.selectedContainer.rotation;
-      this.initRotationAngle = this.calculateRotationAngle(pointer.x, pointer.y, this.selectedContainer);
+      
+      switch (this.editorService.editionMode) {
+
+        case EditionMode.ROTATION:
+            this.initContainerRotationAngle = this.selectedContainer.rotation;
+            this.initRotationAngle = this.calculateRotationAngle(pointer.x, pointer.y, this.selectedContainer);
+          break;
+
+        case EditionMode.TRANSLATION:
+          this.startTranslationX = this.selectedContainer.xPos;
+          this.startTranslationY = this.selectedContainer.yPos;
+          break;
+      }
+      
     }
 
     this.testScene.input.on("pointermove", this.onPointerMove, this);
@@ -87,9 +105,25 @@ export class AppComponent implements OnInit {
   private onPointerMove(pointer: Phaser.Input.Pointer) {
     
     if (this.selectedContainer) {
-      let angle = this.calculateRotationAngle(pointer.x, pointer.y, this.selectedContainer);
 
-      this.selectedContainer.rotation = this.initContainerRotationAngle + this.initRotationAngle - angle;
+      switch (this.editorService.editionMode) {
+
+        case EditionMode.ROTATION:
+            let angle = this.calculateRotationAngle(pointer.x, pointer.y, this.selectedContainer);
+            this.selectedContainer.rotation = this.initContainerRotationAngle + this.initRotationAngle - angle;
+          break;
+
+        case EditionMode.TRANSLATION:
+          let deltaX = pointer.position.x - pointer.prevPosition.x;
+          let deltaY = pointer.position.y - pointer.prevPosition.y;
+
+          this.selectedContainer.x += deltaX;
+          this.selectedContainer.y += deltaY;          
+          
+          break;
+      }
+
+      
       this.selectedContainer.render();
     }
   }

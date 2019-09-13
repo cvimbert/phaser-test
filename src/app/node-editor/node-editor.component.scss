@@ -53,5 +53,9 @@
         line-height: 30px;
         background-color: lightsalmon;
         cursor: pointer;
+
+        &.selected {
+            border-width: 2px;
+        }
     }
 }

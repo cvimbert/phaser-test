@@ -16,14 +16,9 @@
       <option value="100">100</option>
     </select>
   </div>
-  <div>
-    <input type="range" min="-3.14" max="3.14" step="0.1"
-    [(ngModel)]="container.rotation"
-    (ngModelChange)="onRotationChanged($event)">
-  </div>
   <div class="edition-modes">
-    <div>Rot</div>
-    <div>Tra</div>
-    <div>Sca</div>
+    <div (click)="selectMode('rotation')" [class.selected]="editorService.editionMode === 'rotation'">Rot</div>
+    <div (click)="selectMode('translation')" [class.selected]="editorService.editionMode === 'translation'">Tra</div>
+    <div (click)="selectMode('scale')" [class.selected]="editorService.editionMode === 'scale'">Sca</div>
   </div>
 </div>

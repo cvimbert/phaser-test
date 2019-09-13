@@ -1,5 +1,4 @@
 import { Transformable } from '../interfaces/transformable.interface';
-import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 
 export class ObjectContainer {
 
@@ -20,8 +19,6 @@ export class ObjectContainer {
 
     childrenObjects: ObjectContainer[] = [];
     childrenObjectsById: { [key: string]: ObjectContainer } = {};
-    
-
 
     parentContainer: ObjectContainer;
 
@@ -45,7 +42,6 @@ export class ObjectContainer {
 
     calculateInitAngleAndHypothenus() {
         
-        
         this.initAngle = this.xPos !== 0 ? Math.atan(this.yPos / this.xPos) : Math.PI / 2;
 
         if (this.xPos < 0) {
@@ -53,9 +49,6 @@ export class ObjectContainer {
         }
 
         this.hypothenus = Math.sqrt(Math.pow(this.xPos, 2) + Math.pow(this.yPos, 2));
-
-        // console.log("ia", this.id, this.xPos, this.yPos, this.initAngle, this.hypothenus);
-        // console.log(this.id, this.initAngle, this.hypothenus);
     }
 
     // Valeur relative de x
