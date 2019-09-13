@@ -22,6 +22,10 @@ export class AppComponent implements OnInit {
 
   selectedContainer: ObjectContainer;
 
+  initContainerRotationAngle: number;
+  initRotationAngle: number;
+  
+
   @ViewChild("canvasContainer") canvasContainer: ElementRef;
 
   constructor(
@@ -37,7 +41,7 @@ export class AppComponent implements OnInit {
     let config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
       width: 800,
-      height: 600,
+      height: 300,
       scale: {
         mode: Phaser.Scale.NONE
       },
@@ -47,6 +51,13 @@ export class AppComponent implements OnInit {
     }; 
 
     this.game = new Game(config);
+
+    this.game.events.on("created", () => {
+      console.log("Game created");
+
+      this.testScene.input.on("pointerdown", this.onMouseDown, this);
+      this.testScene.input.on("pointerup", this.onMouseUp, this);
+    });
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -58,6 +69,36 @@ export class AppComponent implements OnInit {
     }
   }
 
+  private onMouseDown(pointer: Phaser.Input.Pointer) {
+
+    if (this.selectedContainer) {
+      this.initContainerRotationAngle = this.selectedContainer.rotation;
+    }
+
+    this.testScene.input.on("pointermove", this.onPointerMove, this);
+  }
+
+  private onMouseUp(pointer: Phaser.Input.Pointer) {
+    
+    this.testScene.input.off("pointermove", this.onPointerMove, this);
+  }
+
+  private onPointerMove(pointer: Phaser.Input.Pointer) {
+    
+    if (this.selectedContainer) {
+      let xd = pointer.x - this.selectedContainer.absoluteX;
+      let yd = pointer.y - this.selectedContainer.absoluteY;
+
+      let angle = xd !== 0 ? Math.atan(yd / xd) : Math.PI / 2;
+
+      if (xd < 0) {
+        angle += Math.PI;
+      }
+
+      this.selectedContainer.rotation = -angle - this.initContainerRotationAngle;
+      this.selectedContainer.render();
+    }
+  }
 
   get nodes(): ObjectContainer[] {
     if (this.testScene && this.testScene.mainManager) {
@@ -80,7 +121,14 @@ export class AppComponent implements OnInit {
   }
 
   selectNode(node: ObjectContainer) {
+    if (this.selectedContainer) {
+      this.selectedContainer.displayOrigin(false);
+      this.selectedContainer.displayLinks(false);
+    }
+
     this.selectedContainer = node;
+    node.displayOrigin(true);
+    node.displayLinks(true);
   }
 
 }

@@ -57,7 +57,7 @@ export class TestScene extends Phaser.Scene {
     nodes: {
       body: {
         x: 400,
-        y: 200,
+        y: 100,
         sprites: {
           head: {}
         },
@@ -140,63 +140,13 @@ export class TestScene extends Phaser.Scene {
 
   create(): void {
     this.generateGrid();
-    // this.constructRobot();
 
     let manager = new StructureManager(this, this.robotStructure);
-    // console.log(manager.nodeContainers, manager.spriteContainers);
-
-    manager.nodeContainers.forEach(container => container.displayOrigin());
     manager.nodeContainers[0].render();
 
     this.mainManager = manager;
-  }
-
-  basicGenerateSprites() {
-    for (let key in this.sprites) {
-      let def = this.sprites[key];
-      this.add.sprite(def["x"] || 0, def["y"] || 0, def["file"]);
-    }
-  }
-
-  generateWithContainers() {
-
-  }
-
-  constructRobot() {
-    let baseScale = .4;
-
-    let mainBone = new ObjectContainer(this);
-    let head = this.add.sprite(0, 0, "head").setScale(baseScale);
-
-    let cont = mainBone.addChild(head);
-    mainBone.displayOrigin();
-
-    let rightArm = new ObjectContainer(this, "rightArm", 0, 0);
-    let rb2 = this.add.sprite(0, 0, "rbone2").setOrigin(0, 0).setDisplayOrigin(32, 36).setScale(baseScale);
-    rightArm.addChild(rb2);
-
-    mainBone.addChildContainer(rightArm);
-    rightArm.displayOrigin();
-    rightArm.x = 70;
-
-    let rightArm2 = new ObjectContainer(this, "rightArm2", 0, 0);
-
-    let rb1 = this.add.sprite(0, 0, "rbone1").setScale(baseScale).setOrigin(0, 0).setDisplayOrigin(40, 40);
-    rightArm2.addChild(rb1);
-
-    rightArm.addChildContainer(rightArm2);
-    rightArm2.displayOrigin();
-
-    rightArm2.x = 70;
-    rightArm2.y = 70;
-
-    this.b1 = rightArm;
-
-    mainBone.x = 400;
-    mainBone.y = 200;
-
-    mainBone.displayLinks();
-    mainBone.render();
+    
+    this.game.events.emit("created");
   }
 
   generateGrid() {
@@ -206,28 +156,29 @@ export class TestScene extends Phaser.Scene {
 
     let step = 25;
 
-    for (let i = 0; i <= 800; i += step) {
+    let width = <number>this.scene.manager.game.config.width;
+    let height = <number>this.scene.manager.game.config.height;
 
-      //console.log(i);
+    for (let i = 0; i <= width; i += step) {
 
-      if (i % 100 === 0) {
-        this.gridSprite.lineStyle(0.5, 0x000000, 0.8);
-      } else {
-        this.gridSprite.lineStyle(0.5, 0x000000, 0.2);
-      }
-
-      let line = new Phaser.Geom.Line(i, 0, i, 600);
-      this.gridSprite.strokeLineShape(line);
-    }
-
-    for (let i = 0; i <= 600; i += step) {
       if (i % 100 == 0) {
         this.gridSprite.lineStyle(0.5, 0x000000, 0.8);
       } else {
         this.gridSprite.lineStyle(0.5, 0x000000, 0.2);
       }
 
-      let line = new Phaser.Geom.Line(0, i, 800, i);
+      let line = new Phaser.Geom.Line(i, 0, i, height);
+      this.gridSprite.strokeLineShape(line);
+    }
+
+    for (let i = 0; i <= height; i += step) {
+      if (i % 100 == 0) {
+        this.gridSprite.lineStyle(0.5, 0x000000, 0.8);
+      } else {
+        this.gridSprite.lineStyle(0.5, 0x000000, 0.2);
+      }
+
+      let line = new Phaser.Geom.Line(0, i, width, i);
       this.gridSprite.strokeLineShape(line);
     }
   }

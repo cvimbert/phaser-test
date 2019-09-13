@@ -1,0 +1,42 @@
+.positionner {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    //background-color: red;
+    
+    .position-arrow {
+        position: absolute;
+        width: 33%;
+        height: 33%;
+        background-color: lightskyblue;
+        text-align: center;
+        font-weight: bold;
+        font-size: 25px;
+        line-height: 25px;
+        cursor: pointer;
+
+        &.top {
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        &.bottom {
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+        }
+
+        &.left {
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        &.right {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}

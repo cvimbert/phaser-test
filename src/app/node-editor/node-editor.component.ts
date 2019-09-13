@@ -10,12 +10,25 @@ export class NodeEditorComponent implements OnInit {
 
   @Input("nodeContainer") container: ObjectContainer;
 
+  movementFactor = 10;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   onChanged(newValue: number) {
+    this.container.render();
+  }
+
+  moveContainer(x: number, y: number) {
+    this.container.x += x * this.movementFactor;
+    this.container.y += y * this.movementFactor;
+    this.container.render();
+  }
+
+  onRotationChanged(value: number) {
+    //this.container.rotation = value;
     this.container.render();
   }
 

@@ -16,6 +16,7 @@ export class ObjectContainer {
     private originDisplayer: Phaser.GameObjects.Container;
     private linkDisplayer: Phaser.GameObjects.Container;
     private linkGraphics: Phaser.GameObjects.Graphics;
+    private originGraphics: Phaser.GameObjects.Graphics;
 
     childrenObjects: ObjectContainer[] = [];
     childrenObjectsById: { [key: string]: ObjectContainer } = {};
@@ -107,8 +108,6 @@ export class ObjectContainer {
     }
 
     set rotation(value: number) {
-        // console.log("Nouvelle rotation", value);
-        
         this.relativeRotation = value;
     }
 
@@ -120,12 +119,16 @@ export class ObjectContainer {
         return this.relativeRotation;
     }
 
-    displayLinks(recursive = false) {
+    displayLinks(visibility = true, isRoot = true) {
         this.childrenObjects.forEach(obj => {
-            obj.displayLinks();
+            if (obj.object === undefined) {
+                obj.displayLinks(visibility, false);
+            }
         });
 
-        this.displayLinkToParent();
+        if (!isRoot) {
+            this.displayLinkToParent(visibility);
+        }
     }
 
     addChild(child: Transformable, id?: string): ObjectContainer {
@@ -180,50 +183,76 @@ export class ObjectContainer {
         obj.rotation = -this.absoluteRotation;
     }
 
-    displayLinkToParent() {
+    displayLinkToParent(visibility = true) {
 
         if (!this.parentContainer) {
             return;
         }
 
-        this.linkDisplayer = this.scene.add.container(0, 0);
-
-        this.linkGraphics = this.scene.add.graphics({
-            lineStyle: {
-                color: 0x000000,
-                width: 3
+        if (visibility) {
+            if (!this.linkDisplayer) {
+                this.linkDisplayer = this.scene.add.container(0, 0);
             }
-        });
 
-        this.linkDisplayer.add(this.linkGraphics);
-        this.drawLink();
+            this.linkGraphics = this.scene.add.graphics({
+                lineStyle: {
+                    color: 0x000000,
+                    width: 3
+                },
+                fillStyle: {
+                    color: 0x000000
+                }
+            });
+    
+            this.linkDisplayer.add(this.linkGraphics);
+            this.drawLink();
+        } else {
+            if (this.linkDisplayer && this.linkGraphics) {
+                this.linkDisplayer.remove(this.linkGraphics);
+                this.linkGraphics = null;
+            }
+        }
     }
     
     drawLink() {
         if (this.linkGraphics) {
             this.linkGraphics.clear();
             this.linkGraphics.lineBetween(this.absoluteX, this.absoluteY, this.parentContainer.absoluteX, this.parentContainer.absoluteY);
+            this.linkGraphics.fillCircle(this.absoluteX, this.absoluteY, 4);
         }
     }
 
-    displayOrigin() {
-        this.originDisplayer = this.scene.add.container(0, 0);
+    displayOrigin(visibility = true) {
 
-        let graph = this.scene.add.graphics({
-            lineStyle: {
-                color: this.debugColor,
-                width: 2
-            },
-            fillStyle: {
-                color: this.debugColor
+        if (visibility) {
+            if (!this.originDisplayer) {
+                this.originDisplayer = this.scene.add.container(0, 0);
             }
-        });
+    
+            let graph = this.scene.add.graphics({
+                lineStyle: {
+                    color: this.debugColor,
+                    width: 2
+                },
+                fillStyle: {
+                    color: this.debugColor
+                }
+            });
+    
+            this.originDisplayer.add(graph);
+            graph.fillCircle(0, 0, 5);
+            graph.lineBetween(-10, 0, 10, 0);
+            graph.lineBetween(0, -10, 0, 10);
+    
+            this.originGraphics = graph;
 
-        this.originDisplayer.add(graph);
-        graph.fillCircle(0, 0, 5);
-        graph.lineBetween(-10, 0, 10, 0);
-        graph.lineBetween(0, -10, 0, 10);
+            this.originDisplayer.x = this.absoluteX;
+            this.originDisplayer.y = this.absoluteY;
+        } else {
+            if (this.originDisplayer && this.originGraphics) {
+                this.originDisplayer.remove(this.originGraphics);
+                this.originGraphics = null;
+            }
+        }
     }
-
-
 }

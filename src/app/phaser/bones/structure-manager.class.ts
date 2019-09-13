@@ -43,8 +43,6 @@ export class StructureManager {
             node.y || 0,
         );
 
-        // container.displayOrigin();
-
         this.nodeContainers.push(container);
 
         if (parent) {
@@ -76,7 +74,6 @@ export class StructureManager {
         );
 
         let container = parent.addChild(sprite, name);
-        // container.displayOrigin();
         this.spriteContainers.push(container);
     }
 }

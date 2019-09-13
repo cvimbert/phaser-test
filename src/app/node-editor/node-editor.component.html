@@ -3,4 +3,22 @@
   x: <input type="number" [(ngModel)]="container.xPos" (ngModelChange)="onChanged($event)">,
   y: <input type="number" [(ngModel)]="container.yPos" (ngModelChange)="onChanged($event)">,
   rotation: <input type="number" [(ngModel)]="container.rotation" (ngModelChange)="onChanged($event)">
+  <div class="positionner">
+    <div class="position-arrow top" (click)="moveContainer(0, -1)">t</div>
+    <div class="position-arrow bottom" (click)="moveContainer(0, 1)">b</div>
+    <div class="position-arrow left" (click)="moveContainer(-1, 0)">l</div>
+    <div class="position-arrow right" (click)="moveContainer(1, 0)">r</div>
+  </div>
+  <div>
+    <select [(ngModel)]="movementFactor">
+      <option value="1">1</option>
+      <option value="10">10</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+  <div>
+    <input type="range" min="-3.14" max="3.14" step="0.1"
+    [(ngModel)]="container.rotation"
+    (ngModelChange)="onRotationChanged($event)">
+  </div>
 </div>
