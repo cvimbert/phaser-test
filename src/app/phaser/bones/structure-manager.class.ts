@@ -2,6 +2,8 @@ import { StructureData } from '../interfaces/structure-data.interface';
 import { NodeData } from '../interfaces/node-data.interface';
 import { SpriteData } from '../interfaces/sprite-data.interface';
 import { ObjectContainer } from './object-container.class';
+import { FlatStructureData } from '../interfaces/flat-structure-data.interface';
+import { FlatNodeData } from '../interfaces/flat-node-data.interface';
 
 export class StructureManager {
 
@@ -13,34 +15,32 @@ export class StructureManager {
 
     constructor(
         private scene: Phaser.Scene,
-        data?: StructureData
+        data?: FlatStructureData
     ) {
         if (data) {
-            this.loadData(data);
+            this.loadFlatData(data);
         }
     }
 
-    loadData(data: StructureData) {
+    loadFlatData(data: FlatStructureData) {
+        console.log("load flat");
+        
         if (data.globalSpritesScale != null) {
             this.globalSpritesScale = data.globalSpritesScale;
         }
 
-        this.parseNodes(data.nodes);
+        this.parseFlatNode(data.rootNodeId, data.nodes);
     }
 
-    private parseNodes(nodes: { [key: string]: NodeData }, parent?: ObjectContainer) {
-        for (let key in nodes) {
-            this.parseNode(key, nodes[key], parent);
-        }
-    }
+    private parseFlatNode(name: string, nodes: { [key: string]: FlatNodeData }, parent?: ObjectContainer) {
 
-    private parseNode(name: string, node: NodeData, parent?: ObjectContainer) {
+        let node = nodes[name];
 
         let container = new ObjectContainer(
             this.scene,
             name,
             node.x || 0,
-            node.y || 0,
+            node.y || 0
         );
 
         this.nodeContainers.push(container);
@@ -50,13 +50,15 @@ export class StructureManager {
         }
 
         if (node.sprites) {
-            for (let key in node.sprites) {
-                this.parseSprite(key, node.sprites[key], container);
-            }
+            node.sprites.forEach(spriteData => {
+                this.parseSprite(spriteData.file, spriteData, container);
+            });
         }
 
         if (node.nodes) {
-            this.parseNodes(node.nodes, container);
+            node.nodes.forEach(nodeId => {
+                this.parseFlatNode(nodeId, nodes, container);
+            });
         }
     }
 

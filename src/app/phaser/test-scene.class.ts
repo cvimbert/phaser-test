@@ -1,6 +1,7 @@
 import { ObjectContainer } from './bones/object-container.class';
 import { StructureData } from './interfaces/structure-data.interface';
 import { StructureManager } from './bones/structure-manager.class';
+import { FlatStructureData } from './interfaces/flat-structure-data.interface';
 
 export class TestScene extends Phaser.Scene {
 
@@ -49,6 +50,82 @@ export class TestScene extends Phaser.Scene {
     },
     r4: {
       file: "r4"
+    }
+  };
+
+  private flatRobotStructure: FlatStructureData = {
+    rootNodeId: "body",
+    globalSpritesScale: .4,
+    nodes: {
+      body: {
+        x: 400,
+        y: 100,
+        sprites: [
+          {
+            file: "head"
+          }
+        ],
+        nodes: [
+          "rightArm",
+          "leftArm"
+        ]
+      },
+      rightArm: {
+        x: 68,
+        sprites: [
+          {
+            x: -15,
+            y: -15,
+            originX: 0,
+            originY: 0,
+            file: "rbone2"
+          }
+        ],
+        nodes: [
+          "rightArmB"
+        ]
+      },
+      rightArmB: {
+        x: 70,
+        y: 68,
+        sprites: [
+          {
+            x: -14,
+            y: -14,
+            originX: 0,
+            originY: 0,
+            file: "rbone1"
+          }
+        ]
+      },
+      leftArm: {
+        x: -70,
+        sprites: [
+          {
+            x: 18,
+            y: -14,
+            originX: 1,
+            originY: 0,
+            file: "lbone2"
+          }
+        ],
+        nodes: [
+          "leftArmB"
+        ]
+      },
+      leftArmB: {
+        x: -66,
+        y: 56,
+        sprites: [
+          {
+            x: 15,
+            y: -19,
+            originX: 1,
+            originY: 0,
+            file: "lbone1"
+          }
+        ]
+      }
     }
   };
 
@@ -141,7 +218,7 @@ export class TestScene extends Phaser.Scene {
   create(): void {
     this.generateGrid();
 
-    let manager = new StructureManager(this, this.robotStructure);
+    let manager = new StructureManager(this, this.flatRobotStructure);
     manager.nodeContainers[0].render();
 
     this.mainManager = manager;
