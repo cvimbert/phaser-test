@@ -9,12 +9,16 @@ import { NodeEditorComponent } from './node-editor/node-editor.component';
 
 import { FormsModule } from '@angular/forms'
 import { NodeEditorService } from './node-editor.service';
+import { TreeViewComponent } from './tree-view/tree-view.component';
+import { RobotViewComponent } from './robot-view/robot-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToDegreesPipe,
-    NodeEditorComponent
+    NodeEditorComponent,
+    TreeViewComponent,
+    RobotViewComponent
   ],
   imports: [
     BrowserModule,
