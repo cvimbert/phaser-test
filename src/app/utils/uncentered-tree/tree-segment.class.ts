@@ -4,4 +4,7 @@ export class TreeSegment {
 
     nodeA: TreeNode;
     nodeB: TreeNode;
+
+    hypothenus: number;
+    referenceAngle: number;
 }

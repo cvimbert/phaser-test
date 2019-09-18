@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms'
 import { NodeEditorService } from './node-editor.service';
 import { TreeViewComponent } from './tree-view/tree-view.component';
 import { RobotViewComponent } from './robot-view/robot-view.component';
+import { CloudViewComponent } from './cloud-view/cloud-view.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RobotViewComponent } from './robot-view/robot-view.component';
     ToDegreesPipe,
     NodeEditorComponent,
     TreeViewComponent,
-    RobotViewComponent
+    RobotViewComponent,
+    CloudViewComponent
   ],
   imports: [
     BrowserModule,
