@@ -33,4 +33,8 @@ export class CloudViewComponent implements OnInit {
     this.game = new Game(config);
   }
 
+  testSetPos() {
+    this.cloudScene.manager.setAbsolutePosition("p3", ["p1", "p2"], { x: 750, y: 550 });
+  }
+
 }

@@ -1,5 +1,7 @@
 import { CloudManager } from './cloud-manager.class';
 import { CloudData } from './interfaces/cloud-data.interface';
+import { SquareDisplayer } from './displayers/square-displayer.class';
+import { CloudNode } from './cloud-node.class';
 
 export class CloudScene extends Phaser.Scene {
 
@@ -13,8 +15,13 @@ export class CloudScene extends Phaser.Scene {
         y: 100
       },
       p2: {
+        
         x: 400,
         y: 200
+      },
+      p3: {
+        x: 400,
+        y: 400
       }
     }
   }
@@ -33,11 +40,11 @@ export class CloudScene extends Phaser.Scene {
 
   create() {
     this.generateGrid();
+    this.manager.load(this.testData);
   }
 
   generateGrid() {
 
-    // Lignes verticales
     this.gridGraphics = this.add.graphics();
 
     let step = 25;

@@ -7,7 +7,7 @@ import { CloudViewComponent } from './cloud-view/cloud-view.component';
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "robot",
+    redirectTo: "cloud",
     pathMatch: "full"
   },
   {
