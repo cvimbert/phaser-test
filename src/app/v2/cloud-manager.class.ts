@@ -1,6 +1,7 @@
 import { CloudData } from './interfaces/cloud-data.interface';
 import { CloudNode } from './cloud-node.class';
 import { Point } from './interfaces/point.interface';
+import { AbsoluteTransform } from './transformations/absolute-transfom.class';
 
 export class CloudManager {
 
@@ -70,5 +71,7 @@ export class CloudManager {
       node.y += yd;
       node.render();
     });
+
+    let transform = new AbsoluteTransform(targetNode, propagateToNodes);
   }
 }
