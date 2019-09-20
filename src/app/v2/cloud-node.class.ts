@@ -8,6 +8,7 @@ export class CloudNode {
   y: number;
 
   constructor(
+    public id: string,
     public scene: Phaser.Scene,
     public data: CloudPointData,
     public manager: CloudManager

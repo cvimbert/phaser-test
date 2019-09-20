@@ -15,13 +15,22 @@ export class CloudScene extends Phaser.Scene {
         y: 100
       },
       p2: {
-        
         x: 400,
         y: 200
       },
       p3: {
         x: 400,
         y: 400
+      }
+    },
+    structures: {
+      struct1: {
+        root: "p1",
+        links: {
+          p1: ["p2"],
+          p2: ["p3"],
+          p3: []
+        }
       }
     }
   }
@@ -41,6 +50,7 @@ export class CloudScene extends Phaser.Scene {
   create() {
     this.generateGrid();
     this.manager.load(this.testData);
+    this.manager.getStructure("struct1");
   }
 
   generateGrid() {

@@ -1,11 +1,12 @@
 import { CloudData } from './interfaces/cloud-data.interface';
 import { CloudNode } from './cloud-node.class';
 import { Point } from './interfaces/point.interface';
-import { AbsoluteTransform } from './transformations/absolute-transfom.class';
+import { CloudStructure } from './cloud-structure.class';
 
 export class CloudManager {
 
   nodes: { [key: string]: CloudNode } = {};
+  data: CloudData;
 
   constructor(
     public scene: Phaser.Scene
@@ -14,12 +15,13 @@ export class CloudManager {
   }
 
   load(data: CloudData) {
+    this.data = data;
     this.parsePoints(data);
   }
 
   parsePoints(data: CloudData) {
     for (let pointName in data.points) {
-      let node = new CloudNode(this.scene, data.points[pointName], this);
+      let node = new CloudNode(pointName, this.scene, data.points[pointName], this);
       this.nodes[pointName] = node;
     }
   }
@@ -33,11 +35,15 @@ export class CloudManager {
     }
   }
 
+  getStructure(structureId: string): CloudStructure {
+    return new CloudStructure(this.data.structures[structureId], this);
+  }
+
   getNodes(nodeIds: string[]): CloudNode[] {
     return nodeIds.map(nodeId => this.getNode(nodeId));
   }
 
-  // pour test
+  // pour test, plus utile
   setRelativePosition(
     target: string,
     relativeTo: string,
@@ -50,7 +56,7 @@ export class CloudManager {
  
   }
 
-  // pour test
+  // pour test, plus utile
   setAbsolutePosition(
     target: string,
     propagateTo: string[],
@@ -71,7 +77,5 @@ export class CloudManager {
       node.y += yd;
       node.render();
     });
-
-    let transform = new AbsoluteTransform(targetNode, propagateToNodes);
   }
 }
