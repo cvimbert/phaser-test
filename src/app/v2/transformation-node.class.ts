@@ -96,7 +96,7 @@ export class TransformationNode {
 
   applyRelativeRotation() {
 
-    this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.relativeRotation : 0);
+    this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
 
     // console.log(this.absoluteRotation);
 

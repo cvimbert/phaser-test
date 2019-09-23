@@ -67,7 +67,7 @@ export class CloudNode {
       this.displayer.x = this.x;
       this.displayer.y = this.y;
       this.displayer.rotation = this.rotation;
-      console.log(this.id, this.rotation);
+      // console.log(this.id, this.rotation);
       
     }
   }
