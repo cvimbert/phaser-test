@@ -30,7 +30,7 @@ export class CloudManager {
     if (this.nodes[nodeId]) {
       return this.nodes[nodeId];
     } else {
-      console.warn(`Node node named ${ nodeId }`);
+      console.warn(`No node named ${ nodeId }`);
       return null;
     }
   }

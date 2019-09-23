@@ -37,13 +37,18 @@ export class CloudStructure {
     }
 
     this.initializeNodes();
-    console.log(this);
   }
 
   initializeNodes() {
     for (let nodeId in this.nodes) {
-      let node = this.nodes[nodeId];
+      let node = this.getNode(nodeId);
       node.initGeometry();
+    }
+  }
+
+  displayLinks() {
+    for (let nodeId in this.nodes) {
+      let node = this.getNode(nodeId);
       node.displayLink();
     }
   }
