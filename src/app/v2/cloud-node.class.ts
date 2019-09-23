@@ -1,21 +1,25 @@
 import { CloudPointData } from './interfaces/cloud-point-data.interface';
 import { CloudManager } from './cloud-manager.class';
+import { Point } from './interfaces/point.interface';
 
 export class CloudNode {
 
   displayer: Phaser.GameObjects.Graphics;
   x: number;
   y: number;
+  rotation: number = 0;
+
 
   constructor(
     public id: string,
     public scene: Phaser.Scene,
     public data: CloudPointData,
-    public manager: CloudManager
+    public manager: CloudManager,
+    offset: Point
   ) {
-    this.generateSquareDisplayer(data.x, data.y);
-    this.x = data.x;
-    this.y = data.y
+    this.x = data.x + (offset ? offset.x : 0);
+    this.y = data.y + (offset ? offset.y : 0);
+    this.generateSquareDisplayer(this.x, this.y);
   }
 
   showDisplayer() {
@@ -62,6 +66,9 @@ export class CloudNode {
     if (this.displayer) {
       this.displayer.x = this.x;
       this.displayer.y = this.y;
+      this.displayer.rotation = this.rotation;
+      console.log(this.id, this.rotation);
+      
     }
   }
 }

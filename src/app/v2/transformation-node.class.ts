@@ -41,7 +41,6 @@ export class TransformationNode {
     this.basePosition = this.getRelativePosition();
     this.initRotation = this.getAngleWithParent();
     this.relativeRotation = 0;
-    this.absoluteRotation = 0;
 
     // console.log(this.absoluteRotation);
     console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
@@ -102,13 +101,10 @@ export class TransformationNode {
     // console.log(this.absoluteRotation);
 
     // calcul des nouvelles positions relatives
-    // this.relativePosition.x = Math.cos(this.absoluteRotation) * this.hypothenus;
-    // return this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.absoluteRotation) * this.hypothenus : this.xPos;
     this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.x;
     this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.y;
 
     // console.log(this.relativePosition);
-    
 
     // calcul des positions absolues
     this.absolutePosition = {
@@ -123,6 +119,7 @@ export class TransformationNode {
   render() {
     this.node.x = this.absolutePosition.x;
     this.node.y = this.absolutePosition.y;
+    this.node.rotation = -this.absoluteRotation;
 
     this.node.render();
     this.children.forEach(child => child.render());

@@ -21,7 +21,7 @@ export class CloudManager {
 
   parsePoints(data: CloudData) {
     for (let pointName in data.points) {
-      let node = new CloudNode(pointName, this.scene, data.points[pointName], this);
+      let node = new CloudNode(pointName, this.scene, data.points[pointName], this, data.offset);
       this.nodes[pointName] = node;
     }
   }
@@ -41,41 +41,5 @@ export class CloudManager {
 
   getNodes(nodeIds: string[]): CloudNode[] {
     return nodeIds.map(nodeId => this.getNode(nodeId));
-  }
-
-  // pour test, plus utile
-  setRelativePosition(
-    target: string,
-    relativeTo: string,
-    propagateTo: string[] = [],
-    position: Point
-  ) {
-    let targetNode = this.getNode(target);
-    let relativeToNode = this.getNode(relativeTo);
-    let propagateToNodes = this.getNodes(propagateTo);
- 
-  }
-
-  // pour test, plus utile
-  setAbsolutePosition(
-    target: string,
-    propagateTo: string[],
-    position: Point
-  ) {
-    let targetNode = this.getNode(target);
-    let propagateToNodes = this.getNodes(propagateTo);
-
-    let xd = position.x - targetNode.x;
-    let yd = position.y - targetNode.y;
-
-    targetNode.x += xd;
-    targetNode.y += yd;
-    targetNode.render();
-
-    propagateToNodes.forEach(node => {
-      node.x += xd;
-      node.y += yd;
-      node.render();
-    });
   }
 }

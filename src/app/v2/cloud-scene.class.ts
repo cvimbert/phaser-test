@@ -9,6 +9,10 @@ export class CloudScene extends Phaser.Scene {
   manager: CloudManager;
 
   testData: CloudData = {
+    offset: {
+      x: 0,
+      y: 100
+    },
     points: {
       p1: {
         x: 400,
