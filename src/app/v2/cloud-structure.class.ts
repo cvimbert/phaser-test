@@ -7,6 +7,8 @@ export class CloudStructure {
   nodes: { [key: string]: TransformationNode } = {};
   rootNode: TransformationNode;
 
+  private linksDisplayed: boolean = false;
+
   constructor(
     data: CloudStructureData,
     manager: CloudManager
@@ -47,6 +49,8 @@ export class CloudStructure {
   }
 
   displayLinks() {
+    this.linksDisplayed = true;
+    
     for (let nodeId in this.nodes) {
       let node = this.getNode(nodeId);
       node.displayLink();

@@ -11,7 +11,10 @@ export class TransformationNode {
 
   // geometry
   hypothenus: number;
+
   relativeRotation: number;
+  absoluteRotation: number;
+
   relativePosition: Point;
   absolutePosition: Point;
 
@@ -60,6 +63,9 @@ export class TransformationNode {
       y: (this.parent ? this.parent.absolutePosition.y : 0) + this.relativePosition.y
     };
 
+    // on devrait ne pouvoir calculer la nouvelle longueur de l'hypothenus qu'à l'initiation d'une nouvelle rotation
+    this.calculateHypothenus();
+
     this.calculateChildren();
   }
 
@@ -68,11 +74,28 @@ export class TransformationNode {
   }
 
   applyAbsoluteTranslation() {
-
+    this.children.forEach(child => child.calculateGeometry());
   }
 
   applyRelativeTranslation() {
-    
+    this.calculateGeometry();
+  }
+
+  applyRelativeRotation() {
+
+    this.absoluteRotation = (this.parent ? this.parent.relativeRotation : 0) + this.relativeRotation;
+
+    // calcul des nouvelles positions relatives
+    this.relativePosition.x = Math.cos(this.absoluteRotation) * this.hypothenus;
+    this.relativePosition.y = Math.sin(this.absoluteRotation) * this.hypothenus;
+
+    // calcul des positions absolues
+    this.absolutePosition = {
+      x: (this.parent ? this.parent.absolutePosition.x : 0) + this.relativePosition.x,
+      y: (this.parent ? this.parent.absolutePosition.y : 0) + this.relativePosition.y
+    };
+
+    this.children.forEach(child => child.applyRelativeRotation());
   }
 
   // temporaire aussi

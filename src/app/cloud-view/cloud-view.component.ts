@@ -42,7 +42,7 @@ export class CloudViewComponent implements OnInit {
     this.testStruct = this.cloudScene.manager.getStructure("struct1");
     this.testStruct2 = this.cloudScene.manager.getStructure("struct2");
 
-    this.testStruct2.displayLinks();
+    this.testStruct.displayLinks();
   }
 
   testTranslate() {
@@ -58,7 +58,7 @@ export class CloudViewComponent implements OnInit {
       y: 0,
       duration: 1000,
       onUpdate: () => {
-        this.testStruct.rootNode.calculateChildren();
+        this.testStruct.rootNode.applyAbsoluteTranslation();
         this.testStruct.rootNode.render();
       },
       onComplete: () => {
@@ -73,8 +73,25 @@ export class CloudViewComponent implements OnInit {
       x: 200,
       duration: 1000,
       onUpdate: () => {
-        this.testStruct2.rootNode.calculateGeometry();
+        this.testStruct2.rootNode.applyRelativeTranslation();
         this.testStruct2.rootNode.render();
+      },
+      onComplete: () => {
+        console.log("Tween complete");
+      }
+    });
+  }
+
+  rotationWithTween() {
+    let node = this.testStruct.getNode("p2");
+
+    this.cloudScene.add.tween({
+      targets: node,
+      relativeRotation: Math.PI,
+      duration: 1000,
+      onUpdate: () => {
+        node.applyRelativeRotation();
+        node.render();
       },
       onComplete: () => {
         console.log("Tween complete");

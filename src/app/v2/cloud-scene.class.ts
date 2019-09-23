@@ -11,16 +11,16 @@ export class CloudScene extends Phaser.Scene {
   testData: CloudData = {
     points: {
       p1: {
-        x: 100,
-        y: 100
-      },
-      p2: {
         x: 400,
         y: 200
       },
-      p3: {
+      p2: {
         x: 400,
         y: 400
+      },
+      p3: {
+        x: 500,
+        y: 500
       }
     },
     structures: {
