@@ -16,11 +16,11 @@ export class CloudScene extends Phaser.Scene {
       },
       p2: {
         x: 400,
-        y: 400
+        y: 300
       },
       p3: {
         x: 500,
-        y: 500
+        y: 400
       }
     },
     structures: {

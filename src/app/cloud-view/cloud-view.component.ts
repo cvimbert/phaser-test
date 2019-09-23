@@ -83,7 +83,7 @@ export class CloudViewComponent implements OnInit {
   }
 
   rotationWithTween() {
-    let node = this.testStruct.getNode("p2");
+    let node = this.testStruct.getNode("p1");
 
     this.cloudScene.add.tween({
       targets: node,

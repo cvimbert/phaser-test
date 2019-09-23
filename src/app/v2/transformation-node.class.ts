@@ -14,9 +14,11 @@ export class TransformationNode {
 
   relativeRotation: number;
   absoluteRotation: number;
+  initRotation: number;
 
   relativePosition: Point;
   absolutePosition: Point;
+  basePosition: Point;
 
   // display
   private linkDisplayer: Phaser.GameObjects.Graphics;
@@ -36,21 +38,19 @@ export class TransformationNode {
     };
 
     this.relativePosition = this.getRelativePosition();
-    this.relativeRotation = this.getAngleWithParent();
-    this.absoluteRotation = this.getAbsoluteRotation();
+    this.basePosition = this.getRelativePosition();
+    this.initRotation = this.getAngleWithParent();
+    this.relativeRotation = 0;
+    this.absoluteRotation = 0;
 
-    console.log(this.absoluteRotation);
-    
-
+    // console.log(this.absoluteRotation);
     console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
     
-
     this.calculateHypothenus();
   }
 
 
   getAbsoluteRotation(): number {
-    // this.relativeRotation + (this.parentContainer ? this.parentContainer.absoluteRotation : 0)
     return this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
   }
 
@@ -99,9 +99,16 @@ export class TransformationNode {
 
     this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.relativeRotation : 0);
 
+    // console.log(this.absoluteRotation);
+
     // calcul des nouvelles positions relatives
-    this.relativePosition.x = Math.cos(this.absoluteRotation) * this.hypothenus;
-    this.relativePosition.y = Math.sin(this.absoluteRotation) * this.hypothenus;
+    // this.relativePosition.x = Math.cos(this.absoluteRotation) * this.hypothenus;
+    // return this.parentContainer ? Math.cos(this.initAngle - this.parentContainer.absoluteRotation) * this.hypothenus : this.xPos;
+    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.x;
+    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.y;
+
+    // console.log(this.relativePosition);
+    
 
     // calcul des positions absolues
     this.absolutePosition = {
