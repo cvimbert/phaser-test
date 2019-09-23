@@ -40,7 +40,7 @@ export class CloudViewComponent implements OnInit {
 
   onCreated() {
     this.testStruct = this.cloudScene.manager.getStructure("struct1");
-    this.testStruct2 = this.cloudScene.manager.getStructure("struct2");
+    //this.testStruct2 = this.cloudScene.manager.getStructure("struct2");
 
     this.testStruct.displayLinks();
   }

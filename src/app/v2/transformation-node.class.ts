@@ -37,7 +37,21 @@ export class TransformationNode {
 
     this.relativePosition = this.getRelativePosition();
     this.relativeRotation = this.getAngleWithParent();
+    this.absoluteRotation = this.getAbsoluteRotation();
+
+    console.log(this.absoluteRotation);
+    
+
+    console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
+    
+
     this.calculateHypothenus();
+  }
+
+
+  getAbsoluteRotation(): number {
+    // this.relativeRotation + (this.parentContainer ? this.parentContainer.absoluteRotation : 0)
+    return this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
   }
 
   getRelativePosition(): Point {
@@ -83,7 +97,7 @@ export class TransformationNode {
 
   applyRelativeRotation() {
 
-    this.absoluteRotation = (this.parent ? this.parent.relativeRotation : 0) + this.relativeRotation;
+    this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.relativeRotation : 0);
 
     // calcul des nouvelles positions relatives
     this.relativePosition.x = Math.cos(this.absoluteRotation) * this.hypothenus;
