@@ -64,8 +64,9 @@ export class CloudViewComponent implements OnInit {
   }
 
   rotationWithTween() {
-    let node = this.testStruct.getNode("p3");
-
+    let node = this.testStruct.getNode("p4");
+    console.log(node.relativeRotation);
+    
     this.cloudScene.add.tween({
       targets: node,
       relativeRotation: Math.PI,
@@ -76,6 +77,7 @@ export class CloudViewComponent implements OnInit {
       },
       onComplete: () => {
         console.log("Tween complete");
+        console.log(node.relativeRotation);
       }
     });
   }

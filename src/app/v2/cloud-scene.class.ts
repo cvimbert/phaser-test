@@ -9,6 +9,63 @@ export class CloudScene extends Phaser.Scene {
   manager: CloudManager;
 
   testData: CloudData = {
+    points: {
+      p1: {
+        x: 400,
+        y: 200
+      },
+      p2: {
+        x: 300,
+        y: 200
+      },
+      p3: {
+        x: 500,
+        y: 200
+      },
+      p4: {
+        x: 600,
+        y: 300
+      },
+      p5: {
+        x: 600,
+        y: 400
+      },
+      p6: {
+        x: 200,
+        y: 300
+      },
+      p7: {
+        x: 200,
+        y: 400
+      },
+      p8: {
+        x: 600,
+        y: 100
+      },
+      p9: {
+        x: 700,
+        y: 300
+      }
+    },
+    structures: {
+      struct1: {
+        root: "p1",
+        links: {
+          p1: ["p2", "p3"],
+          p2: ["p6"],
+          p3: ["p4", "p8"],
+          p4: ["p5", "p9"],
+          p5: [],
+          p6: ["p7"],
+          p7: [],
+          p8: [],
+          p9: []
+        }
+      }
+    }
+  };
+
+  testData2: CloudData = {
     offset: {
       x: 0,
       y: 100

@@ -113,8 +113,9 @@ export class TransformationNode {
     // console.log(this.absoluteRotation);
 
     // calcul des nouvelles positions relatives
-    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.absoluteRotation) * this.hypothenus : this.basePosition.x;
-    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.absoluteRotation) * this.hypothenus : this.basePosition.y;
+    // parent.absoluteRotation ou absoluteRotation tout court, deux choix valables
+    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.x;
+    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.y;
 
     // console.log(this.parent.absolutePosition);
 
