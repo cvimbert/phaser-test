@@ -10,14 +10,22 @@ export class TransformationNode {
   children: TransformationNode[] = [];
 
   // geometry
-  hypothenus: number;
+  hypothenus: number = 0;
 
-  relativeRotation: number;
-  absoluteRotation: number;
-  initRotation: number;
+  relativeRotation: number = 0;
+  absoluteRotation: number = 0;
+  initRotation: number = 0;
 
-  relativePosition: Point;
-  absolutePosition: Point;
+  relativePosition: Point = {
+    x: 0,
+    y: 0
+  };
+
+  absolutePosition: Point = {
+    x: 0,
+    y: 0
+  };
+
   basePosition: Point;
 
   // display
@@ -40,17 +48,20 @@ export class TransformationNode {
     this.relativePosition = this.getRelativePosition();
     this.basePosition = this.getRelativePosition();
     this.initRotation = this.getAngleWithParent();
-    this.relativeRotation = 0;
+    this.relativeRotation = this.getAngleWithParent();
 
-    // console.log(this.absoluteRotation);
-    console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
+    console.log(this.id, this.relativeRotation);
+    // console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
     
     this.calculateHypothenus();
   }
 
+  get rRot(): number {
+    return this.relativeRotation - this.initRotation;
+  }
 
   getAbsoluteRotation(): number {
-    return this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
+    return this.rRot + (this.parent ? this.parent.absoluteRotation : 0);
   }
 
   getRelativePosition(): Point {
@@ -61,7 +72,8 @@ export class TransformationNode {
   }
 
   getAngleWithParent(): number {
-    return Math.atan2(this.relativePosition.y, this.relativePosition.x);
+    // console.log(this.id, this.relativePosition);
+    return Math.atan2(this.parent ? this.relativePosition.y : 0, this.parent ? this.relativePosition.x : 0);
   }
 
   calculateAndRender() {
@@ -76,7 +88,7 @@ export class TransformationNode {
       y: (this.parent ? this.parent.absolutePosition.y : 0) + this.relativePosition.y
     };
 
-    // on devrait ne pouvoir calculer la nouvelle longueur de l'hypothenus qu'à l'initiation d'une nouvelle rotation
+    // on devrait ne avoir à calculer la nouvelle longueur de l'hypothenus qu'à l'initiation d'une nouvelle rotation
     this.calculateHypothenus();
 
     this.calculateChildren();
@@ -96,15 +108,15 @@ export class TransformationNode {
 
   applyRelativeRotation() {
 
-    this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
+    this.absoluteRotation = this.rRot + (this.parent ? this.parent.absoluteRotation : 0);
 
     // console.log(this.absoluteRotation);
 
     // calcul des nouvelles positions relatives
-    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.x;
-    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.y;
+    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.absoluteRotation) * this.hypothenus : this.basePosition.x;
+    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.absoluteRotation) * this.hypothenus : this.basePosition.y;
 
-    // console.log(this.relativePosition);
+    // console.log(this.parent.absolutePosition);
 
     // calcul des positions absolues
     this.absolutePosition = {
@@ -119,7 +131,9 @@ export class TransformationNode {
   render() {
     this.node.x = this.absolutePosition.x;
     this.node.y = this.absolutePosition.y;
-    this.node.rotation = -this.absoluteRotation;
+    this.node.rotation = -this.absoluteRotation || 0;
+
+    // console.log(this.node.x, this.node.y, this.node.rotation);
 
     this.node.render();
     this.children.forEach(child => child.render());

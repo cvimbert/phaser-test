@@ -45,36 +45,17 @@ export class CloudViewComponent implements OnInit {
     this.testStruct.displayLinks();
   }
 
-  testTranslate() {
-    this.testStruct.rootNode.relativePosition.x = 300;
-    this.testStruct.rootNode.calculateGeometry();
-    this.testStruct.rootNode.render();
-  }
-
   testTranslateWithTween() {
+    let node = this.testStruct.getNode("p2");
+
     this.cloudScene.add.tween({
-      targets: this.testStruct.rootNode.absolutePosition,
+      targets: node.absolutePosition,
       x: 0,
       y: 0,
       duration: 1000,
       onUpdate: () => {
-        this.testStruct.rootNode.applyAbsoluteTranslation();
-        this.testStruct.rootNode.render();
-      },
-      onComplete: () => {
-        console.log("Tween complete");
-      }
-    });
-  }
-
-  testReverted() {
-    this.cloudScene.add.tween({
-      targets: this.testStruct2.getNode("p2").relativePosition,
-      x: 200,
-      duration: 1000,
-      onUpdate: () => {
-        this.testStruct2.rootNode.applyRelativeTranslation();
-        this.testStruct2.rootNode.render();
+        node.applyAbsoluteTranslation();
+        node.render();
       },
       onComplete: () => {
         console.log("Tween complete");
@@ -83,12 +64,12 @@ export class CloudViewComponent implements OnInit {
   }
 
   rotationWithTween() {
-    let node = this.testStruct.getNode("p1");
+    let node = this.testStruct.getNode("p3");
 
     this.cloudScene.add.tween({
       targets: node,
       relativeRotation: Math.PI,
-      duration: 1000,
+      duration: 2000,
       onUpdate: () => {
         node.applyRelativeRotation();
         node.render();
