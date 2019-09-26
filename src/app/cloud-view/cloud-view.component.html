@@ -3,3 +3,13 @@
   <input type="button" value="Translate" (click)="testTranslateWithTween()">
   <input type="button" value="Rotation" (click)="rotationWithTween()">
 </div>
+<div class="editor">
+  <div>
+    <select *ngIf="testStruct" [(ngModel)]="selectedNodeId">
+      <option *ngFor="let node of testStruct.nodesList" value="{{ node.id }}">{{ node.id }}</option>
+    </select>
+  </div>
+  <div *ngIf="selectedNode">
+    {{ selectedNode.relativeRotation }}
+  </div>
+</div>

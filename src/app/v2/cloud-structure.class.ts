@@ -5,6 +5,7 @@ import { CloudManager } from './cloud-manager.class';
 export class CloudStructure {
 
   nodes: { [key: string]: TransformationNode } = {};
+  nodesList: TransformationNode[] = [];
   rootNode: TransformationNode;
 
   private linksDisplayed: boolean = false;
@@ -20,6 +21,7 @@ export class CloudStructure {
       let transformationNode = new TransformationNode(nodeName, manager.scene);
       transformationNode.node = manager.getNode(nodeName);
       this.nodes[nodeName] = transformationNode;
+      this.nodesList.push(transformationNode);
     }
 
     this.rootNode = this.nodes[data.root];

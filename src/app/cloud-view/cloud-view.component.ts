@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CloudScene } from '../v2/cloud-scene.class';
 import { Game } from 'phaser';
 import { CloudStructure } from '../v2/cloud-structure.class';
+import { TransformationNode } from '../v2/transformation-node.class';
 
 @Component({
   selector: 'app-cloud-view',
@@ -16,6 +17,9 @@ export class CloudViewComponent implements OnInit {
 
   testStruct: CloudStructure;
   testStruct2: CloudStructure;
+
+  // selectedNodeId: string;
+  selectedNode: TransformationNode;
 
   constructor() { }
 
@@ -38,8 +42,17 @@ export class CloudViewComponent implements OnInit {
     this.game.events.on("created", this.onCreated, this);
   }
 
+  get selectedNodeId(): string {
+    return this.selectedNode.id;
+  }
+
+  set selectedNodeId(value: string) {
+    this.selectedNode = this.testStruct.getNode(value);
+  }
+
   onCreated() {
     this.testStruct = this.cloudScene.manager.getStructure("struct1");
+    this.selectedNode = this.testStruct.rootNode;
     //this.testStruct2 = this.cloudScene.manager.getStructure("struct2");
 
     this.testStruct.displayLinks();

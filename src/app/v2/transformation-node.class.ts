@@ -1,6 +1,8 @@
 import { CloudNode } from './cloud-node.class';
 import { Point } from './interfaces/point.interface';
 import { CloudScene } from './cloud-scene.class';
+import { CloudSettings } from './cloud-settings.class';
+import { RotationType } from './enums/rotation-type.enum';
 
 export class TransformationNode {
 
@@ -48,7 +50,17 @@ export class TransformationNode {
     this.relativePosition = this.getRelativePosition();
     this.basePosition = this.getRelativePosition();
     this.initRotation = this.getAngleWithParent();
-    this.relativeRotation = this.getAngleWithParent();
+
+    switch (CloudSettings.rotationType) {
+
+      case RotationType.NODE_RELATIVE:
+        this.relativeRotation = 0;
+        break
+
+      case RotationType.PARENT_RELATIVE:
+        this.relativeRotation = this.getAngleWithParent();
+        break;
+    }
 
     console.log(this.id, this.relativeRotation);
     // console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
@@ -57,7 +69,7 @@ export class TransformationNode {
   }
 
   get rRot(): number {
-    return this.relativeRotation - this.initRotation;
+    return this.relativeRotation - (CloudSettings.rotationType === RotationType.PARENT_RELATIVE ? this.initRotation : 0);
   }
 
   getAbsoluteRotation(): number {
