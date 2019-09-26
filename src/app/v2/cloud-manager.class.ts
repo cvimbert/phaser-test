@@ -7,6 +7,8 @@ export class CloudManager {
 
   nodes: { [key: string]: CloudNode } = {};
   data: CloudData;
+  structures: string[];
+  mainStructureId: string;
 
   constructor(
     public scene: Phaser.Scene
@@ -17,12 +19,21 @@ export class CloudManager {
   load(data: CloudData) {
     this.data = data;
     this.parsePoints(data);
+    this.parseStructures(data);
   }
 
   parsePoints(data: CloudData) {
     for (let pointName in data.points) {
       let node = new CloudNode(pointName, this.scene, data.points[pointName], this, data.offset);
       this.nodes[pointName] = node;
+    }
+  }
+
+  parseStructures(data: CloudData) {
+    this.structures = Object.keys(data.structures);
+
+    if (this.structures) {
+      this.mainStructureId = this.structures[0];
     }
   }
 
@@ -36,7 +47,7 @@ export class CloudManager {
   }
 
   getStructure(structureId: string): CloudStructure {
-    return new CloudStructure(this.data.structures[structureId], this);
+    return new CloudStructure(this.data.structures[structureId], this, structureId);
   }
 
   getNodes(nodeIds: string[]): CloudNode[] {

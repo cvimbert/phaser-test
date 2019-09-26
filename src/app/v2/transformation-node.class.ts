@@ -150,7 +150,8 @@ export class TransformationNode {
 
     this.node.render();
     this.children.forEach(child => child.render());
-    this.displayLink();
+
+    // this.displayLink();
   }
 
   calculateHypothenus() {
@@ -159,15 +160,23 @@ export class TransformationNode {
     );
   }
 
-  displayLink() {
+  displayLinks(recursive = true, color: number) {
+    this.displayLink(color);
+
+    if (recursive) {
+      this.children.forEach(child => child.displayLinks(true, color));
+    }
+  }
+
+  displayLink(color = 0x000000) {
     if (!this.linkDisplayer) {
       this.linkDisplayer = this.scene.add.graphics({
         lineStyle: {
-          color: 0x000000,
+          color: color,
           width: 2
         },
         fillStyle: {
-          color: 0x000000
+          color: color
         }
       });
     } else {

@@ -4,9 +4,12 @@
   <input type="button" value="Rotation" (click)="rotationWithTween()">
 </div>
 <div class="editor">
-  <div>
-    <select *ngIf="testStruct" [(ngModel)]="selectedNodeId">
-      <option *ngFor="let node of testStruct.nodesList" value="{{ node.id }}">{{ node.id }}</option>
+  <div class="selectors">
+    <select *ngIf="structuresIds" [(ngModel)]="selectedStructureId">
+      <option *ngFor="let id of structuresIds" value="{{ id }}">{{ id }}</option>
+    </select>
+    <select *ngIf="selectedStructure" [(ngModel)]="selectedNodeId">
+      <option *ngFor="let node of selectedStructure.nodesList" value="{{ node.id }}">{{ node.id }}</option>
     </select>
   </div>
   <div *ngIf="selectedNode">

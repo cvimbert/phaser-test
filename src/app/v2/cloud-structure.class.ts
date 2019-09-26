@@ -12,7 +12,8 @@ export class CloudStructure {
 
   constructor(
     data: CloudStructureData,
-    manager: CloudManager
+    manager: CloudManager,
+    public id: string
   ) {
 
     // Il faudra aussi vérifier la cohérence des data, et les potentielles redondances cycliques

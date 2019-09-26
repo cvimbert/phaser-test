@@ -14,12 +14,8 @@ export class CloudViewComponent implements OnInit {
   @ViewChild("canvasContainer") canvasContainer: ElementRef;
   cloudScene: CloudScene;
   game: Game;
-
-  testStruct: CloudStructure;
-  testStruct2: CloudStructure;
-
-  // selectedNodeId: string;
   selectedNode: TransformationNode;
+  selectedStructure: CloudStructure;
 
   constructor() { }
 
@@ -47,19 +43,30 @@ export class CloudViewComponent implements OnInit {
   }
 
   set selectedNodeId(value: string) {
-    this.selectedNode = this.testStruct.getNode(value);
+    this.selectedNode = this.selectedStructure.getNode(value);
+  }
+
+  get structuresIds(): string[] {
+    return this.cloudScene.manager.structures;
+  }
+
+  get selectedStructureId(): string {
+    return this.selectedStructure.id;
+  }
+
+  set selectedStructureId(value: string) {
+    this.selectedStructure = this.cloudScene.manager.getStructure(value);
   }
 
   onCreated() {
-    this.testStruct = this.cloudScene.manager.getStructure("struct1");
-    this.selectedNode = this.testStruct.rootNode;
-    //this.testStruct2 = this.cloudScene.manager.getStructure("struct2");
+    this.selectedStructure = this.cloudScene.manager.getStructure(this.cloudScene.manager.mainStructureId);
+    this.selectedNode = this.selectedStructure.rootNode;
 
-    this.testStruct.displayLinks();
+    // this.selectedStructure.displayLinks();
   }
 
   testTranslateWithTween() {
-    let node = this.testStruct.getNode("p2");
+    let node = this.selectedStructure.getNode("p2");
 
     this.cloudScene.add.tween({
       targets: node.absolutePosition,
@@ -77,7 +84,7 @@ export class CloudViewComponent implements OnInit {
   }
 
   rotationWithTween() {
-    let node = this.testStruct.getNode("p4");
+    let node = this.selectedStructure.getNode("p4");
     console.log(node.relativeRotation);
     
     this.cloudScene.add.tween({
