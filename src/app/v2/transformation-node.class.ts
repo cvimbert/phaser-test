@@ -199,6 +199,7 @@ export class TransformationNode {
   clearOrigin() {
     if (this.originDisplayer) {
       this.originDisplayer.clear();
+      this.originDisplayer = null;
     }
   }
 

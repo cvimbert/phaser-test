@@ -94,7 +94,12 @@ export class CloudNode {
       this.displayer.x = this.x;
       this.displayer.y = this.y;
       this.displayer.rotation = this.rotation;
-      // console.log(this.id, this.rotation, this.x, this.y);
+
+      this.spritesList.forEach(sprite => {
+        sprite.x = this.x;
+        sprite.y = this.y;
+        sprite.rotation = this.rotation;
+      });
     }
   }
 }

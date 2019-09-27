@@ -15,20 +15,20 @@ export class CloudScene extends Phaser.Scene {
         x: 400,
         y: 200,
         sprites: {
-          head: {
+          /*head: {
             file: "head"
-          }
+          }*/
         }
       },
       p2: {
         x: 300,
         y: 200,
         sprites: {
-          rb: {
+          /*rb: {
             file: "rbone1",
             originX: 0,
             originY: 0
-          }
+          }*/
         }
       },
       p3: {
