@@ -25,7 +25,9 @@ export class CloudScene extends Phaser.Scene {
         y: 200,
         sprites: {
           rb: {
-            file: "rbone1"
+            file: "rbone1",
+            originX: 0,
+            originY: 0
           }
         }
       },
@@ -124,14 +126,17 @@ export class CloudScene extends Phaser.Scene {
   }
 
   preload() {
-
+    this.load.setBaseURL("./assets/");
+    
+    let spritesToPreload = this.manager.getSpritesFileList(this.testData);
+    // console.log(spritesToPreload);
+    
+    spritesToPreload.forEach(fileName => this.load.image(fileName, `${ fileName }.png`));
   }
 
   create() {
     this.generateGrid();
     this.manager.load(this.testData);
-    // this.manager.getStructure("struct1");
-
     this.game.events.emit("created");
   }
 

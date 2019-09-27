@@ -10,6 +10,7 @@ export class CloudManager {
   data: CloudData;
   structures: string[];
   mainStructureId: string;
+  globalSpritesScale: number;
 
   constructor(
     public scene: Phaser.Scene
@@ -18,6 +19,7 @@ export class CloudManager {
   }
 
   load(data: CloudData) {
+    this.globalSpritesScale = data.globalSpritesScale || 1;
     this.data = data;
     this.parsePoints(data);
     this.parseStructures(data);
@@ -34,7 +36,12 @@ export class CloudManager {
 
         for (let spriteName in pointData.sprites) {
           let spriteData = pointData.sprites[spriteName];
-          sprites.push(spriteData.file || spriteName);
+          
+          let fileName = spriteData.file || spriteName;
+
+          if (sprites.indexOf(fileName) == -1) {
+            sprites.push(fileName);
+          }
         }
       }
     }
@@ -48,6 +55,10 @@ export class CloudManager {
       this.nodes[pointName] = node;
     }
   }
+
+  // parseSprites(data: CloudPointData, node: CloudNode) {
+
+  // }
 
   parseStructures(data: CloudData) {
     this.structures = Object.keys(data.structures);

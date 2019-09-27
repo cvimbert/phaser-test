@@ -9,6 +9,8 @@ export class CloudNode {
   y: number;
   rotation: number = 0;
 
+  sprites: { [key: string]: Phaser.GameObjects.Sprite } = {};
+  spritesList: Phaser.GameObjects.Sprite[] = [];
 
   constructor(
     public id: string,
@@ -20,6 +22,7 @@ export class CloudNode {
     this.x = data.x + (offset ? offset.x : 0);
     this.y = data.y + (offset ? offset.y : 0);
     this.generateSquareDisplayer(this.x, this.y);
+    this.createSprites();
   }
 
   showDisplayer() {
@@ -35,6 +38,30 @@ export class CloudNode {
 
     this.displayer.fillCircle(0, 0, 3);
     this.displayer.setPosition(this.data.x, this.data.y);
+  }
+
+  createSprites() {
+    if (this.data.sprites) {
+      for (let spriteId in this.data.sprites) {
+        let spriteData = this.data.sprites[spriteId];
+        let spriteFileName = spriteData.file || spriteId;
+  
+        let sprite = this.scene.add.sprite(
+          this.x,
+          this.y,
+          spriteFileName
+        );
+
+        sprite.scale = this.manager.globalSpritesScale;
+        sprite.setOrigin(
+          spriteData.originX !== null ? spriteData.originX : 0.5,
+          spriteData.originY !== null ? spriteData.originY : 0.5
+        );
+  
+        this.sprites[spriteId] = sprite;
+        this.spritesList.push(sprite);
+      }
+    }
   }
 
   generateSquareDisplayer(x: number, y: number) {
