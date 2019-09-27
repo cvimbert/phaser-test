@@ -2,6 +2,7 @@ import { CloudData } from './interfaces/cloud-data.interface';
 import { CloudNode } from './cloud-node.class';
 import { Point } from './interfaces/point.interface';
 import { CloudStructure } from './cloud-structure.class';
+import { CloudPointData } from './interfaces/cloud-point-data.interface';
 
 export class CloudManager {
 
@@ -20,6 +21,25 @@ export class CloudManager {
     this.data = data;
     this.parsePoints(data);
     this.parseStructures(data);
+  }
+
+  getSpritesFileList(data: CloudData): string[] {
+
+    let sprites: string[] = [];
+
+    for (let pointName in data.points) {
+      let pointData = data.points[pointName];
+
+      if (pointData.sprites) {
+
+        for (let spriteName in pointData.sprites) {
+          let spriteData = pointData.sprites[spriteName];
+          sprites.push(spriteData.file || spriteName);
+        }
+      }
+    }
+
+    return sprites;
   }
 
   parsePoints(data: CloudData) {

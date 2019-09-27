@@ -9,14 +9,25 @@ export class CloudScene extends Phaser.Scene {
   manager: CloudManager;
 
   testData: CloudData = {
+    globalSpritesScale: 0.4,
     points: {
       p1: {
         x: 400,
-        y: 200
+        y: 200,
+        sprites: {
+          head: {
+            file: "head"
+          }
+        }
       },
       p2: {
         x: 300,
-        y: 200
+        y: 200,
+        sprites: {
+          rb: {
+            file: "rbone1"
+          }
+        }
       },
       p3: {
         x: 500,

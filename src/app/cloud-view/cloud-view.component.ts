@@ -44,6 +44,10 @@ export class CloudViewComponent implements OnInit {
 
   set selectedNodeId(value: string) {
     this.selectedNode = this.selectedStructure.getNode(value);
+    // this.selectedNode.clearOrigin();
+    this.selectedStructure.clearAllNodesDisplay();
+    this.selectedNode.displayOrigin();
+    this.selectedNode.displayLinks();
   }
 
   get structuresIds(): string[] {
@@ -61,12 +65,14 @@ export class CloudViewComponent implements OnInit {
   onCreated() {
     this.selectedStructure = this.cloudScene.manager.getStructure(this.cloudScene.manager.mainStructureId);
     this.selectedNode = this.selectedStructure.rootNode;
+    this.selectedNode.displayLinks();
+    this.selectedNode.displayOrigin();
 
     // this.selectedStructure.displayLinks();
   }
 
   testTranslateWithTween() {
-    let node = this.selectedStructure.getNode("p2");
+    let node = this.selectedNode;
 
     this.cloudScene.add.tween({
       targets: node.absolutePosition,
@@ -84,7 +90,7 @@ export class CloudViewComponent implements OnInit {
   }
 
   rotationWithTween() {
-    let node = this.selectedStructure.getNode("p4");
+    let node = this.selectedNode;
     console.log(node.relativeRotation);
     
     this.cloudScene.add.tween({

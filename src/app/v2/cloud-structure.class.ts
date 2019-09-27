@@ -51,6 +51,10 @@ export class CloudStructure {
     }
   }
 
+  clearAllNodesDisplay() {
+    this.nodesList.forEach(node => node.clearAllDisplay());
+  }
+
   displayLinks() {
     this.linksDisplayed = true;
     

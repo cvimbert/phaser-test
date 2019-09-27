@@ -32,6 +32,9 @@ export class TransformationNode {
 
   // display
   private linkDisplayer: Phaser.GameObjects.Graphics;
+  private linkEnabled = false;
+
+  private originDisplayer: Phaser.GameObjects.Graphics;
 
   constructor(
     public id: string,
@@ -62,10 +65,11 @@ export class TransformationNode {
         break;
     }
 
-    console.log(this.id, this.relativeRotation);
+    // console.log(this.id, this.relativeRotation);
     // console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
     
     this.calculateHypothenus();
+    // this.displayOrigin();
   }
 
   get rRot(): number {
@@ -146,12 +150,18 @@ export class TransformationNode {
     this.node.y = this.absolutePosition.y;
     this.node.rotation = -this.absoluteRotation || 0;
 
+    if (this.originDisplayer) {
+      this.originDisplayer.x = this.absolutePosition.x;
+      this.originDisplayer.y = this.absolutePosition.y;
+      this.originDisplayer.rotation = -this.absoluteRotation || 0;
+    }
+
     // console.log(this.node.x, this.node.y, this.node.rotation);
 
     this.node.render();
     this.children.forEach(child => child.render());
 
-    // this.displayLink();
+    this.displayLink();
   }
 
   calculateHypothenus() {
@@ -160,15 +170,64 @@ export class TransformationNode {
     );
   }
 
-  displayLinks(recursive = true, color: number) {
-    this.displayLink(color);
+  displayLinks(first = true, recursive = true, color = 0x000000) {
+
+    if (!first) {
+      this.linkEnabled = true;
+      this.displayLink(color);
+    }
 
     if (recursive) {
-      this.children.forEach(child => child.displayLinks(true, color));
+      this.children.forEach(child => child.displayLinks(false, true, color));
+    }
+  }
+
+  clearAllDisplay() {
+    this.clearLink();
+    this.clearOrigin();
+  }
+
+  clearLink() {
+
+    this.linkEnabled = false;
+
+    if (this.linkDisplayer) {
+      this.linkDisplayer.clear();
+    }
+  }
+
+  clearOrigin() {
+    if (this.originDisplayer) {
+      this.originDisplayer.clear();
+    }
+  }
+
+  displayOrigin() {
+
+    if (!this.originDisplayer) {
+      this.originDisplayer = this.scene.add.graphics({
+        lineStyle: {
+          color: 0x000000,
+          width: 2
+        },
+        fillStyle: {
+          color: 0x000000
+        }
+      });
+
+      this.originDisplayer.fillCircle(0, 0, 5);
+      this.originDisplayer.lineBetween(-8, 0, 8, 0);
+      this.originDisplayer.lineBetween(0, -8, 0, 8);
+
+      this.originDisplayer.x = this.node.x;
+      this.originDisplayer.y = this.node.y;
     }
   }
 
   displayLink(color = 0x000000) {
+
+    if (!this.linkEnabled) return;
+
     if (!this.linkDisplayer) {
       this.linkDisplayer = this.scene.add.graphics({
         lineStyle: {

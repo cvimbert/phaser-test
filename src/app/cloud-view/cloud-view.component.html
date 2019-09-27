@@ -1,18 +1,22 @@
-<div #canvasContainer></div>
+<div class="canvas-container" #canvasContainer>
+  <div class="tools">
+    <div class="top-left-panel panel">
+      <div class="selectors">
+        <select *ngIf="structuresIds" [(ngModel)]="selectedStructureId">
+          <option *ngFor="let id of structuresIds" value="{{ id }}">{{ id }}</option>
+        </select>
+        <select *ngIf="selectedStructure" [(ngModel)]="selectedNodeId">
+          <option *ngFor="let node of selectedStructure.nodesList" value="{{ node.id }}">{{ node.id }}</option>
+        </select>
+      </div>
+      <div class="detail" *ngIf="selectedNode">
+        rotation: {{ selectedNode.relativeRotation }}
+      </div>
+    </div>
+    <div class="top-right-panel panel"></div>
+  </div>
+</div>
 <div class="actions">
   <input type="button" value="Translate" (click)="testTranslateWithTween()">
   <input type="button" value="Rotation" (click)="rotationWithTween()">
-</div>
-<div class="editor">
-  <div class="selectors">
-    <select *ngIf="structuresIds" [(ngModel)]="selectedStructureId">
-      <option *ngFor="let id of structuresIds" value="{{ id }}">{{ id }}</option>
-    </select>
-    <select *ngIf="selectedStructure" [(ngModel)]="selectedNodeId">
-      <option *ngFor="let node of selectedStructure.nodesList" value="{{ node.id }}">{{ node.id }}</option>
-    </select>
-  </div>
-  <div *ngIf="selectedNode">
-    {{ selectedNode.relativeRotation }}
-  </div>
 </div>
