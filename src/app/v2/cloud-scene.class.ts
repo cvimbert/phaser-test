@@ -1,7 +1,5 @@
 import { CloudManager } from './cloud-manager.class';
 import { CloudData } from './interfaces/cloud-data.interface';
-import { SquareDisplayer } from './displayers/square-displayer.class';
-import { CloudNode } from './cloud-node.class';
 
 export class CloudScene extends Phaser.Scene {
 
@@ -77,45 +75,6 @@ export class CloudScene extends Phaser.Scene {
       }
     }
   };
-
-  testData2: CloudData = {
-    offset: {
-      x: 0,
-      y: 100
-    },
-    points: {
-      p1: {
-        x: 400,
-        y: 200
-      },
-      p2: {
-        x: 400,
-        y: 300
-      },
-      p3: {
-        x: 500,
-        y: 400
-      }
-    },
-    structures: {
-      struct1: {
-        root: "p1",
-        links: {
-          p1: ["p2"],
-          p2: ["p3"],
-          p3: []
-        }
-      },
-      struct2: {
-        root: "p3",
-        links: {
-          p3: ["p2"],
-          p2: ["p1"],
-          p1: []
-        }
-      }
-    }
-  }
 
   constructor() {
     super({

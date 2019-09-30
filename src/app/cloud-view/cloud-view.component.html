@@ -10,10 +10,22 @@
         </select>
       </div>
       <div class="detail" *ngIf="selectedNode">
-        rotation: {{ selectedNode.relativeRotation }}
+        rotation: {{ selectedNode.relativeRotation | toDegrees }}
       </div>
     </div>
-    <div class="top-right-panel panel"></div>
+    <div class="top-right-panel panel">
+      <div class="action-buttons">
+        <div class="action-button"
+          [class.selected]="currentTransformationMode === 'rotation'"
+          (click)="selectMode('rotation')">R</div>
+        <div class="action-button"
+          [class.selected]="currentTransformationMode === 'translation'"
+          (click)="selectMode('translation')">T</div>
+        <div class="action-button"
+          [class.selected]="currentTransformationMode === 'scale'"
+          (click)="selectMode('scale')">S</div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="actions">

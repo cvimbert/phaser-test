@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ToDegreesPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
+  transform(value: number): number {
     return Math.floor((value / 2 * Math.PI) * 360);
   }
 
