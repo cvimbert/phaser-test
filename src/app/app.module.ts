@@ -12,6 +12,8 @@ import { NodeEditorService } from './node-editor.service';
 import { TreeViewComponent } from './tree-view/tree-view.component';
 import { RobotViewComponent } from './robot-view/robot-view.component';
 import { CloudViewComponent } from './cloud-view/cloud-view.component';
+import { InspectionPanelComponent } from './v2/components/inspection-panel/inspection-panel.component';
+import { NumericValueComponent } from './v2/components/numeric-value/numeric-value.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { CloudViewComponent } from './cloud-view/cloud-view.component';
     NodeEditorComponent,
     TreeViewComponent,
     RobotViewComponent,
-    CloudViewComponent
+    CloudViewComponent,
+    InspectionPanelComponent,
+    NumericValueComponent
   ],
   imports: [
     BrowserModule,

@@ -28,6 +28,7 @@
     </div>
   </div>
 </div>
+<app-inspection-panel *ngIf="selectedNode" [currentMode]="currentTransformationMode" [node]="selectedNode"></app-inspection-panel>
 <div class="actions">
   <input type="button" value="Translate" (click)="testTranslateWithTween()">
   <input type="button" value="Rotation" (click)="rotationWithTween()">

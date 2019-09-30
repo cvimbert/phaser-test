@@ -1,7 +1,14 @@
+app-inspection-panel {
+  display: inline-block;
+  vertical-align: top;
+  // height: 800px;
+}
+
 .canvas-container {
   position: relative;
   width: 800px;
   height: 600px;
+  display: inline-block;
 
   .action-buttons {
     text-align: right;

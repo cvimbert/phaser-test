@@ -1,0 +1,21 @@
+.node-inspector {
+  width: 200px;
+  padding-left: 8px;
+  // height: 100%;
+  //border: 1px solid black;
+  border-left: none;
+
+  .properties-group {
+    font-weight: bold;
+    margin-top: 8px;
+  }
+
+  .main-title {
+    text-decoration: underline;
+    font-size: 18px;
+
+    .big {
+      font-weight: bold;
+    }
+  }
+}
