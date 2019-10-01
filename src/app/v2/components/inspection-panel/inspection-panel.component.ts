@@ -23,6 +23,11 @@ export class InspectionPanelComponent implements OnInit {
   // à voir
   toggleNamesVisiblity(visibility: boolean) {
     
+    if (visibility) {
+      this.inspectionService.selectedStructure.displayAllNames();
+    } else {
+      this.inspectionService.selectedStructure.clearAllNames();
+    }
   }
 
 }

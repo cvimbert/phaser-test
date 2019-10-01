@@ -5,6 +5,7 @@ import { CloudStructure } from '../v2/cloud-structure.class';
 import { TransformationNode } from '../v2/transformation-node.class';
 import { TransformationMode } from '../v2/enums/transformation-mode.enum';
 import { Point } from '../v2/interfaces/point.interface';
+import { InspectionService } from '../v2/services/inspection.service';
 
 @Component({
   selector: 'app-cloud-view',
@@ -25,7 +26,9 @@ export class CloudViewComponent implements OnInit {
   initRotationAngle: number;
   startTranslationPoint: Point;
 
-  constructor() { }
+  constructor(
+    public inspectionService: InspectionService
+  ) { }
 
   ngOnInit() {
     this.cloudScene = new CloudScene();
@@ -90,12 +93,13 @@ export class CloudViewComponent implements OnInit {
   }
 
   selectNodeByIndex(index: number) {
-  // utilisation de l'id pour le getter de combo box
-  this.selectedNodeId = this.selectedStructure.nodesList[index].id;
+    // utilisation de l'id pour le getter de combo box
+    this.selectedNodeId = this.selectedStructure.nodesList[index].id;
   }
 
   onCreated() {
     this.selectedStructure = this.cloudScene.manager.getStructure(this.cloudScene.manager.mainStructureId);
+    this.inspectionService.selectedStructure = this.selectedStructure;
     this.selectedNode = this.selectedStructure.rootNode;
     this.selectedNode.displayLinks();
     this.selectedNode.displayOrigin();
@@ -191,6 +195,7 @@ export class CloudViewComponent implements OnInit {
 
   set selectedStructureId(value: string) {
     this.selectedStructure = this.cloudScene.manager.getStructure(value);
+    this.inspectionService.selectedStructure = this.selectedStructure;
   }
 
   testTranslateWithTween() {

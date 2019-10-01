@@ -9,7 +9,7 @@ export class BooleanValueComponent implements OnInit {
 
   @Input("name") name: string;
   @Input("value") value: boolean;
-  @Output("change") change = new EventEmitter<boolean>();
+  @Output("changeValue") changeValue = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -22,7 +22,7 @@ export class BooleanValueComponent implements OnInit {
 
   set val(value: boolean) {
     this.value = value;
-    this.change.emit(value);
+    this.changeValue.emit(value);
   }
 
 }

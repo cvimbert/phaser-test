@@ -25,7 +25,7 @@ export class NodeVector {
     y: 0
   };
 
-  basePosition: Point;
+  ownPosition: Point;
 
 
   get rRot(): number {
@@ -75,7 +75,7 @@ export class NodeVector {
       y: this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0)
     };
 
-    this.basePosition = {
+    this.ownPosition = {
       x: this.relativePosition.x,
       y: this.relativePosition.y
     };
@@ -91,8 +91,8 @@ export class NodeVector {
 
     // calcul des nouvelles positions relatives
     // parent.absoluteRotation ou absoluteRotation tout court, deux choix valables
-    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.x;
-    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.y;
+    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.ownPosition.x;
+    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.ownPosition.y;
 
     // calcul des positions absolues
     this.absolutePosition = {

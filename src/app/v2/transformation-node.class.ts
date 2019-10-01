@@ -26,6 +26,12 @@ export class TransformationNode extends NodeVector {
     super();
   }
 
+  // settings
+  private nameOffset: Point = {
+    x: 30,
+    y: -9
+  }
+
   initGeometry() {
 
     this.absolutePosition = {
@@ -34,7 +40,7 @@ export class TransformationNode extends NodeVector {
     };
 
     this.relativePosition = this.getRelativePosition();
-    this.basePosition = this.getRelativePosition();
+    this.ownPosition = this.getRelativePosition();
     this.initRotation = this.getAngleWithParent();
 
     switch (CloudSettings.rotationType) {
@@ -49,7 +55,7 @@ export class TransformationNode extends NodeVector {
     }
     
     this.calculateHypothenus();
-    this.displayNodeName();
+    // this.displayNodeName();
   }
 
   // à passer dans NodeVector ?
@@ -78,8 +84,8 @@ export class TransformationNode extends NodeVector {
     }
 
     if (this.nameDisplay) {
-      this.nameDisplay.x = this.absolutePosition.x + 30;
-      this.nameDisplay.y = this. absolutePosition.y - 9;
+      this.nameDisplay.x = Math.floor(this.absolutePosition.x + this.nameOffset.x);
+      this.nameDisplay.y = Math.floor(this. absolutePosition.y + this.nameOffset.y);
     }
 
     // console.log(this.node.x, this.node.y, this.node.rotation);
@@ -117,7 +123,9 @@ export class TransformationNode extends NodeVector {
   }
 
   displayNodeName() {
-    this.nameDisplay = this.scene.add.text(this.absolutePosition.x + 25, this.absolutePosition.y - 9, this.id, {
+    if (this.nameDisplay) return;
+
+    this.nameDisplay = this.scene.add.text(this.absolutePosition.x + this.nameOffset.x, this.absolutePosition.y + this.nameOffset.y, this.id, {
       fontFamily: 'Arial',
       fontSize: 14,
       color: "#000000"
@@ -126,6 +134,7 @@ export class TransformationNode extends NodeVector {
 
   clearNodeName() {
     if (this.nameDisplay) {
+      this.scene.children.remove(this.nameDisplay);
       this.nameDisplay.destroy();
       this.nameDisplay = null;
     }
