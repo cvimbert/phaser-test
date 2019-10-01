@@ -17,6 +17,7 @@ export class TransformationNode extends NodeVector {
   private linkEnabled = false;
 
   private originDisplayer: Phaser.GameObjects.Graphics;
+  private nameDisplay: Phaser.GameObjects.Text;
 
   constructor(
     public id: string,
@@ -48,6 +49,7 @@ export class TransformationNode extends NodeVector {
     }
     
     this.calculateHypothenus();
+    this.displayNodeName();
   }
 
   // à passer dans NodeVector ?
@@ -73,6 +75,11 @@ export class TransformationNode extends NodeVector {
       this.originDisplayer.x = this.absolutePosition.x;
       this.originDisplayer.y = this.absolutePosition.y;
       this.originDisplayer.rotation = -this.absoluteRotation || 0;
+    }
+
+    if (this.nameDisplay) {
+      this.nameDisplay.x = this.absolutePosition.x + 30;
+      this.nameDisplay.y = this. absolutePosition.y - 9;
     }
 
     // console.log(this.node.x, this.node.y, this.node.rotation);
@@ -106,6 +113,21 @@ export class TransformationNode extends NodeVector {
 
     if (this.linkDisplayer) {
       this.linkDisplayer.clear();
+    }
+  }
+
+  displayNodeName() {
+    this.nameDisplay = this.scene.add.text(this.absolutePosition.x + 25, this.absolutePosition.y - 9, this.id, {
+      fontFamily: 'Arial',
+      fontSize: 14,
+      color: "#000000"
+    }).setBackgroundColor("#ffffff").setDepth(20);
+  }
+
+  clearNodeName() {
+    if (this.nameDisplay) {
+      this.nameDisplay.destroy();
+      this.nameDisplay = null;
     }
   }
 
