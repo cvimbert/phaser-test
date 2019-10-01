@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CloudScene } from '../v2/cloud-scene.class';
 import { Game } from 'phaser';
 import { CloudStructure } from '../v2/cloud-structure.class';
@@ -44,6 +44,54 @@ export class CloudViewComponent implements OnInit {
 
     this.game = new Game(config);
     this.game.events.on("created", this.onCreated, this);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(evt: KeyboardEvent) {
+    switch (evt.key) {
+      case "a":
+        this.selectMode(TransformationMode.ROTATION);
+        break;
+
+      case "z":
+        this.selectMode(TransformationMode.TRANSLATION);
+        break;
+
+      case "e":
+        this.selectMode(TransformationMode.SCALE);
+        break;
+
+      case "q":
+        this.selectPreviousNode();
+        break;
+
+      case "s":
+        this.selectNextNode();
+        break;
+    }
+  }
+
+  selectPreviousNode() {
+    let index = this.selectedStructure.nodesList.indexOf(this.selectedNode);
+    index--;
+
+    if (index < 0) index = this.selectedStructure.nodesList.length - 1;
+    
+    this.selectNodeByIndex(index);
+  }
+
+  selectNextNode() {
+    let index = this.selectedStructure.nodesList.indexOf(this.selectedNode);
+    index++;
+
+    if (index >= this.selectedStructure.nodesList.length) index = 0;
+
+    this.selectNodeByIndex(index);
+  }
+
+  selectNodeByIndex(index: number) {
+  // utilisation de l'id pour le getter de combo box
+  this.selectedNodeId = this.selectedStructure.nodesList[index].id;
   }
 
   onCreated() {
