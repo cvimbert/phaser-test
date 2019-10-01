@@ -64,12 +64,8 @@ export class TransformationNode {
         this.relativeRotation = this.getAngleWithParent();
         break;
     }
-
-    // console.log(this.id, this.relativeRotation);
-    // console.log(this.parent ? this.parent.node.id : "*", this.node.id, this.relativeRotation);
     
     this.calculateHypothenus();
-    // this.displayOrigin();
   }
 
   get rRot(): number {
@@ -118,6 +114,22 @@ export class TransformationNode {
     this.children.forEach(child => child.calculateGeometry());
   }
 
+  absoluteTranslationEnd() {
+    // calcul de la position relative
+    this.relativePosition = {
+      x: this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0),
+      y: this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0)
+    };
+
+    this.basePosition = {
+      x: this.relativePosition.x,
+      y: this.relativePosition.y
+    };
+
+    // à priori pas utile, car pas de changement de position relative chez les enfants du node
+    // this.children.forEach(child => child.absoluteTranslationEnd());
+  }
+
   applyRelativeTranslation() {
     this.calculateGeometry();
   }
@@ -126,14 +138,10 @@ export class TransformationNode {
 
     this.absoluteRotation = this.rRot + (this.parent ? this.parent.absoluteRotation : 0);
 
-    // console.log(this.absoluteRotation);
-
     // calcul des nouvelles positions relatives
     // parent.absoluteRotation ou absoluteRotation tout court, deux choix valables
     this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.x;
     this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.basePosition.y;
-
-    // console.log(this.parent.absolutePosition);
 
     // calcul des positions absolues
     this.absolutePosition = {
@@ -222,6 +230,7 @@ export class TransformationNode {
 
       this.originDisplayer.x = this.node.x;
       this.originDisplayer.y = this.node.y;
+      this.originDisplayer.rotation = -this.absoluteRotation;
     }
   }
 

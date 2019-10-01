@@ -77,6 +77,12 @@ export class CloudViewComponent implements OnInit {
 
   onPointerUp() {
     this.cloudScene.input.off("pointermove", this.onPointerMove, this);
+
+    switch (this.currentTransformationMode) {
+      case TransformationMode.TRANSLATION:        
+        this.selectedNode.absoluteTranslationEnd();
+        break;
+    }
   }
 
   onPointerMove(pointer: Phaser.Input.Pointer) {
@@ -120,7 +126,6 @@ export class CloudViewComponent implements OnInit {
 
   set selectedNodeId(value: string) {
     this.selectedNode = this.selectedStructure.getNode(value);
-    // this.selectedNode.clearOrigin();
     this.selectedStructure.clearAllNodesDisplay();
     this.selectedNode.displayOrigin();
     this.selectedNode.displayLinks();
@@ -153,6 +158,7 @@ export class CloudViewComponent implements OnInit {
         node.render();
       },
       onComplete: () => {
+        node.absoluteTranslationEnd();
         console.log("Tween complete");
       }
     });

@@ -1,4 +1,4 @@
-<div class="canvas-container" #canvasContainer>
+<div class="canvas-container {{ currentTransformationMode }}" #canvasContainer>
   <div class="tools">
     <div class="top-left-panel panel">
       <div class="selectors">
@@ -8,9 +8,6 @@
         <select *ngIf="selectedStructure" [(ngModel)]="selectedNodeId">
           <option *ngFor="let node of selectedStructure.nodesList" value="{{ node.id }}">{{ node.id }}</option>
         </select>
-      </div>
-      <div class="detail" *ngIf="selectedNode">
-        rotation: {{ selectedNode.relativeRotation | toDegrees }}
       </div>
     </div>
     <div class="top-right-panel panel">

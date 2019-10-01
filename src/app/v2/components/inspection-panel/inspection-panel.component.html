@@ -1,6 +1,7 @@
 <div class="node-inspector">
   <div class="properties-group">Transformation mode</div>
   <div>{{ currentMode }}</div>
+  <br>
   <div class="main-title"><span class="big">{{ node.id }}</span></div>
   <div class="properties-group">Rotation</div>
   <numeric-value name="relative" [value]="node.relativeRotation | toDegrees"></numeric-value>
@@ -11,4 +12,6 @@
   <div class="properties-group">Absolute position</div>
   <numeric-value name="X" [value]="node.absolutePosition.x"></numeric-value>
   <numeric-value name="Y" [value]="node.absolutePosition.y"></numeric-value>
+  <br>
+  <boolean-value name="Display names" [value]="false" (change)="toggleNamesVisiblity($event)"></boolean-value>
 </div>

@@ -14,6 +14,9 @@ import { RobotViewComponent } from './robot-view/robot-view.component';
 import { CloudViewComponent } from './cloud-view/cloud-view.component';
 import { InspectionPanelComponent } from './v2/components/inspection-panel/inspection-panel.component';
 import { NumericValueComponent } from './v2/components/numeric-value/numeric-value.component';
+import { BooleanValueComponent } from './v2/components/boolean-value/boolean-value.component';
+import { InspectionService } from './v2/services/inspection.service';
+import { FlooredPipe } from './v2/pipes/floored.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { NumericValueComponent } from './v2/components/numeric-value/numeric-val
     RobotViewComponent,
     CloudViewComponent,
     InspectionPanelComponent,
-    NumericValueComponent
+    NumericValueComponent,
+    BooleanValueComponent,
+    FlooredPipe
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,8 @@ import { NumericValueComponent } from './v2/components/numeric-value/numeric-val
     ToDegreesPipe
   ],
   providers: [
-    NodeEditorService
+    NodeEditorService,
+    InspectionService
   ],
   bootstrap: [AppComponent]
 })

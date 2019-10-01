@@ -10,6 +10,18 @@ app-inspection-panel {
   height: 600px;
   display: inline-block;
 
+  &.rotation {
+    cursor: grab;
+  }
+
+  &.translation {
+    cursor: move;
+  }
+
+  &.scale {
+    cursor: n-resize;
+  }
+
   .action-buttons {
     text-align: right;
     padding-right: 4px;
