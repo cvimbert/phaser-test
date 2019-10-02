@@ -51,25 +51,31 @@ export class CloudViewComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(evt: KeyboardEvent) {
+    
     switch (evt.key) {
-      case "a":
+      case "r":
         this.selectMode(TransformationMode.ROTATION);
         break;
 
-      case "z":
+      case "t":
         this.selectMode(TransformationMode.TRANSLATION);
         break;
 
-      case "e":
+      case "s":
         this.selectMode(TransformationMode.SCALE);
         break;
 
-      case "q":
+      case "ArrowLeft":
         this.selectPreviousNode();
         break;
 
-      case "s":
+      case "ArrowRight":
         this.selectNextNode();
+        break;
+
+      case "n":
+        // toggle des node names
+
         break;
     }
   }
@@ -133,6 +139,7 @@ export class CloudViewComponent implements OnInit {
     switch (this.currentTransformationMode) {
       case TransformationMode.TRANSLATION:        
         this.selectedNode.absoluteTranslationEnd();
+        this.selectedNode.render();
         break;
     }
   }

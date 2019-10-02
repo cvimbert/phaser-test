@@ -1,6 +1,5 @@
 import { CloudNode } from './cloud-node.class';
 import { Point } from './interfaces/point.interface';
-import { CloudScene } from './cloud-scene.class';
 import { CloudSettings } from './cloud-settings.class';
 import { RotationType } from './enums/rotation-type.enum';
 import { NodeVector } from './node-vector.class';
@@ -19,17 +18,17 @@ export class TransformationNode extends NodeVector {
   private originDisplayer: Phaser.GameObjects.Graphics;
   private nameDisplay: Phaser.GameObjects.Text;
 
+  // settings
+  private nameOffset: Point = {
+    x: 30,
+    y: -9
+  }
+
   constructor(
     public id: string,
     private scene: Phaser.Scene
   ) {
     super();
-  }
-
-  // settings
-  private nameOffset: Point = {
-    x: 30,
-    y: -9
   }
 
   initGeometry() {
@@ -46,7 +45,7 @@ export class TransformationNode extends NodeVector {
     switch (CloudSettings.rotationType) {
 
       case RotationType.NODE_RELATIVE:
-        this.relativeRotation = 0;
+        this.relativeRotation = this.node.rotation;
         break
 
       case RotationType.PARENT_RELATIVE:
@@ -55,7 +54,6 @@ export class TransformationNode extends NodeVector {
     }
     
     this.calculateHypothenus();
-    // this.displayNodeName();
   }
 
   // à passer dans NodeVector ?

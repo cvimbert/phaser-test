@@ -37,8 +37,10 @@ export class NodeVector {
   }
 
   getAngleWithParent(): number {
-    // console.log(this.id, this.relativePosition);
-    return Math.atan2(this.parent ? this.relativePosition.y : 0, this.parent ? this.relativePosition.x : 0);
+    let xv = this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0);
+    let yv = this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0);
+
+    return Math.atan2(yv, xv);
   }
 
   // temporaire
@@ -55,9 +57,15 @@ export class NodeVector {
   }
 
   calculateHypothenus() {
+    let xv = this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0);
+    let yv = this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0);
+    
     this.hypothenus = Math.sqrt(
-      Math.pow(this.relativePosition.x, 2) + Math.pow(this.relativePosition.y, 2)
+      Math.pow(xv, 2) + Math.pow(yv, 2)
     );
+
+    // console.log(this.hypothenus);
+    
   }
 
   calculateChildren() {
@@ -70,14 +78,32 @@ export class NodeVector {
 
   absoluteTranslationEnd() {
     // calcul de la position relative
-    this.relativePosition = {
-      x: this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0),
-      y: this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0)
-    };
 
+    // c'est sûrement là que le calcule de position n'est pas correct
+    // à ramener dans un autre repère
+
+    this.calculateHypothenus();
+    this.initRotation = this.getAngleWithParent();
+
+    this.relativePosition = {
+      x: Math.cos(this.initRotation) * this.hypothenus,
+      y: Math.sin(this.initRotation) * this.hypothenus
+    }
+
+    // this.relativePosition = {
+    //   x: this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0),
+    //   y: this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0)
+    // };
+
+    
+    // this.relativeRotation = this.getAngleWithParent();
+    
+
+    // du coup, est-ce-que ownPosition est vraiment utile ?
+    // tentative de suppression
     this.ownPosition = {
-      x: this.relativePosition.x,
-      y: this.relativePosition.y
+      x: 0,
+      y: 0
     };
   }
 
@@ -91,8 +117,8 @@ export class NodeVector {
 
     // calcul des nouvelles positions relatives
     // parent.absoluteRotation ou absoluteRotation tout court, deux choix valables
-    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.ownPosition.x;
-    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.ownPosition.y;
+    this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.relativePosition.x;
+    this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.relativePosition.y;
 
     // calcul des positions absolues
     this.absolutePosition = {
