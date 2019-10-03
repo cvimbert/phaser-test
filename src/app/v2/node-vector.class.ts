@@ -32,6 +32,13 @@ export class NodeVector {
     return this.relativeRotation - (CloudSettings.rotationType === RotationType.PARENT_RELATIVE ? this.initRotation : 0);
   }
 
+  getRelativePosition(): Point {
+    return {
+      x: this.parent ? this.absolutePosition.x - this.parent.absolutePosition.x : this.absolutePosition.x,
+      y: this.parent ? this.absolutePosition.y - this.parent.absolutePosition.y : this.absolutePosition.y
+    }
+  }
+
   getAbsoluteRotation(): number {
     return this.rRot + (this.parent ? this.parent.absoluteRotation : 0);
   }
@@ -62,10 +69,7 @@ export class NodeVector {
     
     this.hypothenus = Math.sqrt(
       Math.pow(xv, 2) + Math.pow(yv, 2)
-    );
-
-    // console.log(this.hypothenus);
-    
+    );    
   }
 
   calculateChildren() {
@@ -74,38 +78,6 @@ export class NodeVector {
 
   applyAbsoluteTranslation() {
     this.children.forEach(child => child.calculateGeometry());
-  }
-
-  // plus utile
-  absoluteTranslationEnd() {
-    // calcul de la position relative
-
-    // c'est sûrement là que le calcule de position n'est pas correct
-    // à ramener dans un autre repère
-
-    this.calculateHypothenus();
-    this.initRotation = this.getAngleWithParent();
-
-    this.relativePosition = {
-      x: Math.cos(this.initRotation) * this.hypothenus,
-      y: Math.sin(this.initRotation) * this.hypothenus
-    }
-
-    // this.relativePosition = {
-    //   x: this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0),
-    //   y: this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0)
-    // };
-
-    
-    // this.relativeRotation = this.getAngleWithParent();
-    
-
-    // du coup, est-ce-que ownPosition est vraiment utile ?
-    // tentative de suppression
-    this.ownPosition = {
-      x: 0,
-      y: 0
-    };
   }
 
   applyRelativeTranslation() {

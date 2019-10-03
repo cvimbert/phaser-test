@@ -75,7 +75,7 @@ export class CloudViewComponent implements OnInit {
 
       case "n":
         // toggle des node names
-
+        this.inspectionService.namesAreDisplayed = !this.inspectionService.namesAreDisplayed;
         break;
     }
   }
@@ -139,7 +139,6 @@ export class CloudViewComponent implements OnInit {
     switch (this.currentTransformationMode) {
       case TransformationMode.TRANSLATION:        
         this.selectedNode.calculateByAbsolutePosition(false, false);
-        // this.selectedNode.render();
         break;
     }
   }
@@ -218,7 +217,7 @@ export class CloudViewComponent implements OnInit {
         node.render();
       },
       onComplete: () => {
-        node.absoluteTranslationEnd();
+        node.calculateByAbsolutePosition(false, false);
         console.log("Tween complete");
       }
     });

@@ -45,17 +45,12 @@ export class TransformationNode extends NodeVector {
     this.relativePosition = this.getRelativePosition();
     this.ownPosition = this.getRelativePosition();
 
-    if (!init) {
-      console.log("ici");
-      
+    if (!init) {      
       this.initRotation = this.getAngleWithParent() + (this.parent ? this.parent.relativeRotation : 0);
-    } else {
-      console.log("là");
-      
+    } else {      
       this.initRotation = this.getAngleWithParent();
     }
 
-    
     if (init) {
       
       switch (CloudSettings.rotationType) {
@@ -70,22 +65,10 @@ export class TransformationNode extends NodeVector {
       }
     }
     
-    
     this.calculateHypothenus();
-
-    // console.log(this.relativeRotation);
-    
 
     if (recursive) {
       this.children.forEach(child => child.calculateByAbsolutePosition(recursive, init));
-    }
-  }
-
-  // à passer dans NodeVector ?
-  getRelativePosition(): Point {
-    return {
-      x: this.parent ? this.absolutePosition.x - this.parent.absolutePosition.x : this.absolutePosition.x,
-      y: this.parent ? this.absolutePosition.y - this.parent.absolutePosition.y : this.absolutePosition.y
     }
   }
 

@@ -8,9 +8,6 @@
   <numeric-value name="init" [value]="node.initRotation | toDegrees"></numeric-value>
   <numeric-value name="relative" [value]="node.relativeRotation | toDegrees"></numeric-value>
   <numeric-value name="absolute" [value]="node.absoluteRotation | toDegrees"></numeric-value>
-  <div class="properties-group">Own position</div>
-  <numeric-value name="X" [value]="node.ownPosition.x"></numeric-value>
-  <numeric-value name="Y" [value]="node.ownPosition.y"></numeric-value>
   <div class="properties-group">Relative position</div>
   <numeric-value name="X" [value]="node.relativePosition.x"></numeric-value>
   <numeric-value name="Y" [value]="node.relativePosition.y"></numeric-value>
@@ -18,5 +15,5 @@
   <numeric-value name="X" [value]="node.absolutePosition.x"></numeric-value>
   <numeric-value name="Y" [value]="node.absolutePosition.y"></numeric-value>
   <br>
-  <boolean-value name="Display names" [value]="false" (changeValue)="toggleNamesVisiblity($event)"></boolean-value>
+  <boolean-value name="Display names" [value]="inspectionService.namesAreDisplayed" (changeValue)="toggleNamesVisiblity($event)"></boolean-value>
 </div>

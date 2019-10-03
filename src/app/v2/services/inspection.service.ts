@@ -7,6 +7,7 @@ import { CloudStructure } from '../cloud-structure.class';
 export class InspectionService {
 
   selectedStructure: CloudStructure;
+  namesAreDisplayed = true;
 
   constructor() { }
 }
