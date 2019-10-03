@@ -76,6 +76,7 @@ export class NodeVector {
     this.children.forEach(child => child.calculateGeometry());
   }
 
+  // plus utile
   absoluteTranslationEnd() {
     // calcul de la position relative
 
@@ -117,6 +118,8 @@ export class NodeVector {
 
     // calcul des nouvelles positions relatives
     // parent.absoluteRotation ou absoluteRotation tout court, deux choix valables
+
+    // c'est probablement ce calcul-ci qui ne retourne pas les bonnes valeurs dans certains cas
     this.relativePosition.x = this.parent ? Math.cos(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.relativePosition.x;
     this.relativePosition.y = this.parent ? Math.sin(this.initRotation - this.parent.absoluteRotation) * this.hypothenus : this.relativePosition.y;
 

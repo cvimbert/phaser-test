@@ -138,8 +138,8 @@ export class CloudViewComponent implements OnInit {
 
     switch (this.currentTransformationMode) {
       case TransformationMode.TRANSLATION:        
-        this.selectedNode.absoluteTranslationEnd();
-        this.selectedNode.render();
+        this.selectedNode.calculateByAbsolutePosition(false, false);
+        // this.selectedNode.render();
         break;
     }
   }

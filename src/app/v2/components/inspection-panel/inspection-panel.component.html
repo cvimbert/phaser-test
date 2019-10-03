@@ -3,7 +3,9 @@
   <div>{{ currentMode }}</div>
   <br>
   <div class="main-title"><span class="big">{{ node.id }}</span></div>
+  <numeric-value name="hypothenus" [value]="node.hypothenus"></numeric-value>
   <div class="properties-group">Rotation</div>
+  <numeric-value name="init" [value]="node.initRotation | toDegrees"></numeric-value>
   <numeric-value name="relative" [value]="node.relativeRotation | toDegrees"></numeric-value>
   <numeric-value name="absolute" [value]="node.absoluteRotation | toDegrees"></numeric-value>
   <div class="properties-group">Own position</div>
