@@ -244,4 +244,8 @@ export class CloudViewComponent implements OnInit {
       }
     });
   }
+
+  createState() {
+    
+  }
 }

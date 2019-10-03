@@ -1,8 +1,6 @@
 import { CloudData } from './interfaces/cloud-data.interface';
 import { CloudNode } from './cloud-node.class';
-import { Point } from './interfaces/point.interface';
 import { CloudStructure } from './cloud-structure.class';
-import { CloudPointData } from './interfaces/cloud-point-data.interface';
 
 export class CloudManager {
 
