@@ -45,6 +45,7 @@ export class TransformationNode extends NodeVector {
     this.relativePosition = this.getRelativePosition();
     this.ownPosition = this.getRelativePosition();
 
+    // ces deux cas doivent pouvoir être fusionnés
     if (!init) {      
       this.initRotation = this.getAngleWithParent() + (this.parent ? this.parent.absoluteRotation : 0);
     } else {      

@@ -9,6 +9,7 @@ export class BooleanValueComponent implements OnInit {
 
   @Input("name") name: string;
   @Input("value") value: boolean;
+  @Input("did") did: string;
   @Output("changeValue") changeValue = new EventEmitter<boolean>();
 
   constructor() { }

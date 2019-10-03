@@ -28,6 +28,8 @@ export class InspectionPanelComponent implements OnInit {
     } else {
       this.inspectionService.selectedStructure.clearAllNames();
     }
+
+    this.inspectionService.namesAreDisplayed = visibility;
   }
 
 }

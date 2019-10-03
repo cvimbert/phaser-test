@@ -76,6 +76,7 @@ export class CloudViewComponent implements OnInit {
       case "n":
         // toggle des node names
         this.inspectionService.namesAreDisplayed = !this.inspectionService.namesAreDisplayed;
+        this.selectedStructure.displayNames(this.inspectionService.namesAreDisplayed);
         break;
     }
   }
@@ -112,6 +113,8 @@ export class CloudViewComponent implements OnInit {
 
     this.cloudScene.input.on("pointerdown", this.onPointerDown, this);
     this.cloudScene.input.on("pointerup", this.onPointerUp, this);
+
+    this.selectedStructure.displayNames(this.inspectionService.namesAreDisplayed);
   }
 
   onPointerDown(pointer: Phaser.Input.Pointer) {

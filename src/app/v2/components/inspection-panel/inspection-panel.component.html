@@ -5,7 +5,7 @@
   <div class="main-title"><span class="big">{{ node.id }}</span></div>
   <numeric-value name="hypothenus" [value]="node.hypothenus"></numeric-value>
   <div class="properties-group">Rotation</div>
-  <numeric-value name="init" [value]="node.initRotation | toDegrees"></numeric-value>
+  <numeric-value name="own" [value]="node.initRotation | toDegrees"></numeric-value>
   <numeric-value name="relative" [value]="node.relativeRotation | toDegrees"></numeric-value>
   <numeric-value name="absolute" [value]="node.absoluteRotation | toDegrees"></numeric-value>
   <div class="properties-group">Relative position</div>
@@ -15,5 +15,5 @@
   <numeric-value name="X" [value]="node.absolutePosition.x"></numeric-value>
   <numeric-value name="Y" [value]="node.absolutePosition.y"></numeric-value>
   <br>
-  <boolean-value name="Display names" [value]="inspectionService.namesAreDisplayed" (changeValue)="toggleNamesVisiblity($event)"></boolean-value>
+  <boolean-value did="names" name="Display names" [value]="inspectionService.namesAreDisplayed" (changeValue)="toggleNamesVisiblity($event)"></boolean-value>
 </div>

@@ -72,6 +72,14 @@ export class CloudStructure {
     this.nodesList.forEach(node => node.clearNodeName());
   }
 
+  displayNames(displayed: boolean) {
+    if (displayed) {
+      this.displayAllNames();
+    } else {
+      this.clearAllNames();
+    }
+  }
+
   getNodes(ids: string[]): TransformationNode[] {
     return ids.map(id => this.getNode(id));
   }
