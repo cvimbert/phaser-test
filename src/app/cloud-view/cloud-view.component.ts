@@ -6,6 +6,7 @@ import { TransformationNode } from '../v2/transformation-node.class';
 import { TransformationMode } from '../v2/enums/transformation-mode.enum';
 import { Point } from '../v2/interfaces/point.interface';
 import { InspectionService } from '../v2/services/inspection.service';
+import { CloudState } from '../v2/cloud-state.class';
 
 @Component({
   selector: 'app-cloud-view',
@@ -246,6 +247,7 @@ export class CloudViewComponent implements OnInit {
   }
 
   createState() {
-    
+    let state = CloudState.fromNodesList(this.selectedStructure, this.selectedStructure.nodesList);
+    console.log(state.toJson());
   }
 }
