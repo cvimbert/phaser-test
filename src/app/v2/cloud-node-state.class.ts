@@ -8,7 +8,24 @@ export class CloudNodeState {
   relativeRotation: number;
 
   absolutePosition: Point;
+  absoluteX: number;
+  absoluteY: number;
+
   relativePosition: Point;
+  relativeX: number;
+  relativeY: number;
+
+  data: any = {};
+
+  static properties = [
+    "initRotation",
+    "relativeRotation",
+    "absoluteRotation",
+    "relativeX",
+    "relativeY",
+    "absoluteX",
+    "absoluteY"
+  ];
     
   constructor() {}
 
@@ -16,18 +33,9 @@ export class CloudNodeState {
     let state = new CloudNodeState();
     let data = JSON.parse(jsonString);
 
-    state.initRotation = data.initRotation;
-    state.absoluteRotation = data.absoluteRotation;
-
-    state.absolutePosition = {
-      x: data.absolutePosition.x,
-      y: data.absolutePosition.y
-    };
-
-    state.relativePosition = {
-      x: data.relativePosition.x,
-      y: data.relativePosition.y
-    };
+    CloudNodeState.properties.forEach(property => {
+      state[property] = data[property];
+    });
 
     return state;
   }
@@ -35,22 +43,33 @@ export class CloudNodeState {
   static fromNode(node: TransformationNode): CloudNodeState {
     let state = new CloudNodeState();
     state.initRotation = node.initRotation;
+    state.relativeRotation = node.relativeRotation;
     state.absoluteRotation = node.absoluteRotation;
 
-    state.absolutePosition = {
-      x: node.absolutePosition.x,
-      y: node.absolutePosition.y
-    };
+    state.absoluteX = node.absolutePosition.x;
+    state.absoluteY = node.absolutePosition.y;
 
-    state.relativePosition = {
-      x: node.relativePosition.x,
-      y: node.relativePosition.y
-    };
+    state.relativeX = node.relativePosition.x;
+    state.relativeY = node.relativePosition.y;
 
     return state;
   }
 
   toJson(): string {
     return JSON.stringify(this);
+  }
+
+  // à tester...
+  diffWithState(state: CloudNodeState): CloudNodeState {
+
+    let diff = new CloudNodeState();
+
+    CloudNodeState.properties.forEach(property => {
+      if (this[property] != state[property]) {
+        diff[property] = state[property];
+      }
+    });
+
+    return diff;
   }
 }

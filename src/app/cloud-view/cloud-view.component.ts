@@ -7,6 +7,7 @@ import { TransformationMode } from '../v2/enums/transformation-mode.enum';
 import { Point } from '../v2/interfaces/point.interface';
 import { InspectionService } from '../v2/services/inspection.service';
 import { CloudState } from '../v2/cloud-state.class';
+import { log } from 'util';
 
 @Component({
   selector: 'app-cloud-view',
@@ -21,11 +22,15 @@ export class CloudViewComponent implements OnInit {
   selectedNode: TransformationNode;
   selectedStructure: CloudStructure;
 
+  states: CloudState[] = [];
+
   currentTransformationMode = TransformationMode.ROTATION;
 
   initNodeRotationAngle: number;
   initRotationAngle: number;
   startTranslationPoint: Point;
+
+  tempStateId = 0;
 
   constructor(
     public inspectionService: InspectionService
@@ -116,6 +121,32 @@ export class CloudViewComponent implements OnInit {
     this.cloudScene.input.on("pointerup", this.onPointerUp, this);
 
     this.selectedStructure.displayNames(this.inspectionService.namesAreDisplayed);
+
+    // chargement des datas depuis le localstorage
+    this.loadData();
+  }
+
+  loadData() {
+    let statesIndex = localStorage["states-index"];
+    
+    if (statesIndex != null) {
+      this.tempStateId = statesIndex;
+    }
+    
+    let statesStr: string = localStorage["states"];
+    
+    if (statesStr != null) {
+      let states: Object[] = JSON.parse(statesStr);
+
+      let test = states.map(state => {
+        // console.log(state as CloudState);
+      });
+
+      console.log(test);
+    }
+
+    
+    
   }
 
   onPointerDown(pointer: Phaser.Input.Pointer) {
@@ -229,7 +260,7 @@ export class CloudViewComponent implements OnInit {
 
   rotationWithTween() {
     let node = this.selectedNode;
-    console.log(node.relativeRotation);
+    // console.log(node.relativeRotation);
     
     this.cloudScene.add.tween({
       targets: node,
@@ -241,13 +272,42 @@ export class CloudViewComponent implements OnInit {
       },
       onComplete: () => {
         console.log("Tween complete");
-        console.log(node.relativeRotation);
+        // console.log(node.relativeRotation);
       }
     });
   }
 
   createState() {
-    let state = CloudState.fromNodesList(this.selectedStructure, this.selectedStructure.nodesList);
-    console.log(state.toJson());
+    let state = CloudState.fromNodesList("state" + ++this.tempStateId, this.selectedStructure, this.selectedStructure.nodesList);
+    this.states.push(state);
+    // console.log(state.toJson());
+  }
+
+  logStateValue(state: CloudState) {
+    console.log(state);
+  }
+
+  absoluteSetState(state: CloudState) {
+
+  }
+
+  deleteState(state: CloudState) {
+
+  }
+
+  clearAllStates() {
+    this.states = [];
+    this.tempStateId = 0;
+  }
+
+  saveStates() {
+    let str = JSON.stringify(this.states);
+    // console.log(str);
+    localStorage["states"] = str;
+    localStorage["states-index"] = this.tempStateId;
+  }
+
+  diffTest() {
+
   }
 }

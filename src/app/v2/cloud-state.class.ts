@@ -6,8 +6,9 @@ export class CloudState {
     
     structureId: string;
     nodeStates: { [key: string]: CloudNodeState } = {};
+    name: string;
 
-    static fromNodesList(structure: CloudStructure, nodes: TransformationNode[]): CloudState {
+    static fromNodesList(name: string, structure: CloudStructure, nodes: TransformationNode[]): CloudState {
         let state = new CloudState();
 
         state.structureId = structure.id;
@@ -16,7 +17,13 @@ export class CloudState {
             state.nodeStates[node.id] = CloudNodeState.fromNode(node);
         });
 
+        state.name = name;
+
         return state;
+    }
+
+    static fromObject(data: Object): CloudState {
+        return;
     }
 
     toJson(): string {

@@ -27,7 +27,18 @@
 </div>
 <app-inspection-panel *ngIf="selectedNode" [currentMode]="currentTransformationMode" [node]="selectedNode"></app-inspection-panel>
 <div class="actions">
-  <input type="button" value="Translate" (click)="testTranslateWithTween()">
-  <input type="button" value="Rotation" (click)="rotationWithTween()">
+  <!-- <input type="button" value="Translate" (click)="testTranslateWithTween()">
+  <input type="button" value="Rotation" (click)="rotationWithTween()"> -->
   <input type="button" value="Create state" (click)="createState()">
+  <input type="button" value="Clear all states" (click)="clearAllStates()">
+  <input type="button" value="Save states" (click)="saveStates()">
+  <input type="button" value="Diff test" (click)="diffTest()">
+</div>
+<div class="states-container">
+  <div class="state" *ngFor="let state of states">
+    <div>Name: {{ state.name }}</div>
+    <input type="button" value="Log value" (click)="logStateValue(state)">
+    <input type="button" value="Absolute set" (click)="absoluteSetState(state)">
+    <input type="button" value="Delete" (click)="deleteState(state)">
+  </div>
 </div>
