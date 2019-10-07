@@ -7,7 +7,7 @@ import { TransformationMode } from '../v2/enums/transformation-mode.enum';
 import { Point } from '../v2/interfaces/point.interface';
 import { InspectionService } from '../v2/services/inspection.service';
 import { CloudState } from '../v2/cloud-state.class';
-import { log } from 'util';
+import { JsonConvert, OperationMode, ValueCheckingMode } from "json2typescript";
 
 @Component({
   selector: 'app-cloud-view',
@@ -32,9 +32,16 @@ export class CloudViewComponent implements OnInit {
 
   tempStateId = 0;
 
+  jsonConverter: JsonConvert;
+
   constructor(
     public inspectionService: InspectionService
-  ) { }
+  ) {
+    this.jsonConverter = new JsonConvert();
+    this.jsonConverter.operationMode = OperationMode.ENABLE; // print some debug data
+    this.jsonConverter.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
+    this.jsonConverter.valueCheckingMode = ValueCheckingMode.ALLOW_OBJECT_NULL;
+  }
 
   ngOnInit() {
     this.cloudScene = new CloudScene();
@@ -142,7 +149,7 @@ export class CloudViewComponent implements OnInit {
         // console.log(state as CloudState);
       });
 
-      console.log(test);
+      // console.log(test);
     }
 
     
@@ -284,7 +291,13 @@ export class CloudViewComponent implements OnInit {
   }
 
   logStateValue(state: CloudState) {
-    console.log(state);
+    // console.log(state);
+    
+    let serialized: Object = this.jsonConverter.serializeObject(state);
+    console.log(serialized);
+
+    let deserialized = this.jsonConverter.deserializeObject(serialized, CloudState);
+    console.log(deserialized);
   }
 
   absoluteSetState(state: CloudState) {

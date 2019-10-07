@@ -1,11 +1,18 @@
 import { CloudNodeState } from './cloud-node-state.class';
 import { TransformationNode } from './transformation-node.class';
 import { CloudStructure } from './cloud-structure.class';
+import { JsonObject, JsonProperty } from 'json2typescript';
 
+@JsonObject("CloudState")
 export class CloudState {
     
+
+    @JsonProperty("structureId", String)
     structureId: string;
+
     nodeStates: { [key: string]: CloudNodeState } = {};
+
+    @JsonProperty("name", String)
     name: string;
 
     static fromNodesList(name: string, structure: CloudStructure, nodes: TransformationNode[]): CloudState {
@@ -22,9 +29,9 @@ export class CloudState {
         return state;
     }
 
-    static fromObject(data: Object): CloudState {
+    /*static fromObject(data: Object): CloudState {
         return;
-    }
+    }*/
 
     toJson(): string {
         return JSON.stringify(this);
