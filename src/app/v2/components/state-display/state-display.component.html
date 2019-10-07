@@ -1,0 +1,12 @@
+<div class="state">
+  <div>Name: {{ state.name }}</div>
+  <input type="button" value="Log value" (click)="logStateValue()">
+  <input type="button" value="Absolute set" (click)="absoluteSetState(state)">
+  <input type="button" value="Delete" (click)="deleteState()">
+  <input type="button" value="Diff with" (click)="diffTest()">
+  <ng-container *ngIf="statesService.states">
+    <select>
+      <option *ngFor="let cstate of getDiffTargets(state)" value="{{ cstate.name }}">{{ cstate.name }}</option>
+    </select>
+  </ng-container>
+</div>

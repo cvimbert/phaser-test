@@ -17,6 +17,8 @@ import { NumericValueComponent } from './v2/components/numeric-value/numeric-val
 import { BooleanValueComponent } from './v2/components/boolean-value/boolean-value.component';
 import { InspectionService } from './v2/services/inspection.service';
 import { FlooredPipe } from './v2/pipes/floored.pipe';
+import { StateDisplayComponent } from './v2/components/state-display/state-display.component';
+import { StatesService } from './v2/services/states.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { FlooredPipe } from './v2/pipes/floored.pipe';
     InspectionPanelComponent,
     NumericValueComponent,
     BooleanValueComponent,
-    FlooredPipe
+    FlooredPipe,
+    StateDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { FlooredPipe } from './v2/pipes/floored.pipe';
   ],
   providers: [
     NodeEditorService,
-    InspectionService
+    InspectionService,
+    StatesService
   ],
   bootstrap: [AppComponent]
 })

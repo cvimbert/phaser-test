@@ -32,18 +32,7 @@
   <input type="button" value="Create state" (click)="createState()">
   <input type="button" value="Clear all states" (click)="clearAllStates()">
   <input type="button" value="Save states" (click)="saveStates()">
-  <input type="button" value="Diff test" (click)="diffTest()">
 </div>
 <div class="states-container">
-  <div class="state" *ngFor="let state of states">
-    <div>Name: {{ state.name }}</div>
-    <input type="button" value="Log value" (click)="logStateValue(state)">
-    <input type="button" value="Absolute set" (click)="absoluteSetState(state)">
-    <input type="button" value="Delete" (click)="deleteState(state)">
-
-    <input type="button" value="Diff with" (click)="diffTest()">
-    <select>
-      <option *ngFor="let cstate of getDiffTargets(state)" value="{{ cstate.name }}">{{ cstate.name }}</option>
-    </select>
-  </div>
+  <state-display [state]="state" *ngFor="let state of statesService.states"></state-display>
 </div>

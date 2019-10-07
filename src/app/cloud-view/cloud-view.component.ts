@@ -8,6 +8,7 @@ import { Point } from '../v2/interfaces/point.interface';
 import { InspectionService } from '../v2/services/inspection.service';
 import { CloudState } from '../v2/cloud-state.class';
 import { JsonConvert, OperationMode, ValueCheckingMode } from "json2typescript";
+import { StatesService } from '../v2/services/states.service';
 
 @Component({
   selector: 'app-cloud-view',
@@ -22,8 +23,6 @@ export class CloudViewComponent implements OnInit {
   selectedNode: TransformationNode;
   selectedStructure: CloudStructure;
 
-  states: CloudState[] = [];
-
   currentTransformationMode = TransformationMode.ROTATION;
 
   initNodeRotationAngle: number;
@@ -35,7 +34,8 @@ export class CloudViewComponent implements OnInit {
   jsonConverter: JsonConvert;
 
   constructor(
-    public inspectionService: InspectionService
+    public inspectionService: InspectionService,
+    public statesService: StatesService
   ) {
     this.jsonConverter = new JsonConvert();
     this.jsonConverter.operationMode = OperationMode.ENABLE; // print some debug data
@@ -145,13 +145,10 @@ export class CloudViewComponent implements OnInit {
     if (statesStr != null) {
       let states: Object[] = JSON.parse(statesStr);
 
-      this.states = states.map(state => {
+      this.statesService.states = states.map(state => {
         return CloudState.fromObject(state);
       });
     }
-
-    
-    
   }
 
   onPointerDown(pointer: Phaser.Input.Pointer) {
@@ -284,34 +281,26 @@ export class CloudViewComponent implements OnInit {
 
   createState() {
     let state = CloudState.fromNodesList("state" + ++this.tempStateId, this.selectedStructure, this.selectedStructure.nodesList);
-    this.states.push(state);
+    this.statesService.states.push(state);
     // console.log(state.toJson());
   }
 
   logStateValue(state: CloudState) {
-    // console.log(state);
+    console.log(state);
     
-    let serialized: Object = this.jsonConverter.serializeObject(state);
+    /* let serialized: Object = this.jsonConverter.serializeObject(state);
     console.log(serialized);
 
     let deserialized: CloudState = this.jsonConverter.deserialize(serialized, CloudState) as CloudState;
-    console.log(deserialized);
+    console.log(deserialized); */
   }
 
   absoluteSetState(state: CloudState) {
 
   }
 
-  deleteState(state: CloudState) {
-    let index = this.states.indexOf(state);
-    
-    if (index != -1) {
-      this.states.splice(index, 1);
-    }
-  }
-
   clearAllStates() {
-    this.states = [];
+    this.statesService.states = [];
     this.tempStateId = 0;
 
     delete localStorage["states"];
@@ -319,18 +308,13 @@ export class CloudViewComponent implements OnInit {
   }
 
   saveStates() {
-    let str = JSON.stringify(this.states);    
+    let str = JSON.stringify(this.statesService.states);    
 
     localStorage["states"] = str;
     localStorage["states-index"] = this.tempStateId;
   }
-
-  diffTest() {
-
-  }
-
-  getDiffTargets(state: CloudState): CloudState[] {
-    return this.states.filter(cstate => cstate !== state);
-  }
   
+  getDiff() {
+
+  }
 }
