@@ -15,7 +15,7 @@ export class CloudNodeState {
   relativeX: number;
   relativeY: number;
 
-  data: any = {};
+  // data: any = {};
 
   static properties = [
     "initRotation",
@@ -30,8 +30,11 @@ export class CloudNodeState {
   constructor() {}
 
   static fromJsonString(jsonString: string): CloudNodeState {
+    return CloudNodeState.fromObject(jsonString);
+  }
+
+  static fromObject(data: Object): CloudNodeState {
     let state = new CloudNodeState();
-    let data = JSON.parse(jsonString);
 
     CloudNodeState.properties.forEach(property => {
       state[property] = data[property];

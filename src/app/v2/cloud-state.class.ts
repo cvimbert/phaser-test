@@ -29,11 +29,26 @@ export class CloudState {
         return state;
     }
 
-    /*static fromObject(data: Object): CloudState {
-        return;
-    }*/
+    static fromJsonString(jsonString: string): CloudState {
+        let deserialized: Object = JSON.parse(jsonString);
 
-    toJson(): string {
+        // console.log("Original string: ", deserialized);
+        
+        let state = new CloudState();
+
+        state.structureId = deserialized["structureId"];
+        state.name = deserialized["name"];
+
+        for (let key in deserialized["nodeStates"]) {
+            state.nodeStates[key] = CloudNodeState.fromObject(deserialized["nodeStates"][key]);
+        }
+
+        return state;
+    }
+
+    toJsonString(): string {
+        console.log(this);
+        
         return JSON.stringify(this);
     }
 }
