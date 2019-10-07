@@ -291,10 +291,10 @@ export class CloudViewComponent implements OnInit {
   logStateValue(state: CloudState) {
     // console.log(state);
     
-    let serialized: string = state.toJsonString();
-    // console.log(serialized);
+    let serialized: Object = this.jsonConverter.serializeObject(state);
+    console.log(serialized);
 
-    let deserialized: CloudState = CloudState.fromJsonString(serialized);
+    let deserialized: CloudState = this.jsonConverter.deserialize(serialized, CloudState) as CloudState;
     console.log(deserialized);
   }
 
