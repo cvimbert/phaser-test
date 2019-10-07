@@ -145,11 +145,9 @@ export class CloudViewComponent implements OnInit {
     if (statesStr != null) {
       let states: Object[] = JSON.parse(statesStr);
 
-      let test = states.map(state => {
-        // console.log(state as CloudState);
+      this.states = states.map(state => {
+        return CloudState.fromObject(state);
       });
-
-      // console.log(test);
     }
 
     
@@ -305,17 +303,24 @@ export class CloudViewComponent implements OnInit {
   }
 
   deleteState(state: CloudState) {
-
+    let index = this.states.indexOf(state);
+    
+    if (index != -1) {
+      this.states.splice(index, 1);
+    }
   }
 
   clearAllStates() {
     this.states = [];
     this.tempStateId = 0;
+
+    delete localStorage["states"];
+    delete localStorage["states-index"];
   }
 
   saveStates() {
-    let str = JSON.stringify(this.states);
-    // console.log(str);
+    let str = JSON.stringify(this.states);    
+
     localStorage["states"] = str;
     localStorage["states-index"] = this.tempStateId;
   }
@@ -323,4 +328,9 @@ export class CloudViewComponent implements OnInit {
   diffTest() {
 
   }
+
+  getDiffTargets(state: CloudState): CloudState[] {
+    return this.states.filter(cstate => cstate !== state);
+  }
+  
 }
