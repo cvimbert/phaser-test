@@ -94,7 +94,6 @@ export class CloudNodeState {
   diffWithState(state: CloudNodeState, mode: DiffMode): CloudNodeState {
 
     let diff = new CloudNodeState();
-
     let props = CloudNodeState.propertiesSets[mode];
 
     props.forEach(property => {

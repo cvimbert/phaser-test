@@ -139,15 +139,25 @@ export class CloudViewComponent implements OnInit {
     if (statesIndex != null) {
       this.tempStateId = statesIndex;
     }
+
+    let diffsIndex = localStorage["diffs-index"];
+
+    if (diffsIndex != null) {
+      this.statesService.tempDiffId = diffsIndex;
+    }
     
     let statesStr: string = localStorage["states"];
     
     if (statesStr != null) {
       let states: Object[] = JSON.parse(statesStr);
+      this.statesService.states = states.map(state => CloudState.fromObject(state));
+    }
 
-      this.statesService.states = states.map(state => {
-        return CloudState.fromObject(state);
-      });
+    let diffsStr: string = localStorage["diffs"];
+
+    if (diffsStr != null) {
+      let diffs: Object[] = JSON.parse(diffsStr);
+      this.statesService.diffs = diffs.map(diff => CloudState.fromObject(diff));
     }
   }
 
@@ -312,6 +322,11 @@ export class CloudViewComponent implements OnInit {
 
     localStorage["states"] = str;
     localStorage["states-index"] = this.tempStateId;
+
+    let diffStr = JSON.stringify(this.statesService.diffs);
+
+    localStorage["diffs"] = diffStr;
+    localStorage["diffs-index"] = this.statesService.tempDiffId;
   }
   
   getDiff() {

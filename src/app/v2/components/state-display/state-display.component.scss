@@ -1,12 +1,21 @@
 .state {
   display: inline-block;
-  background-color: lightgreen;
-  border: 1px solid green;
   border-radius: 5px;
   padding: 4px;
   margin-right: 8px;
   width: 90px;
   text-align: center;
+  vertical-align: top;
+
+  &.basic {
+    background-color: lightgreen;
+    border: 1px solid green;
+  }
+
+  &.diff {
+    background-color: lightsalmon;
+    border: 1px solid red;
+  }
 }
 
 input {

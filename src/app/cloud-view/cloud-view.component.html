@@ -35,4 +35,5 @@
 </div>
 <div class="states-container">
   <state-display [state]="state" *ngFor="let state of statesService.states"></state-display>
+  <state-display [state]="diff" type="diff" *ngFor="let diff of statesService.diffs"></state-display>
 </div>

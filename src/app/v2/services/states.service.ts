@@ -7,6 +7,8 @@ import { CloudState } from '../cloud-state.class';
 export class StatesService {
 
   states: CloudState[] = [];
+  diffs: CloudState[] = [];
+  tempDiffId = 0;
 
   constructor() { }
 }
