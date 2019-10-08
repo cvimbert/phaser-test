@@ -43,7 +43,7 @@ export class TransformationNode extends NodeVector {
 
   calculateByAbsolutePosition(recursive = false, init = false) {
     this.relativePosition = this.getRelativePosition();
-    this.ownPosition = this.getRelativePosition();
+    // this.ownPosition = this.getRelativePosition();
 
     // ces deux cas doivent pouvoir être fusionnés
     if (!init) {      
@@ -67,6 +67,7 @@ export class TransformationNode extends NodeVector {
     }
     
     this.calculateHypothenus();
+    this.calculateOwnPositionByRelativeRotation();
 
     if (recursive) {
       this.children.forEach(child => child.calculateByAbsolutePosition(recursive, init));

@@ -25,7 +25,10 @@ export class NodeVector {
     y: 0
   };
 
-  ownPosition: Point;
+  ownPosition: Point = {
+    x: 0,
+    y: 0
+  };
 
 
   get rRot(): number {
@@ -82,6 +85,14 @@ export class NodeVector {
 
   applyRelativeTranslation() {
     this.calculateGeometry();
+  }
+
+  // calcul de la position du point dans son propre reférentiel
+  calculateOwnPositionByRelativeRotation() {
+    this.ownPosition = {
+      x: Math.cos(this.initRotation) * this.hypothenus,
+      y: Math.sin(this.initRotation) * this.hypothenus
+    };
   }
 
   applyRelativeRotation() {

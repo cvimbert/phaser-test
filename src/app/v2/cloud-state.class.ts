@@ -16,7 +16,7 @@ export class CloudState {
     name: string = "";
 
     constructor() {
-        console.log(this.name);
+        // console.log(this.name);
     }
 
     static fromNodesList(name: string, structure: CloudStructure, nodes: TransformationNode[]): CloudState {
@@ -54,5 +54,30 @@ export class CloudState {
 
     toJsonString(): string {        
         return JSON.stringify(this);
+    }
+
+    getDiff(target: CloudState): CloudState {
+        let state = new CloudState();
+
+        for (let key in this.nodeStates) {
+
+            // attention : code douteux, et nécessité de cloner, peut-être, les cloudNodeStates
+
+            let ownState = this.nodeStates[key];
+            let targetState = target.nodeStates[key];
+            
+            if (!ownState && targetState) {
+                // console.log("cas 1");
+                state.nodeStates[key] = targetState;
+            } else if (ownState && !targetState) {
+                // console.log("cas 2");
+                state.nodeStates[key] = ownState;
+            } else if (ownState && targetState) {
+                // console.log("cas 3");
+                state.nodeStates[key] = ownState.diffWithState(targetState);
+            }
+        }
+
+        return state;
     }
 }

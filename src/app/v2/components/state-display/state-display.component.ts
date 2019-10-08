@@ -10,19 +10,38 @@ import { StatesService } from '../../services/states.service';
 export class StateDisplayComponent implements OnInit {
 
   @Input("state") state: CloudState;
-
-  // serait plus clean dans un service
-  //@Input("states") states: CloudState[];
+  selectedDiffState: CloudState;
 
   constructor(
     public statesService: StatesService
   ) { }
 
   ngOnInit() {
+    this.selectFirstValidState();
   }
 
-  getDiffTargets(state: CloudState): CloudState[] {
-    return this.statesService.states.filter(cstate => cstate !== state);
+  selectFirstValidState() {
+    let targets = this.getDiffTargets();
+
+    if (targets.length > 0) {
+      this.selectedDiffState = targets[0];
+    }
+  }
+
+  get selectedDiffStateId(): string {
+    if (!this.selectedDiffState) {
+      this.selectFirstValidState();
+    }
+
+    if (this.selectedDiffState) return this.selectedDiffState.name;
+  }
+
+  set selectedDiffStateId(value: string) {
+    this.selectedDiffState = this.statesService.states.find(state => state.name === value);
+  }
+
+  getDiffTargets(): CloudState[] {
+    return this.statesService.states.filter(cstate => cstate !== this.state);
   }
 
   logStateValue() {
@@ -35,5 +54,10 @@ export class StateDisplayComponent implements OnInit {
     if (index != -1) {
       this.statesService.states.splice(index, 1);
     }
+  }
+
+  diffTest() {
+    let state = this.state.getDiff(this.selectedDiffState);
+    console.log(state);
   }
 }

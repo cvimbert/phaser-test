@@ -15,6 +15,10 @@ export class CloudNodeState {
   relativeX: number;
   relativeY: number;
 
+  ownPosition: Point;
+  ownX: number;
+  ownY: number;
+
   // data: any = {};
 
   static properties = [
@@ -24,7 +28,9 @@ export class CloudNodeState {
     "relativeX",
     "relativeY",
     "absoluteX",
-    "absoluteY"
+    "absoluteY",
+    "ownX",
+    "ownY"
   ];
     
   constructor() {}
@@ -54,6 +60,9 @@ export class CloudNodeState {
 
     state.relativeX = node.relativePosition.x;
     state.relativeY = node.relativePosition.y;
+
+    state.ownX = node.ownPosition.x;
+    state.ownY = node.ownPosition.y;
 
     return state;
   }
