@@ -4,7 +4,7 @@
   <input type="button" value="Absolute set" (click)="absoluteSetState(state)">
   <input type="button" value="Delete" (click)="deleteState()">
 
-  <ng-container *ngIf="selectedDiffState">
+  <ng-container>
     <input type="button" value="Diff with" (click)="diffTest()">
     <ng-container *ngIf="statesService.states">
       <select [(ngModel)]="selectedDiffStateId">

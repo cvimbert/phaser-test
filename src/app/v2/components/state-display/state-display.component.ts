@@ -17,7 +17,7 @@ export class StateDisplayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.selectFirstValidState();
+    // this.selectFirstValidState();
   }
 
   selectFirstValidState() {

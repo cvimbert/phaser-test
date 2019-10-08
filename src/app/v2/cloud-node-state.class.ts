@@ -1,5 +1,6 @@
 import { Point } from './interfaces/point.interface';
 import { TransformationNode } from './transformation-node.class';
+import { DiffMode } from './enums/diff-mode.enum';
 
 export class CloudNodeState {
 
@@ -21,7 +22,7 @@ export class CloudNodeState {
 
   // data: any = {};
 
-  static properties = [
+  static allProperties = [
     "initRotation",
     "relativeRotation",
     "absoluteRotation",
@@ -32,6 +33,24 @@ export class CloudNodeState {
     "ownX",
     "ownY"
   ];
+
+  static relativeProperties = [
+    "relativeRotation",
+    "ownX",
+    "ownY"
+  ];
+
+  static absoluteProperties = [
+    "absoluteRotation",
+    "absoluteX",
+    "absoluteY"
+  ];
+
+  static propertiesSets = {
+    [DiffMode.ALL]: CloudNodeState.allProperties,
+    [DiffMode.RELATIVE]: CloudNodeState.relativeProperties,
+    [DiffMode.ABSOLUTE]: CloudNodeState.absoluteProperties
+  }
     
   constructor() {}
 
@@ -42,7 +61,7 @@ export class CloudNodeState {
   static fromObject(data: Object): CloudNodeState {
     let state = new CloudNodeState();
 
-    CloudNodeState.properties.forEach(property => {
+    CloudNodeState.allProperties.forEach(property => {
       state[property] = data[property];
     });
 
@@ -72,11 +91,13 @@ export class CloudNodeState {
   }
 
   // à tester...
-  diffWithState(state: CloudNodeState): CloudNodeState {
+  diffWithState(state: CloudNodeState, mode: DiffMode): CloudNodeState {
 
     let diff = new CloudNodeState();
 
-    CloudNodeState.properties.forEach(property => {
+    let props = CloudNodeState.propertiesSets[mode];
+
+    props.forEach(property => {
       if (this[property] != state[property]) {
         diff[property] = state[property];
       }
