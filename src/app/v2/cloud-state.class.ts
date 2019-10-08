@@ -2,6 +2,7 @@ import { CloudNodeState } from './cloud-node-state.class';
 import { TransformationNode } from './transformation-node.class';
 import { CloudStructure } from './cloud-structure.class';
 import { JsonObject, JsonProperty } from 'json2typescript';
+import { DiffMode } from './enums/diff-mode.enum';
 
 @JsonObject("CloudState")
 export class CloudState {
@@ -67,14 +68,11 @@ export class CloudState {
             let targetState = target.nodeStates[key];
             
             if (!ownState && targetState) {
-                // console.log("cas 1");
                 state.nodeStates[key] = targetState;
             } else if (ownState && !targetState) {
-                // console.log("cas 2");
                 state.nodeStates[key] = ownState;
             } else if (ownState && targetState) {
-                // console.log("cas 3");
-                state.nodeStates[key] = ownState.diffWithState(targetState);
+                state.nodeStates[key] = ownState.diffWithState(targetState, DiffMode.RELATIVE);
             }
         }
 
