@@ -19,6 +19,7 @@ import { InspectionService } from './v2/services/inspection.service';
 import { FlooredPipe } from './v2/pipes/floored.pipe';
 import { StateDisplayComponent } from './v2/components/state-display/state-display.component';
 import { StatesService } from './v2/services/states.service';
+import { DetailsInputComponent } from './v2/components/details-input/details-input.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { StatesService } from './v2/services/states.service';
     NumericValueComponent,
     BooleanValueComponent,
     FlooredPipe,
-    StateDisplayComponent
+    StateDisplayComponent,
+    DetailsInputComponent
   ],
   imports: [
     BrowserModule,

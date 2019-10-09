@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CloudState } from '../../cloud-state.class';
 import { StatesService } from '../../services/states.service';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
@@ -13,7 +13,7 @@ export class StateDisplayComponent implements OnInit {
   @Input("state") state: CloudState;
   @Input("type") type: StateDisplayerType = StateDisplayerType.BASIC;
 
-  
+  @Output("onSetPosition") onSetPosition = new EventEmitter<CloudState>();
 
   selectedDiffState: CloudState;
 
@@ -41,7 +41,7 @@ export class StateDisplayComponent implements OnInit {
   }
 
   setPosition() {
-
+    this.onSetPosition.emit(this.state);
   }
 
   set selectedDiffStateId(value: string) {
@@ -77,6 +77,5 @@ export class StateDisplayComponent implements OnInit {
     let state = this.state.getDiff(this.selectedDiffState);
     state.name = "diff" + ++this.statesService.tempDiffId;
     this.statesService.diffs.push(state);
-    console.log(state);
   }
 }

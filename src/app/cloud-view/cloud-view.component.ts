@@ -9,6 +9,7 @@ import { InspectionService } from '../v2/services/inspection.service';
 import { CloudState } from '../v2/cloud-state.class';
 import { JsonConvert, OperationMode, ValueCheckingMode } from "json2typescript";
 import { StatesService } from '../v2/services/states.service';
+import { DetailsData } from '../v2/interfaces/details-data.interface';
 
 @Component({
   selector: 'app-cloud-view',
@@ -30,6 +31,8 @@ export class CloudViewComponent implements OnInit {
   startTranslationPoint: Point;
 
   tempStateId = 0;
+
+  displayDetailsModal = false;
 
   jsonConverter: JsonConvert;
 
@@ -60,6 +63,10 @@ export class CloudViewComponent implements OnInit {
 
     this.game = new Game(config);
     this.game.events.on("created", this.onCreated, this);
+  }
+
+  validateDetailsModal(data: DetailsData) {
+
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -292,21 +299,23 @@ export class CloudViewComponent implements OnInit {
   createState() {
     let state = CloudState.fromNodesList("state" + ++this.tempStateId, this.selectedStructure, this.selectedStructure.nodesList);
     this.statesService.states.push(state);
-    // console.log(state.toJson());
   }
 
   logStateValue(state: CloudState) {
     console.log(state);
-    
-    /* let serialized: Object = this.jsonConverter.serializeObject(state);
-    console.log(serialized);
-
-    let deserialized: CloudState = this.jsonConverter.deserialize(serialized, CloudState) as CloudState;
-    console.log(deserialized); */
   }
 
-  absoluteSetState(state: CloudState) {
+  setPosition(state: CloudState) {    
+    // Un premier cas simple de mise à jour de rotation relative
+    
+    for (let nodeId in state.nodeStates) {
+      let nodeState = state.nodeStates[nodeId];
+      let node = this.selectedStructure.getNode(nodeId);
 
+      node.relativeRotation = nodeState.relativeRotation;
+      node.applyRelativeRotation();
+      node.render();
+    }
   }
 
   clearAllStates() {
@@ -315,6 +324,11 @@ export class CloudViewComponent implements OnInit {
 
     delete localStorage["states"];
     delete localStorage["states-index"];
+
+    this.statesService.diffs = [];
+    this.statesService.tempDiffId = 0;
+    delete localStorage["diffs"];
+    delete localStorage["diffs-index"];
   }
 
   saveStates() {
@@ -327,9 +341,5 @@ export class CloudViewComponent implements OnInit {
 
     localStorage["diffs"] = diffStr;
     localStorage["diffs-index"] = this.statesService.tempDiffId;
-  }
-  
-  getDiff() {
-
   }
 }

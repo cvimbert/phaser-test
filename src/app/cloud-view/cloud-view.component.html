@@ -1,3 +1,4 @@
+<details-input *ngIf="displayDetailsModal" (onValidated)="validateDetailsModal()"></details-input>
 <div class="canvas-container {{ currentTransformationMode }}" #canvasContainer>
   <div class="tools">
     <div class="top-left-panel panel">
@@ -34,6 +35,15 @@
   <input type="button" value="Save states" (click)="saveStates()">
 </div>
 <div class="states-container">
-  <state-display [state]="state" *ngFor="let state of statesService.states"></state-display>
-  <state-display [state]="diff" type="diff" *ngFor="let diff of statesService.diffs"></state-display>
+  <state-display
+    *ngFor="let state of statesService.states"
+    [state]="state"
+    (onSetPosition)="setPosition($event)"
+    ></state-display>
+  <state-display
+    *ngFor="let diff of statesService.diffs"
+    type="diff"
+    [state]="diff"
+    (onSetPosition)="setPosition($event)"
+    ></state-display>
 </div>
