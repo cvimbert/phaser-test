@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DetailsData } from '../../interfaces/details-data.interface';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'details-input',
@@ -13,13 +14,15 @@ export class DetailsInputComponent implements OnInit {
   name = "";
   description = "";
 
-  constructor() { }
+  constructor(
+    public modalService: ModalService
+  ) { }
 
   ngOnInit() {
   }
 
   validateDetails() {
-    this.onValidated.emit({
+    this.modalService.validateDetailModal({
       name: this.name,
       description: this.description
     });

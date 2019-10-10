@@ -9,12 +9,14 @@ export class CloudState {
     
 
     @JsonProperty("structureId", String)
-    structureId: string = "";
+    structureId = "";
 
     nodeStates: { [key: string]: CloudNodeState } = {};
 
     @JsonProperty("name", String)
-    name: string = "";
+    name = "";
+
+    description = "";
 
     constructor() {
         // console.log(this.name);
@@ -45,6 +47,7 @@ export class CloudState {
 
         state.structureId = jsonObject["structureId"];
         state.name = jsonObject["name"];
+        state.description = jsonObject["description"];
 
         for (let key in jsonObject["nodeStates"]) {
             state.nodeStates[key] = CloudNodeState.fromObject(jsonObject["nodeStates"][key]);

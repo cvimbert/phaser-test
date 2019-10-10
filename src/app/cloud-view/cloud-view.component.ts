@@ -10,6 +10,7 @@ import { CloudState } from '../v2/cloud-state.class';
 import { JsonConvert, OperationMode, ValueCheckingMode } from "json2typescript";
 import { StatesService } from '../v2/services/states.service';
 import { DetailsData } from '../v2/interfaces/details-data.interface';
+import { ModalService } from '../v2/services/modal.service';
 
 @Component({
   selector: 'app-cloud-view',
@@ -32,13 +33,12 @@ export class CloudViewComponent implements OnInit {
 
   tempStateId = 0;
 
-  displayDetailsModal = false;
-
   jsonConverter: JsonConvert;
 
   constructor(
     public inspectionService: InspectionService,
-    public statesService: StatesService
+    public statesService: StatesService,
+    public modalService: ModalService
   ) {
     this.jsonConverter = new JsonConvert();
     this.jsonConverter.operationMode = OperationMode.ENABLE; // print some debug data
@@ -297,8 +297,14 @@ export class CloudViewComponent implements OnInit {
   }
 
   createState() {
-    let state = CloudState.fromNodesList("state" + ++this.tempStateId, this.selectedStructure, this.selectedStructure.nodesList);
-    this.statesService.states.push(state);
+    this.modalService.openDetailsModal().then(value => {
+      if (value) {
+        let state = CloudState.fromNodesList("state" + ++this.tempStateId, this.selectedStructure, this.selectedStructure.nodesList);
+        state.name = value.name;
+        state.description = value.description;
+        this.statesService.states.push(state);
+      }
+    }); 
   }
 
   logStateValue(state: CloudState) {

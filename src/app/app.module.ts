@@ -20,6 +20,7 @@ import { FlooredPipe } from './v2/pipes/floored.pipe';
 import { StateDisplayComponent } from './v2/components/state-display/state-display.component';
 import { StatesService } from './v2/services/states.service';
 import { DetailsInputComponent } from './v2/components/details-input/details-input.component';
+import { ModalService } from './v2/services/modal.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { DetailsInputComponent } from './v2/components/details-input/details-inp
   providers: [
     NodeEditorService,
     InspectionService,
+    ModalService,
     StatesService
   ],
   bootstrap: [AppComponent]
