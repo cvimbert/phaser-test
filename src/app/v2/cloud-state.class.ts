@@ -7,6 +7,8 @@ import { DiffMode } from './enums/diff-mode.enum';
 @JsonObject("CloudState")
 export class CloudState {
     
+    @JsonProperty("id", String)
+    id = "";
 
     @JsonProperty("structureId", String)
     structureId = "";
@@ -16,16 +18,17 @@ export class CloudState {
     @JsonProperty("name", String)
     name = "";
 
+    @JsonProperty("description", String)
     description = "";
 
     constructor() {
-        // console.log(this.name);
     }
 
-    static fromNodesList(name: string, structure: CloudStructure, nodes: TransformationNode[]): CloudState {
+    static fromNodesList(id: string, structure: CloudStructure, nodes: TransformationNode[]): CloudState {
         let state = new CloudState();
 
         state.structureId = structure.id;
+        state.id = id;
 
         nodes.forEach(node => {
             state.nodeStates[node.id] = CloudNodeState.fromNode(node);
@@ -45,6 +48,7 @@ export class CloudState {
         
         let state = new CloudState();
 
+        state.id = jsonObject["id"];
         state.structureId = jsonObject["structureId"];
         state.name = jsonObject["name"];
         state.description = jsonObject["description"];

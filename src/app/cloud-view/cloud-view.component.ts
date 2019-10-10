@@ -299,7 +299,8 @@ export class CloudViewComponent implements OnInit {
   createState() {
     this.modalService.openDetailsModal().then(value => {
       if (value) {
-        let state = CloudState.fromNodesList("state" + ++this.tempStateId, this.selectedStructure, this.selectedStructure.nodesList);
+        let id = "state" + ++this.tempStateId;
+        let state = CloudState.fromNodesList(id, this.selectedStructure, this.selectedStructure.nodesList);
         state.name = value.name;
         state.description = value.description;
         this.statesService.states.push(state);

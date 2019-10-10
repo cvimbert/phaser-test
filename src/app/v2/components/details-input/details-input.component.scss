@@ -12,8 +12,9 @@
   .modal-content {
     padding: 12px;
     background-color: white;
-    border: 1px;
+    border: 1px solid black;
     display: inline-block;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.6);
   }
   
   input[type=text], textarea {
@@ -28,5 +29,11 @@
 
   input[type=button] {
     margin-top: 6px;
+  }
+
+  .actions {
+    input {
+      margin: 4px;
+    }
   }
 }

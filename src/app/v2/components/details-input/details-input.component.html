@@ -1,15 +1,16 @@
 <div class="input-container">
   <div class="modal-content">
     <div>
-        <div class="block-label">Name:</div>
-        <input [(ngModel)]="name" type="text">
-      </div>
-      <div>
-        <div class="block-label">Description:</div>
-        <textarea [(ngModel)]="description" rows="6"></textarea>
-      </div>
-      <div>
-        <input type="button" value="Validate" (click)="validateDetails()">
-      </div>
+      <div class="block-label">Name:</div>
+      <input #firstElement [(ngModel)]="modalService.detailsData.name" type="text">
+    </div>
+    <div>
+      <div class="block-label">Description:</div>
+      <textarea [(ngModel)]="modalService.detailsData.description" rows="6"></textarea>
+    </div>
+    <div class="actions">
+      <input type="button" value="Validate" (click)="validateDetails()">
+      <input type="button" value="Close" (click)="close()">
+    </div>
   </div>
 </div>

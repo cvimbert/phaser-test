@@ -10,10 +10,17 @@ export class ModalService {
   displayDetailsPromise: Promise<DetailsData>;
   promiseResolver: (data: DetailsData) => {};
 
+  detailsData: DetailsData;
+
   constructor() { }
 
-  openDetailsModal(): Promise<DetailsData> {
+  openDetailsModal(data?: DetailsData): Promise<DetailsData> {
 
+    this.detailsData = data || {
+      name: "",
+      description: ""
+    };
+    
     this.displayDetailsModal = true;
 
     let promise = new Promise<DetailsData>((resolve: any) => {
@@ -25,6 +32,6 @@ export class ModalService {
 
   validateDetailModal(data: DetailsData) {
     this.displayDetailsModal = false;
-    this.promiseResolver(data);
+    this.promiseResolver(this.detailsData);
   }
 }

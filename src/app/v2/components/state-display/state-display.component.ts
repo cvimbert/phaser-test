@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CloudState } from '../../cloud-state.class';
 import { StatesService } from '../../services/states.service';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'state-display',
@@ -18,7 +19,8 @@ export class StateDisplayComponent implements OnInit {
   selectedDiffState: CloudState;
 
   constructor(
-    public statesService: StatesService
+    public statesService: StatesService,
+    public modalService: ModalService
   ) { }
 
   ngOnInit() {
@@ -74,8 +76,26 @@ export class StateDisplayComponent implements OnInit {
   }
 
   diffTest() {
-    let state = this.state.getDiff(this.selectedDiffState);
-    state.name = "diff" + ++this.statesService.tempDiffId;
-    this.statesService.diffs.push(state);
+    this.modalService.openDetailsModal().then(data => {
+      if (data) {
+        let state = this.state.getDiff(this.selectedDiffState);
+        state.id = "diff" + ++this.statesService.tempDiffId;
+        state.name = data.name;
+        state.description = data.description;
+        this.statesService.diffs.push(state);
+      }
+    });
+  }
+
+  editDetails() {
+    this.modalService.openDetailsModal({
+      name: this.state.name,
+      description: this.state.description
+    }).then(data => {
+      if (data) {
+        this.state.name = data.name;
+        this.state.description = data.description;
+      }
+    });
   }
 }

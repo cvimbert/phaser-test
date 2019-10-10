@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { DetailsData } from '../../interfaces/details-data.interface';
 import { ModalService } from '../../services/modal.service';
 
@@ -10,6 +10,7 @@ import { ModalService } from '../../services/modal.service';
 export class DetailsInputComponent implements OnInit {
 
   @Output("onValidated") onValidated = new EventEmitter<DetailsData>();
+  @ViewChild("firstElement") firstElement: ElementRef;
 
   name = "";
   description = "";
@@ -19,6 +20,20 @@ export class DetailsInputComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.firstElement.nativeElement.focus();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(evt: KeyboardEvent) {
+    switch (evt.key) {
+      case "Escape":
+        this.close();
+        break;
+
+      case "Enter":
+        this.validateDetails();
+        break;
+    }
   }
 
   validateDetails() {
@@ -27,4 +42,10 @@ export class DetailsInputComponent implements OnInit {
       description: this.description
     });
   }
+
+  close() {
+    this.modalService.validateDetailModal(null);
+  }
+
+
 }
