@@ -21,3 +21,12 @@
 input {
   margin-top: 5px;
 }
+
+.toggle-set {
+  cursor: pointer;
+
+  &:hover {
+    color: blue;
+    text-decoration: underline;
+  }
+}

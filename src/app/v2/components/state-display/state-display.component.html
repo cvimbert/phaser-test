@@ -2,6 +2,15 @@
   <div>Name: {{ state.name }}</div>
   <input type="button" value="Log value" (click)="logStateValue()">
   <input type="button" value="Set" (click)="setPosition()">
+    &nbsp;<span class="toggle-set" (click)="toggleSetOptions()">+</span>
+  <div [hidden]="!displaySetOptions">
+    <select [(ngModel)]="currentSetDuration">
+      <option *ngFor="let duration of setDurations; let i = index" value="{{ i }}">{{ duration }}</option>
+    </select>
+    <select [(ngModel)]="currentSetEasing">
+      <option *ngFor="let easing of setEasings; let i = index" value="{{ i }}">{{ easing }}</option>
+    </select>
+  </div>
   <input type="button" value="Delete" (click)="deleteState()">
 
   <ng-container *ngIf="type === 'basic'">

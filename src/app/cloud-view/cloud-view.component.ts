@@ -11,6 +11,7 @@ import { JsonConvert, OperationMode, ValueCheckingMode } from "json2typescript";
 import { StatesService } from '../v2/services/states.service';
 import { DetailsData } from '../v2/interfaces/details-data.interface';
 import { ModalService } from '../v2/services/modal.service';
+import { SetData } from '../v2/interfaces/set-data.interface';
 
 @Component({
   selector: 'app-cloud-view',
@@ -313,16 +314,31 @@ export class CloudViewComponent implements OnInit {
   }
 
   // pas utile
-  setPosition(state: CloudState) {    
+  setPosition(data: SetData) {    
     // Un premier cas simple de mise à jour de rotation relative
     
-    for (let nodeId in state.nodeStates) {
-      let nodeState = state.nodeStates[nodeId];
+    for (let nodeId in data.state.nodeStates) {
+      let nodeState = data.state.nodeStates[nodeId];
       let node = this.selectedStructure.getNode(nodeId);
 
-      node.relativeRotation = nodeState.relativeRotation;
-      node.applyRelativeRotation();
-      node.render();
+      if (data.duration == 1) {
+        node.relativeRotation = nodeState.relativeRotation;
+        node.applyRelativeRotation();
+        node.render();
+      } else {
+        this.cloudScene.add.tween({
+          targets: node,
+          relativeRotation: node.relativeRotation,
+          duration: 2000,
+          onUpdate: () => {
+            node.applyRelativeRotation();
+            node.render();
+          },
+          onComplete: () => {
+            console.log("complete");
+          }
+        });
+      }
     }
   }
 

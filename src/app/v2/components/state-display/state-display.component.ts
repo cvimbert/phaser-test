@@ -3,6 +3,7 @@ import { CloudState } from '../../cloud-state.class';
 import { StatesService } from '../../services/states.service';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 import { ModalService } from '../../services/modal.service';
+import { SetData } from '../../interfaces/set-data.interface';
 
 @Component({
   selector: 'state-display',
@@ -11,12 +12,28 @@ import { ModalService } from '../../services/modal.service';
 })
 export class StateDisplayComponent implements OnInit {
 
-  @Input("state") state: CloudState;
-  @Input("type") type: StateDisplayerType = StateDisplayerType.BASIC;
+  @Input() state: CloudState;
+  @Input() type: StateDisplayerType = StateDisplayerType.BASIC;
 
-  @Output("onSetPosition") onSetPosition = new EventEmitter<CloudState>();
+  @Output() onSetPosition = new EventEmitter<SetData>();
 
   selectedDiffState: CloudState;
+  displaySetOptions = false;
+
+  setDurations = [
+    "0s",
+    "1s",
+    "2s"
+  ];
+
+  currentSetDuration = 0;
+
+  setEasings = [
+    "eq1",
+    "eq2"
+  ];
+
+  currentSetEasing = 0;
 
   constructor(
     public statesService: StatesService,
@@ -24,6 +41,10 @@ export class StateDisplayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  toggleSetOptions() {
+    this.displaySetOptions = !this.displaySetOptions;
   }
 
   selectFirstValidDiffState() {
@@ -43,7 +64,11 @@ export class StateDisplayComponent implements OnInit {
   }
 
   setPosition() {
-    this.onSetPosition.emit(this.state);
+    this.onSetPosition.emit({
+      state: this.state,
+      duration: this.currentSetDuration,
+      easing: this.currentSetEasing
+    });
   }
 
   set selectedDiffStateId(value: string) {
