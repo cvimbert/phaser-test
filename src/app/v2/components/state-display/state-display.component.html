@@ -8,7 +8,7 @@
     <input type="button" value="Diff with" (click)="diffTest()">
     <ng-container *ngIf="statesService.states">
       <select [(ngModel)]="selectedDiffStateId">
-        <option *ngFor="let cstate of getDiffTargets(state)" value="{{ cstate.name }}">{{ cstate.name }}</option>
+        <option *ngFor="let cstate of getDiffTargets(state)" value="{{ cstate.id }}">{{ cstate.name }}</option>
       </select>
     </ng-container>
   </ng-container>

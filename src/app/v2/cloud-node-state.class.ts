@@ -90,7 +90,6 @@ export class CloudNodeState {
     return JSON.stringify(this);
   }
 
-  // à tester...
   diffWithState(state: CloudNodeState, mode: DiffMode): CloudNodeState {
 
     let diff = new CloudNodeState();

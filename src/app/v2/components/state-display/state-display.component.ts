@@ -39,7 +39,7 @@ export class StateDisplayComponent implements OnInit {
       this.selectFirstValidDiffState();
     }
 
-    if (this.selectedDiffState) return this.selectedDiffState.name;
+    if (this.selectedDiffState) return this.selectedDiffState.id;
   }
 
   setPosition() {
@@ -47,7 +47,7 @@ export class StateDisplayComponent implements OnInit {
   }
 
   set selectedDiffStateId(value: string) {
-    this.selectedDiffState = this.statesService.states.find(state => state.name === value);
+    this.selectedDiffState = this.statesService.states.find(state => state.id === value);
   }
 
   getDiffTargets(): CloudState[] {
