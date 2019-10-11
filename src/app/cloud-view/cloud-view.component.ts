@@ -312,6 +312,7 @@ export class CloudViewComponent implements OnInit {
     console.log(state);
   }
 
+  // pas utile
   setPosition(state: CloudState) {    
     // Un premier cas simple de mise à jour de rotation relative
     

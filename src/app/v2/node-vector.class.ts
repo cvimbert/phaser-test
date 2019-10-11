@@ -31,9 +31,107 @@ export class NodeVector {
   };
 
 
-  get rRot(): number {
-    return this.relativeRotation - (CloudSettings.rotationType === RotationType.PARENT_RELATIVE ? this.initRotation : 0);
+  // fonctions de convertion des positions et angles
+
+  // hypothenus
+  calculateHypothenus() {
+    let xv = this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0);
+    let yv = this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0);
+    
+    this.hypothenus = Math.sqrt(
+      Math.pow(xv, 2) + Math.pow(yv, 2)
+    );    
   }
+
+
+  // A - Dans le sens descendant
+  // 1 - absolute to relative
+  absoluteToRelative() {
+    this.absoluteToRelativeX();
+    this.absoluteToRelativeY();
+    this.absoluteToRelativeRotation();
+  }
+
+  absoluteToRelativeX() {
+    this.relativePosition.x = this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0);
+  }
+
+  absoluteToRelativeY() {
+    this.relativePosition.y = this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0);
+  }
+
+  absoluteToRelativeRotation() {
+    this.relativeRotation = this.absoluteRotation - (this.parent ? this.parent.absoluteRotation : 0);
+  }
+
+  // 2 - own (depuis relative ou absolute, on verra)
+  toOwn() {
+    this.calculateHypothenus();
+    this.toInitRotation();
+    this.toOwnX();
+    this.toOwnY();
+  }
+
+  toInitRotation() {
+    this.initRotation = Math.atan2(this.relativePosition.y, this.relativePosition.x) + (this.parent ? this.parent.absoluteRotation : 0);
+  }
+
+  toOwnX() {
+    this.ownPosition.x = Math.cos(this.initRotation) * this.hypothenus;
+  }
+
+  toOwnY() {
+    this.ownPosition.y = Math.sin(this.initRotation) * this.hypothenus;
+  }
+
+
+  // B - Dans le sens montant
+  // 1 - own to relative / own to absolute ?
+  ownToRelative() {
+    
+  }
+
+  // hypothenus doit être connu
+  ownToInitAngle() {
+    // this.initRotation = Math.acos(this.ownPosition.x / this.hypothenus);
+  }
+
+  ownToRelativeAngle() {
+    // on considère que initRotation est déjà connu, ou alors il faut le calculer
+
+  }
+
+  ownToRelativeX() {
+
+  }
+
+  ownToRelativeY() {
+
+  }
+  
+  
+
+  // 2 - relative to absolute
+  relativeToAbsolute() {
+    this.relativeToAbsoluteX();
+    this.relativeToAbsoluteY();
+    this.relativeToAbsoluteRotation();
+  }
+
+  relativeToAbsoluteX() {
+    this.absolutePosition.x = this.relativePosition.x + (this.parent ? this.parent.absolutePosition.x : 0);
+  }
+
+  relativeToAbsoluteY() {
+    this.absolutePosition.y = this.relativePosition.y + (this.parent ? this.parent.absolutePosition.y : 0);
+  }
+
+  relativeToAbsoluteRotation() {
+    this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
+  }
+  
+  
+
 
   getRelativePosition(): Point {
     return {
@@ -43,7 +141,7 @@ export class NodeVector {
   }
 
   getAbsoluteRotation(): number {
-    return this.rRot + (this.parent ? this.parent.absoluteRotation : 0);
+    return this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
   }
 
   getAngleWithParent(): number {
@@ -66,15 +164,6 @@ export class NodeVector {
     this.calculateChildren();
   }
 
-  calculateHypothenus() {
-    let xv = this.absolutePosition.x - (this.parent ? this.parent.absolutePosition.x : 0);
-    let yv = this.absolutePosition.y - (this.parent ? this.parent.absolutePosition.y : 0);
-    
-    this.hypothenus = Math.sqrt(
-      Math.pow(xv, 2) + Math.pow(yv, 2)
-    );    
-  }
-
   calculateChildren() {
     this.children.forEach(child => child.calculateGeometry());
   }
@@ -95,9 +184,10 @@ export class NodeVector {
     };
   }
 
+  // à priori cette fonction peut disparaitre (ou pas)
   applyRelativeRotation() {
 
-    this.absoluteRotation = this.rRot + (this.parent ? this.parent.absoluteRotation : 0);
+    this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
 
     // calcul des nouvelles positions relatives
     // parent.absoluteRotation ou absoluteRotation tout court, deux choix valables
