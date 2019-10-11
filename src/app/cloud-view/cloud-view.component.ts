@@ -313,7 +313,6 @@ export class CloudViewComponent implements OnInit {
     console.log(state);
   }
 
-  // pas utile
   setPosition(data: SetData) {    
     // Un premier cas simple de mise à jour de rotation relative
     
@@ -328,8 +327,8 @@ export class CloudViewComponent implements OnInit {
       } else {
         this.cloudScene.add.tween({
           targets: node,
-          relativeRotation: node.relativeRotation,
-          duration: 2000,
+          relativeRotation: nodeState.relativeRotation,
+          duration: 500,
           onUpdate: () => {
             node.applyRelativeRotation();
             node.render();
