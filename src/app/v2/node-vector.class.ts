@@ -86,32 +86,37 @@ export class NodeVector {
 
 
   // B - Dans le sens montant
-  // 1 - own to relative / own to absolute ?
+  // 1 - Own to relative / own to absolute ?
   ownToRelative() {
-    
+    this.ownToInitRotation();
+    this.hypothenusByOwn();
+    this.ownToRelativeX();
+    this.ownToRelativeY();
   }
 
   // hypothenus doit être connu
-  ownToInitAngle() {
-    // this.initRotation = Math.acos(this.ownPosition.x / this.hypothenus);
+  ownToInitRotation(): number {
+    return Math.atan2(this.ownPosition.y, this.ownPosition.x);
+  }
+
+  hypothenusByOwn(): number {
+    console.log("op", this.ownPosition);
+    return Math.sqrt(Math.pow(this.ownPosition.x, 2) + Math.pow(this.ownPosition.y, 2));
   }
 
   ownToRelativeAngle() {
-    // on considère que initRotation est déjà connu, ou alors il faut le calculer
-
+     
   }
 
   ownToRelativeX() {
-
+    return Math.cos(this.initRotation) * this.hypothenus;
   }
 
   ownToRelativeY() {
-
+    return Math.sin(this.initRotation) * this.hypothenus;
   }
   
-  
-
-  // 2 - relative to absolute
+  // 2 - Relative to absolute
   relativeToAbsolute() {
     this.relativeToAbsoluteX();
     this.relativeToAbsoluteY();
@@ -128,6 +133,12 @@ export class NodeVector {
 
   relativeToAbsoluteRotation() {
     this.absoluteRotation = this.relativeRotation + (this.parent ? this.parent.absoluteRotation : 0);
+  }
+
+  // 3 - Own to absolute
+  ownToAbsolute() {
+    this.ownToRelative();
+    this.relativeToAbsolute();
   }
   
   
@@ -203,5 +214,22 @@ export class NodeVector {
     };
 
     this.children.forEach(child => child.applyRelativeRotation());
+  }
+
+  
+  get ownX(): number {
+    return this.ownPosition.x;
+  }
+
+  set ownX(value: number) {
+    this.ownPosition.x = value;
+  }
+
+  get ownY(): number {
+    return this.ownPosition.y;
+  }
+
+  set ownY(value: number) {
+    this.ownPosition.y = value;
   }
 }

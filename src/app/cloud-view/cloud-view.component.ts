@@ -313,7 +313,13 @@ export class CloudViewComponent implements OnInit {
     console.log(state);
   }
 
+  testRelativeApply() {
+
+  }
+
   setPosition(data: SetData) {    
+
+    let ct = -1;
     // Un premier cas simple de mise à jour de rotation relative
     
     for (let nodeId in data.state.nodeStates) {
@@ -328,12 +334,30 @@ export class CloudViewComponent implements OnInit {
         this.cloudScene.add.tween({
           targets: node,
           relativeRotation: nodeState.relativeRotation,
+          ownX: nodeState.ownX,
+          ownY: nodeState.ownY,
           duration: 500,
           onUpdate: () => {
-            node.applyRelativeRotation();
-            node.render();
+
+            if (ct % 3 == 2) {
+              console.log("update");
+              node.applyRelativeRotation();
+              node.render();
+            }
+            
+            ct++;
+
+            // console.log(nodeState.ownX, node.ownPosition.x);
           },
           onComplete: () => {
+            node.hypothenus = node.hypothenusByOwn();
+            console.log("init", node.ownToInitRotation());
+            node.initRotation = node.ownToInitRotation();
+            
+            console.log("hyp", node.hypothenusByOwn());
+            console.log("x", node.ownToRelativeX());
+            console.log("y", node.ownToRelativeY());
+            
             console.log("complete");
           }
         });

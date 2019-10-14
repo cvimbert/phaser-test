@@ -5,9 +5,9 @@
   <div class="main-title"><span class="big">{{ node.id }}</span></div>
   <numeric-value name="hypothenus" [value]="node.hypothenus"></numeric-value>
   <div class="properties-group">Rotation</div>
-  <numeric-value name="own" [value]="node.initRotation | toDegrees"></numeric-value>
-  <numeric-value name="relative" [value]="node.relativeRotation | toDegrees"></numeric-value>
-  <numeric-value name="absolute" [value]="node.absoluteRotation | toDegrees"></numeric-value>
+  <numeric-value name="own" [value]="node.initRotation"></numeric-value>
+  <numeric-value name="relative" [value]="node.relativeRotation"></numeric-value>
+  <numeric-value name="absolute" [value]="node.absoluteRotation"></numeric-value>
   <div class="properties-group">Relative position</div>
   <numeric-value name="X" [value]="node.relativePosition.x"></numeric-value>
   <numeric-value name="Y" [value]="node.relativePosition.y"></numeric-value>
