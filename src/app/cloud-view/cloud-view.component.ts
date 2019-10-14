@@ -343,6 +343,8 @@ export class CloudViewComponent implements OnInit {
               console.log("update");
               node.applyRelativeRotation();
               node.render();
+              /* node.ownToAbsolute(true);
+              node.render(); */
             }
             
             ct++;
@@ -350,7 +352,7 @@ export class CloudViewComponent implements OnInit {
             // console.log(nodeState.ownX, node.ownPosition.x);
           },
           onComplete: () => {
-            node.hypothenus = node.hypothenusByOwn();
+            /* node.hypothenus = node.hypothenusByOwn();
             console.log("init", node.ownToInitRotation());
             node.initRotation = node.ownToInitRotation();
             
@@ -358,7 +360,12 @@ export class CloudViewComponent implements OnInit {
             console.log("x", node.ownToRelativeX());
             console.log("y", node.ownToRelativeY());
             
-            console.log("complete");
+            console.log("complete"); */
+
+            node.ownToAbsolute(true);
+            node.render();
+            console.log("tween complete");
+            
           }
         });
       }
