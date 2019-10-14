@@ -326,14 +326,32 @@ export class CloudViewComponent implements OnInit {
       let nodeState = data.state.nodeStates[nodeId];
       let node = this.selectedStructure.getNode(nodeId);
 
-      if (data.duration == 1) {
-        node.relativeRotation = nodeState.relativeRotation;
-        node.applyRelativeRotation();
+      if (data.duration == 0) {
+
+        if (nodeState.relativeRotation !== undefined) {
+          node.relativeRotation = nodeState.relativeRotation;
+          console.log("rrot", nodeState.relativeRotation);
+          
+        }
+
+        if (nodeState.ownX !== undefined) {
+          node.ownPosition.x = nodeState.ownX;
+        }
+
+        if (nodeState.ownY !== undefined) {
+          node.ownPosition.y = nodeState.ownY;
+        }
+        
+        // node.ownPosition.x = nodeState.ownX;
+        // node.ownPosition.y = nodeState.ownY;
+        
+        node.ownToAbsolute(true);
         node.render();
+        console.log("set position complete");
       } else {
         this.cloudScene.add.tween({
           targets: node,
-          relativeRotation: nodeState.relativeRotation,
+          relativeRotation: nodeState.relativeRotation !== undefined ? nodeState.relativeRotation : node.relativeRotation,
           ownX: nodeState.ownX,
           ownY: nodeState.ownY,
           duration: 500,

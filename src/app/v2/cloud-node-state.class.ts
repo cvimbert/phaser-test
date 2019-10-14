@@ -35,7 +35,7 @@ export class CloudNodeState {
   ];
 
   static relativeProperties = [
-    "initRotation",
+    //"initRotation",
     "relativeRotation",
     "ownX",
     "ownY",
