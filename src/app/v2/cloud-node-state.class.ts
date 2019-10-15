@@ -106,4 +106,8 @@ export class CloudNodeState {
 
     return diff;
   }
+
+  getUpdatedKeys(): string[] {
+    return Object.keys(this).filter(key => this[key] != undefined);
+  }
 }

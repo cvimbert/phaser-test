@@ -1,6 +1,8 @@
 import { Point } from './interfaces/point.interface';
 import { CloudSettings } from './cloud-settings.class';
 import { RotationType } from './enums/rotation-type.enum';
+import { CloudNodeState } from './cloud-node-state.class';
+import { TransformationProperties } from './transformation-properties.class';
 
 export class NodeVector {
 
@@ -87,20 +89,20 @@ export class NodeVector {
 
   // B - Dans le sens montant
   // 1 - Own to relative / own to absolute ?
-  ownToRelative(log = false) {
+  ownToRelative(updatedProperties: string[]): string[] {
 
-    // uniquement dans le cas où ownX ou ownY change
-    this.ownToInitRotation();
-
-    // uniquement dans le cas où ownX ou ownY change
-    this.hypothenusByOwn();
-
+    if (updatedProperties.indexOf(TransformationProperties.OWN_X) != -1 || updatedProperties.indexOf(TransformationProperties.OWN_Y) != -1) {
+      console.log("yes");
+      this.ownToInitRotation();
+      this.hypothenusByOwn();
+    }
+    
+    // nécessaire dans tous les cas pour calcul des coordonnées absolues
     this.ownToRelativeX();
     this.ownToRelativeY();
-
-    if (log) {
-      console.log("ir", this.initRotation, "hy", this.hypothenus, "rx", this.relativePosition.x, "ry", this.relativePosition.y);
-    }
+    
+    // en attendant mieux
+    return updatedProperties;
   }
 
   // hypothenus doit être connu
@@ -145,15 +147,21 @@ export class NodeVector {
   }
 
   // 3 - Own to absolute
-  ownToAbsolute(recursive = false) {
-    this.ownToRelative();
+  ownToAbsolute(updatedProperties: string[], recursive = false) {
+    this.ownToRelative(updatedProperties);
     this.relativeToAbsolute();
 
+    // ici on doit générer un nouveau tableau de propriétés mises à jour, pour éviter les calculs inutiles
     if (recursive) {
-      this.children.forEach(child => child.ownToAbsolute(recursive));
+      this.children.forEach(child => child.ownToAbsolute(updatedProperties, recursive));
     }
   }
 
+  getUpdatedProperties(partialState: CloudNodeState): string[] {
+    return Object.keys(partialState);
+  }
+
+  // les trois prochaines méthodes ne devraient plus être utiles (dans le meilleur des mondes)
   getRelativePosition(): Point {
     return {
       x: this.parent ? this.absolutePosition.x - this.parent.absolutePosition.x : this.absolutePosition.x,

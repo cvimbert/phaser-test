@@ -327,11 +327,16 @@ export class CloudViewComponent implements OnInit {
     let ct = -1;
     // Un premier cas simple de mise à jour de rotation relative
 
+    
+
     if (!data.state.nodeStates) return;
     
     for (let nodeId in data.state.nodeStates) {
+      
       let nodeState = data.state.nodeStates[nodeId];
       let node = this.selectedStructure.getNode(nodeId);
+
+      let updatedKeys = nodeState.getUpdatedKeys();
 
       if (data.duration == 1) {
 
@@ -347,7 +352,7 @@ export class CloudViewComponent implements OnInit {
           node.ownPosition.y = nodeState.ownY;
         }
                 
-        node.ownToAbsolute(true);
+        node.ownToAbsolute([], true);
         node.render();
 
         console.log("set position complete");
@@ -362,7 +367,7 @@ export class CloudViewComponent implements OnInit {
 
             if (ct % 3 == 2) {
               // console.log("update");
-              node.ownToAbsolute(true);
+              node.ownToAbsolute(updatedKeys, true);
               node.render();
               /* node.ownToAbsolute(true);
               node.render(); */
@@ -373,7 +378,7 @@ export class CloudViewComponent implements OnInit {
             // console.log(nodeState.ownX, node.ownPosition.x);
           },
           onComplete: () => {
-            node.ownToAbsolute(true);
+            node.ownToAbsolute(updatedKeys, true);
             node.render();
             console.log("tween complete");
 
