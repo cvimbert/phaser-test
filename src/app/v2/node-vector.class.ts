@@ -105,7 +105,7 @@ export class NodeVector {
 
   // hypothenus doit être connu
   ownToInitRotation() {
-    this.initRotation =  Math.atan2(this.ownPosition.y, this.ownPosition.x) - (this.parent ? this.parent.absoluteRotation : 0);
+    this.initRotation =  Math.atan2(this.ownPosition.y, this.ownPosition.x);
   }
 
   hypothenusByOwn() {
@@ -118,11 +118,11 @@ export class NodeVector {
   }
 
   ownToRelativeX() {
-    this.relativePosition.x = Math.cos(this.initRotation) * this.hypothenus;
+    this.relativePosition.x = Math.cos(this.initRotation - (this.parent ? this.parent.absoluteRotation : 0)) * this.hypothenus;
   }
 
   ownToRelativeY() {
-    this.relativePosition.y = Math.sin(this.initRotation) * this.hypothenus;
+    this.relativePosition.y = Math.sin(this.initRotation - (this.parent ? this.parent.absoluteRotation : 0)) * this.hypothenus;
   }
   
   // 2 - Relative to absolute
@@ -153,9 +153,6 @@ export class NodeVector {
       this.children.forEach(child => child.ownToAbsolute(recursive));
     }
   }
-  
-  
-
 
   getRelativePosition(): Point {
     return {

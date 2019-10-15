@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CloudScene } from '../v2/cloud-scene.class';
 import { Game } from 'phaser';
 import { CloudStructure } from '../v2/cloud-structure.class';
@@ -16,7 +16,8 @@ import { SetData } from '../v2/interfaces/set-data.interface';
 @Component({
   selector: 'app-cloud-view',
   templateUrl: './cloud-view.component.html',
-  styleUrls: ['./cloud-view.component.scss']
+  styleUrls: ['./cloud-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CloudViewComponent implements OnInit {
 
@@ -39,7 +40,8 @@ export class CloudViewComponent implements OnInit {
   constructor(
     public inspectionService: InspectionService,
     public statesService: StatesService,
-    public modalService: ModalService
+    public modalService: ModalService,
+    public ref: ChangeDetectorRef
   ) {
     this.jsonConverter = new JsonConvert();
     this.jsonConverter.operationMode = OperationMode.ENABLE; // print some debug data
@@ -139,6 +141,7 @@ export class CloudViewComponent implements OnInit {
 
     // chargement des datas depuis le localstorage
     this.loadData();
+    this.ref.detectChanges();
   }
 
   loadData() {
@@ -219,6 +222,8 @@ export class CloudViewComponent implements OnInit {
         this.selectedNode.render();
         break;
     }
+
+    this.ref.detectChanges();
   }
 
   private calculateRotationAngle(xPos: number, yPos: number, node: TransformationNode): number {
@@ -321,17 +326,17 @@ export class CloudViewComponent implements OnInit {
 
     let ct = -1;
     // Un premier cas simple de mise à jour de rotation relative
+
+    if (!data.state.nodeStates) return;
     
     for (let nodeId in data.state.nodeStates) {
       let nodeState = data.state.nodeStates[nodeId];
       let node = this.selectedStructure.getNode(nodeId);
 
-      if (data.duration == 0) {
+      if (data.duration == 1) {
 
         if (nodeState.relativeRotation !== undefined) {
-          node.relativeRotation = nodeState.relativeRotation;
-          console.log("rrot", nodeState.relativeRotation);
-          
+          node.relativeRotation = nodeState.relativeRotation;          
         }
 
         if (nodeState.ownX !== undefined) {
@@ -341,25 +346,23 @@ export class CloudViewComponent implements OnInit {
         if (nodeState.ownY !== undefined) {
           node.ownPosition.y = nodeState.ownY;
         }
-        
-        // node.ownPosition.x = nodeState.ownX;
-        // node.ownPosition.y = nodeState.ownY;
-        
+                
         node.ownToAbsolute(true);
         node.render();
+
         console.log("set position complete");
       } else {
         this.cloudScene.add.tween({
           targets: node,
-          relativeRotation: nodeState.relativeRotation !== undefined ? nodeState.relativeRotation : node.relativeRotation,
-          ownX: nodeState.ownX,
-          ownY: nodeState.ownY,
+          relativeRotation: nodeState.relativeRotation != undefined ? nodeState.relativeRotation : node.relativeRotation,
+          ownX: nodeState.ownX != undefined ? nodeState.ownX : node.ownPosition.x,
+          ownY: nodeState.ownY != undefined ? nodeState.ownY : node.ownPosition.y,
           duration: 500,
           onUpdate: () => {
 
             if (ct % 3 == 2) {
-              console.log("update");
-              node.applyRelativeRotation();
+              // console.log("update");
+              node.ownToAbsolute(true);
               node.render();
               /* node.ownToAbsolute(true);
               node.render(); */
@@ -370,20 +373,14 @@ export class CloudViewComponent implements OnInit {
             // console.log(nodeState.ownX, node.ownPosition.x);
           },
           onComplete: () => {
-            /* node.hypothenus = node.hypothenusByOwn();
-            console.log("init", node.ownToInitRotation());
-            node.initRotation = node.ownToInitRotation();
-            
-            console.log("hyp", node.hypothenusByOwn());
-            console.log("x", node.ownToRelativeX());
-            console.log("y", node.ownToRelativeY());
-            
-            console.log("complete"); */
-
             node.ownToAbsolute(true);
             node.render();
             console.log("tween complete");
-            
+
+            // ??? setTimeout ??
+            setTimeout(() => {
+              this.ref.detectChanges();
+            });
           }
         });
       }

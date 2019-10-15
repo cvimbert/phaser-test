@@ -34,6 +34,8 @@ export class DetailsInputComponent implements OnInit {
         this.validateDetails();
         break;
     }
+
+    // evt.stopPropagation();
   }
 
   validateDetails() {
