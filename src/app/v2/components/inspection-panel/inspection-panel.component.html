@@ -5,18 +5,18 @@
   <div class="main-title"><span class="big">{{ node.id }}</span></div>
   <numeric-value name="hypothenus" [value]="node.hypothenus"></numeric-value>
   <div class="properties-group">Rotation</div>
-  <numeric-value name="own" [value]="node.initRotation"></numeric-value>
-  <numeric-value name="relative" [value]="node.relativeRotation"></numeric-value>
-  <numeric-value name="absolute" [value]="node.absoluteRotation"></numeric-value>
+  <numeric-value name="own" propertyName="initRotation" [node]="node" [value]="node.initRotation"></numeric-value>
+  <numeric-value name="relative" propertyName="relativeRotation" [node]="node" [value]="node.relativeRotation"></numeric-value>
+  <numeric-value name="absolute" propertyName="absoluteRotation" [node]="node" [value]="node.absoluteRotation"></numeric-value>
   <div class="properties-group">Relative position</div>
-  <numeric-value name="X" [value]="node.relativePosition.x"></numeric-value>
-  <numeric-value name="Y" [value]="node.relativePosition.y"></numeric-value>
+  <numeric-value name="X" propertyName="relativeX" [node]="node" [value]="node.relativePosition.x"></numeric-value>
+  <numeric-value name="Y" propertyName="relativeY" [node]="node" [value]="node.relativePosition.y"></numeric-value>
   <div class="properties-group">Absolute position</div>
-  <numeric-value name="X" [value]="node.absolutePosition.x"></numeric-value>
-  <numeric-value name="Y" [value]="node.absolutePosition.y"></numeric-value>
+  <numeric-value name="X" propertyName="absoluteX" [node]="node" [value]="node.absolutePosition.x"></numeric-value>
+  <numeric-value name="Y" propertyName="absoluteY" [node]="node" [value]="node.absolutePosition.y"></numeric-value>
   <div class="properties-group">Own position</div>
-  <numeric-value name="X" [value]="node.ownPosition.x"></numeric-value>
-  <numeric-value name="Y" [value]="node.ownPosition.y"></numeric-value>
+  <numeric-value name="X" propertyName="ownX" [node]="node" [value]="node.ownPosition.x"></numeric-value>
+  <numeric-value name="Y" propertyName="ownY" [node]="node" [value]="node.ownPosition.y"></numeric-value>
   <br>
   <boolean-value
     did="names"

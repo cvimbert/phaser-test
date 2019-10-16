@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EditionMode } from './enums/edition-mode.enum';
+import { TransformationNode } from './v2/transformation-node.class';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,7 @@ import { EditionMode } from './enums/edition-mode.enum';
 export class NodeEditorService {
 
   editionMode = EditionMode.ROTATION;
+  currentNode: TransformationNode;
 
   constructor() { }
 

@@ -131,6 +131,7 @@ export class CloudViewComponent implements OnInit {
     this.selectedStructure = this.cloudScene.manager.getStructure(this.cloudScene.manager.mainStructureId);
     this.inspectionService.selectedStructure = this.selectedStructure;
     this.selectedNode = this.selectedStructure.rootNode;
+    this.inspectionService.selectedNode = this.selectedNode;
     this.selectedNode.displayLinks();
     this.selectedNode.displayOrigin();
 
@@ -244,6 +245,7 @@ export class CloudViewComponent implements OnInit {
 
   set selectedNodeId(value: string) {
     this.selectedNode = this.selectedStructure.getNode(value);
+    this.inspectionService.selectedNode = this.selectedNode;
     this.selectedStructure.clearAllNodesDisplay();
     this.selectedNode.displayOrigin();
     this.selectedNode.displayLinks();
@@ -357,6 +359,7 @@ export class CloudViewComponent implements OnInit {
 
         console.log("set position complete");
       } else {
+
         this.cloudScene.add.tween({
           targets: node,
           relativeRotation: nodeState.relativeRotation != undefined ? nodeState.relativeRotation : node.relativeRotation,
@@ -366,16 +369,11 @@ export class CloudViewComponent implements OnInit {
           onUpdate: () => {
 
             if (ct % 3 == 2) {
-              // console.log("update");
               node.ownToAbsolute(updatedKeys, true);
               node.render();
-              /* node.ownToAbsolute(true);
-              node.render(); */
             }
             
             ct++;
-
-            // console.log(nodeState.ownX, node.ownPosition.x);
           },
           onComplete: () => {
             node.ownToAbsolute(updatedKeys, true);

@@ -91,18 +91,24 @@ export class NodeVector {
   // 1 - Own to relative / own to absolute ?
   ownToRelative(updatedProperties: string[]): string[] {
 
-    if (updatedProperties.indexOf(TransformationProperties.OWN_X) != -1 || updatedProperties.indexOf(TransformationProperties.OWN_Y) != -1) {
-      console.log("yes");
+    if (updatedProperties.indexOf(TransformationProperties.OWN_X) != -1
+      || updatedProperties.indexOf(TransformationProperties.OWN_Y) != -1) {
       this.ownToInitRotation();
       this.hypothenusByOwn();
     }
     
-    // nécessaire dans tous les cas pour calcul des coordonnées absolues
+    // nécessaire dans tous les cas pour le calcul des coordonnées absolues
     this.ownToRelativeX();
     this.ownToRelativeY();
     
-    // en attendant mieux
-    return updatedProperties;
+    // console.log(updatedProperties);
+    
+    // à vérifier si c'est vraiment utile
+    let newProps: string[] = updatedProperties.filter(prop =>
+      prop != TransformationProperties.OWN_X &&
+      prop != TransformationProperties.OWN_Y);
+
+    return newProps;
   }
 
   // hypothenus doit être connu
@@ -148,12 +154,11 @@ export class NodeVector {
 
   // 3 - Own to absolute
   ownToAbsolute(updatedProperties: string[], recursive = false) {
-    this.ownToRelative(updatedProperties);
+    let newProps = this.ownToRelative(updatedProperties);
     this.relativeToAbsolute();
 
-    // ici on doit générer un nouveau tableau de propriétés mises à jour, pour éviter les calculs inutiles
     if (recursive) {
-      this.children.forEach(child => child.ownToAbsolute(updatedProperties, recursive));
+      this.children.forEach(child => child.ownToAbsolute(newProps, recursive));
     }
   }
 
@@ -249,5 +254,40 @@ export class NodeVector {
 
   set ownY(value: number) {
     this.ownPosition.y = value;
+  }
+
+  get relativeX(): number {
+    return this.relativePosition.x;
+  }
+
+  set relativeX(value: number) {
+    console.log("Set relativeX");
+    
+    this.relativePosition.x = value;
+  }
+
+  get relativeY(): number {
+    return this.relativePosition.y;
+  }
+
+  set relativeY(value: number) {
+    this.relativePosition.y = value;
+  }
+
+  get absoluteX(): number {    
+    return this.absolutePosition.x;
+  }
+
+  set absoluteX(value: number) {
+    console.log("Set absoluteX");
+    this.absolutePosition.x = value;
+  }
+
+  get absoluteY(): number {
+    return this.absolutePosition.y;
+  }
+
+  set absoluteY(value: number) {
+    this.absolutePosition.y = value;
   }
 }

@@ -1,3 +1,4 @@
-<div>
-  {{ name }} : {{ value }}
+<div (click)="setEditionMode()">
+  {{ name }} : <span *ngIf="!editionMode">{{ value }}</span>
+  <input #editionInput [(ngModel)]="value" (change)="onValueChange()" *ngIf="editionMode" type="number">
 </div>
