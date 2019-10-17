@@ -6,31 +6,31 @@ import { JsonObject, JsonProperty } from 'json2typescript';
 export class CloudNodeState {
 
   @JsonProperty("ir")
-  initRotation: number = undefined;
+  initRotation: number = null;
 
   @JsonProperty("ar")
-  absoluteRotation: number = undefined;
+  absoluteRotation: number = null;
 
   @JsonProperty("rr")
-  relativeRotation: number = undefined;
+  relativeRotation: number = null;
 
   @JsonProperty("ax")
-  absoluteX: number = undefined;
+  absoluteX: number = null;
 
   @JsonProperty("ay")
-  absoluteY: number = undefined;
+  absoluteY: number = null;
 
   @JsonProperty("rx")
-  relativeX: number = undefined;
+  relativeX: number = null;
 
   @JsonProperty("ry")
-  relativeY: number = undefined;
+  relativeY: number = null;
 
   @JsonProperty("ox")
-  ownX: number = undefined;
+  ownX: number = null;
 
   @JsonProperty("oy")
-  ownY: number = undefined;
+  ownY: number = null;
 
   static allProperties = [
     "initRotation",
@@ -67,20 +67,6 @@ export class CloudNodeState {
     
   constructor() {}
 
-  static fromJsonString(jsonString: string): CloudNodeState {
-    return CloudNodeState.fromObject(jsonString);
-  }
-
-  static fromObject(data: Object): CloudNodeState {
-    let state = new CloudNodeState();
-
-    CloudNodeState.allProperties.forEach(property => {
-      state[property] = data[property];
-    });
-
-    return state;
-  }
-
   static fromNode(node: TransformationNode): CloudNodeState {
     let state = new CloudNodeState();
     state.initRotation = node.initRotation;
@@ -97,10 +83,6 @@ export class CloudNodeState {
     state.ownY = node.ownPosition.y;
 
     return state;
-  }
-
-  toJson(): string {
-    return JSON.stringify(this);
   }
 
   diffWithState(state: CloudNodeState, mode: DiffMode): CloudNodeState {

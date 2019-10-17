@@ -46,7 +46,7 @@ export class CloudViewComponent implements OnInit {
     this.jsonConverter = new JsonConvert();
     this.jsonConverter.operationMode = OperationMode.ENABLE; // print some debug data
     this.jsonConverter.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
-    this.jsonConverter.valueCheckingMode = ValueCheckingMode.ALLOW_OBJECT_NULL;
+    this.jsonConverter.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
   }
 
   ngOnInit() {
@@ -162,14 +162,14 @@ export class CloudViewComponent implements OnInit {
     
     if (statesStr != null) {
       let states: Object[] = JSON.parse(statesStr);
-      this.statesService.states = states.map(state => CloudState.fromObject(state));
+      this.statesService.states = this.jsonConverter.deserializeArray(states, CloudState);
     }
 
     let diffsStr: string = localStorage["diffs"];
 
     if (diffsStr != null) {
       let diffs: Object[] = JSON.parse(diffsStr);
-      this.statesService.diffs = diffs.map(diff => CloudState.fromObject(diff));
+      this.statesService.diffs = this.jsonConverter.deserializeArray(diffs, CloudState);
     }
   }
 
@@ -402,19 +402,18 @@ export class CloudViewComponent implements OnInit {
   }
 
   saveStates() {
-    let str = JSON.stringify(this.statesService.states);    
+    let str = JSON.stringify(this.jsonConverter.serializeArray(this.statesService.states));    
 
     localStorage["states"] = str;
     localStorage["states-index"] = this.tempStateId;
 
-    let diffStr = JSON.stringify(this.statesService.diffs);
+    let diffStr = JSON.stringify(this.jsonConverter.serializeArray(this.statesService.diffs));
 
     localStorage["diffs"] = diffStr;
     localStorage["diffs-index"] = this.statesService.tempDiffId;
 
-    let obj = this.jsonConverter.serialize(this.statesService.states);
+    /* let obj = this.jsonConverter.serialize(this.statesService.states);
     let st = this.jsonConverter.deserializeArray(obj, CloudState);
-    console.log(obj, st);
-    
+    console.log(obj, st); */
   }
 }

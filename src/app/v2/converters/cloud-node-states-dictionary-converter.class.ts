@@ -1,11 +1,18 @@
-import { JsonCustomConvert, JsonConvert, JsonConverter } from 'json2typescript';
+import { JsonCustomConvert, JsonConvert, JsonConverter, OperationMode, ValueCheckingMode } from 'json2typescript';
 import { CloudNodeStatesDictionary } from '../cloud-node-states-dictionary.class';
 import { CloudNodeState } from '../cloud-node-state.class';
 
 @JsonConverter
 export class CloudNodeStatesDictionaryConverter implements JsonCustomConvert<CloudNodeStatesDictionary> {
 
-  converter: JsonConvert = new JsonConvert();
+  converter: JsonConvert;
+
+  constructor() {
+    this.converter = new JsonConvert();
+    this.converter.operationMode = OperationMode.ENABLE;
+    this.converter.ignorePrimitiveChecks = false;
+    this.converter.valueCheckingMode = ValueCheckingMode.ALLOW_OBJECT_NULL;
+  }
 
   serialize(dic: CloudNodeStatesDictionary): any {
     let obj = {};
