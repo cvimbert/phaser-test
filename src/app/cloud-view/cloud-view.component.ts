@@ -329,8 +329,6 @@ export class CloudViewComponent implements OnInit {
     let ct = -1;
     // Un premier cas simple de mise à jour de rotation relative
 
-    
-
     if (!data.state.nodeStates) return;
     
     for (let nodeId in data.state.nodeStates) {
@@ -413,5 +411,10 @@ export class CloudViewComponent implements OnInit {
 
     localStorage["diffs"] = diffStr;
     localStorage["diffs-index"] = this.statesService.tempDiffId;
+
+    let obj = this.jsonConverter.serialize(this.statesService.states);
+    let st = this.jsonConverter.deserializeArray(obj, CloudState);
+    console.log(obj, st);
+    
   }
 }

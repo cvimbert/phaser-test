@@ -1,8 +1,10 @@
 import { CloudNodeState } from './cloud-node-state.class';
 import { TransformationNode } from './transformation-node.class';
 import { CloudStructure } from './cloud-structure.class';
-import { JsonObject, JsonProperty } from 'json2typescript';
+import { JsonObject, JsonProperty, Any } from 'json2typescript';
 import { DiffMode } from './enums/diff-mode.enum';
+import { CloudNodeStatesDictionary } from './cloud-node-states-dictionary.class';
+import { CloudNodeStatesDictionaryConverter } from './converters/cloud-node-states-dictionary-converter.class';
 
 @JsonObject("CloudState")
 export class CloudState {
@@ -10,18 +12,19 @@ export class CloudState {
     @JsonProperty("id", String)
     id = "";
 
-    @JsonProperty("structureId", String)
+    @JsonProperty("sid", String)
     structureId = "";
 
-    nodeStates: { [key: string]: CloudNodeState } = {};
+    @JsonProperty("states", CloudNodeStatesDictionaryConverter)
+    nodeStates: CloudNodeStatesDictionary = {};
 
     @JsonProperty("name", String)
     name = "";
 
-    @JsonProperty("description", String)
+    @JsonProperty("desc", String)
     description = "";
 
-    constructor() {
+    constructor() {        
     }
 
     static fromNodesList(id: string, structure: CloudStructure, nodes: TransformationNode[]): CloudState {
@@ -31,7 +34,9 @@ export class CloudState {
         state.id = id;
 
         nodes.forEach(node => {
-            state.nodeStates[node.id] = CloudNodeState.fromNode(node);
+            let nd = CloudNodeState.fromNode(node); 
+            state.nodeStates[node.id] = nd;
+            // state.nodes.push(nd);
         });
 
         state.name = name;
@@ -54,7 +59,9 @@ export class CloudState {
         state.description = jsonObject["description"];
 
         for (let key in jsonObject["nodeStates"]) {
-            state.nodeStates[key] = CloudNodeState.fromObject(jsonObject["nodeStates"][key]);
+            let st = CloudNodeState.fromObject(jsonObject["nodeStates"][key])
+            state.nodeStates[key] = st;
+            // state.nodes.push(st);
         }
 
         return state;

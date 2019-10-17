@@ -1,26 +1,36 @@
-import { Point } from './interfaces/point.interface';
 import { TransformationNode } from './transformation-node.class';
 import { DiffMode } from './enums/diff-mode.enum';
+import { JsonObject, JsonProperty } from 'json2typescript';
 
+@JsonObject("CloudNodeState")
 export class CloudNodeState {
 
-  initRotation: number;
-  absoluteRotation: number;
-  relativeRotation: number;
+  @JsonProperty("ir")
+  initRotation: number = undefined;
 
-  absolutePosition: Point;
-  absoluteX: number;
-  absoluteY: number;
+  @JsonProperty("ar")
+  absoluteRotation: number = undefined;
 
-  relativePosition: Point;
-  relativeX: number;
-  relativeY: number;
+  @JsonProperty("rr")
+  relativeRotation: number = undefined;
 
-  ownPosition: Point;
-  ownX: number;
-  ownY: number;
+  @JsonProperty("ax")
+  absoluteX: number = undefined;
 
-  // data: any = {};
+  @JsonProperty("ay")
+  absoluteY: number = undefined;
+
+  @JsonProperty("rx")
+  relativeX: number = undefined;
+
+  @JsonProperty("ry")
+  relativeY: number = undefined;
+
+  @JsonProperty("ox")
+  ownX: number = undefined;
+
+  @JsonProperty("oy")
+  ownY: number = undefined;
 
   static allProperties = [
     "initRotation",

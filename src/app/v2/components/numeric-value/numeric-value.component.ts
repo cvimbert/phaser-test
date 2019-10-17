@@ -47,7 +47,7 @@ export class NumericValueComponent implements OnInit {
   onValueChange() {
     this.node[this.propertyName] = this.value;
 
-    console.log(this.propertyName, this.inspectionService.selectedNode);
+    // console.log(this.propertyName, this.inspectionService.selectedNode);
     this.inspectionService.selectedNode.applyRelativeRotation();
     this.inspectionService.selectedNode.render();
   }

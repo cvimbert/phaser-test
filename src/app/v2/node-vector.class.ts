@@ -1,6 +1,4 @@
 import { Point } from './interfaces/point.interface';
-import { CloudSettings } from './cloud-settings.class';
-import { RotationType } from './enums/rotation-type.enum';
 import { CloudNodeState } from './cloud-node-state.class';
 import { TransformationProperties } from './transformation-properties.class';
 
@@ -261,8 +259,6 @@ export class NodeVector {
   }
 
   set relativeX(value: number) {
-    console.log("Set relativeX");
-    
     this.relativePosition.x = value;
   }
 
@@ -279,7 +275,6 @@ export class NodeVector {
   }
 
   set absoluteX(value: number) {
-    console.log("Set absoluteX");
     this.absolutePosition.x = value;
   }
 
