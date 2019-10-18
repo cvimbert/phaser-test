@@ -4,6 +4,7 @@ import { StatesService } from '../../services/states.service';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 import { ModalService } from '../../services/modal.service';
 import { SetData } from '../../interfaces/set-data.interface';
+import { TransitionsService } from '../../services/transitions.service';
 
 @Component({
   selector: 'state-display',
@@ -37,6 +38,7 @@ export class StateDisplayComponent implements OnInit {
 
   constructor(
     public statesService: StatesService,
+    public transitionsService: TransitionsService,
     public modalService: ModalService
   ) { }
 
@@ -121,6 +123,12 @@ export class StateDisplayComponent implements OnInit {
         this.state.name = data.name;
         this.state.description = data.description;
       }
+    });
+  }
+
+  createTransition() {
+    this.modalService.openDetailsModal().then(data => {
+      
     });
   }
 }

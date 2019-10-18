@@ -12,6 +12,7 @@ import { StatesService } from '../v2/services/states.service';
 import { DetailsData } from '../v2/interfaces/details-data.interface';
 import { ModalService } from '../v2/services/modal.service';
 import { SetData } from '../v2/interfaces/set-data.interface';
+import { TransitionsService } from '../v2/services/transitions.service';
 
 @Component({
   selector: 'app-cloud-view',
@@ -41,6 +42,7 @@ export class CloudViewComponent implements OnInit {
     public inspectionService: InspectionService,
     public statesService: StatesService,
     public modalService: ModalService,
+    public transitionsService: TransitionsService,
     public ref: ChangeDetectorRef
   ) {
     this.jsonConverter = new JsonConvert();
@@ -171,6 +173,8 @@ export class CloudViewComponent implements OnInit {
       let diffs: Object[] = JSON.parse(diffsStr);
       this.statesService.diffs = this.jsonConverter.deserializeArray(diffs, CloudState);
     }
+
+    this.transitionsService.load();
   }
 
   onPointerDown(pointer: Phaser.Input.Pointer) {
@@ -415,5 +419,7 @@ export class CloudViewComponent implements OnInit {
     /* let obj = this.jsonConverter.serialize(this.statesService.states);
     let st = this.jsonConverter.deserializeArray(obj, CloudState);
     console.log(obj, st); */
+    this.transitionsService.createItem(null)
+    this.transitionsService.save();
   }
 }

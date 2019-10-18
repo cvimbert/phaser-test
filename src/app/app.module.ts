@@ -21,6 +21,8 @@ import { StateDisplayComponent } from './v2/components/state-display/state-displ
 import { StatesService } from './v2/services/states.service';
 import { DetailsInputComponent } from './v2/components/details-input/details-input.component';
 import { ModalService } from './v2/services/modal.service';
+import { TransitionDisplayComponent } from './v2/components/transition-display/transition-display.component';
+import { TransitionsService } from './v2/services/transitions.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { ModalService } from './v2/services/modal.service';
     BooleanValueComponent,
     FlooredPipe,
     StateDisplayComponent,
-    DetailsInputComponent
+    DetailsInputComponent,
+    TransitionDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { ModalService } from './v2/services/modal.service';
     NodeEditorService,
     InspectionService,
     ModalService,
-    StatesService
+    StatesService,
+    TransitionsService
   ],
   bootstrap: [AppComponent]
 })
