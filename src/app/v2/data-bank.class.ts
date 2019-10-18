@@ -5,7 +5,7 @@ import { Configuration } from './configuration.class';
 export class DataBank<T> {
 
   items: T[] = [];
-  tempId: number = 0;
+  tempId = 0;
   private jsonConverter: JsonConvert;
 
   constructor(
@@ -19,8 +19,11 @@ export class DataBank<T> {
     );
   }
 
-  createItem(data: DetailsData) {
+  createItem(data: DetailsData): T {
     let item: T = new this.itemClass();
+
+    // ces assignations ne sont pas hyper clean, mais bon...
+    item["id"] = this.storageKey + "_" + this.tempId++;
 
     if (data) {
       item["name"] = data.name;
@@ -28,6 +31,7 @@ export class DataBank<T> {
     }
 
     this.push(item);
+    return item;
   }
 
   push(item: T) {
@@ -57,7 +61,7 @@ export class DataBank<T> {
   load() {
     let index = localStorage[this.storageKey + Configuration.INDEX_SUFFIX];
 
-    if (this.tempId != undefined) {
+    if (index != undefined) {
       this.tempId = index;
     }
 

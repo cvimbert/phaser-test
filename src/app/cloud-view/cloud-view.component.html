@@ -28,8 +28,6 @@
 </div>
 <app-inspection-panel *ngIf="selectedNode" [currentMode]="currentTransformationMode" [node]="selectedNode"></app-inspection-panel>
 <div class="actions">
-  <!-- <input type="button" value="Translate" (click)="testTranslateWithTween()">
-  <input type="button" value="Rotation" (click)="rotationWithTween()"> -->
   <input type="button" value="Create state" (click)="createState()">
   <input type="button" value="Clear all states" (click)="clearAllStates()">
   <input type="button" value="Save states" (click)="saveStates()">
@@ -46,4 +44,8 @@
     [state]="diff"
     (onSetPosition)="setPosition($event)"
     ></state-display>
+  <transition-display
+    *ngFor="let transition of transitionsService.items"
+    [transition]="transition"
+    ></transition-display>
 </div>

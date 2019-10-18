@@ -419,7 +419,7 @@ export class CloudViewComponent implements OnInit {
     /* let obj = this.jsonConverter.serialize(this.statesService.states);
     let st = this.jsonConverter.deserializeArray(obj, CloudState);
     console.log(obj, st); */
-    this.transitionsService.createItem(null)
+
     this.transitionsService.save();
   }
 }

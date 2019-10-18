@@ -12,13 +12,4 @@ export class TransitionsService extends DataBank<Transition> {
   constructor() {
     super(Configuration.TRANSITIONS_STORAGE_KEY, Transition);
   }
-
-  createTransition(data: DetailsData) {
-    let transition = new Transition();
-    transition.id = "transition_" + this.tempId++;
-    transition.name = data.name;
-    transition.description = data.description;
-
-    this.push(transition);
-  }
 }
