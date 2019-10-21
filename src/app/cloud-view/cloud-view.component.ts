@@ -36,9 +36,6 @@ export class CloudViewComponent implements OnInit {
   startTranslationPoint: Point;
 
   tempStateId = 0;
-
-  jsonConverter: JsonConvert;
-
   constructor(
     public inspectionService: InspectionService,
     public statesService: StatesService,
@@ -46,12 +43,7 @@ export class CloudViewComponent implements OnInit {
     public modalService: ModalService,
     public transitionsService: TransitionsService,
     public ref: ChangeDetectorRef
-  ) {
-    this.jsonConverter = new JsonConvert();
-    this.jsonConverter.operationMode = OperationMode.ENABLE; // print some debug data
-    this.jsonConverter.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
-    this.jsonConverter.valueCheckingMode = ValueCheckingMode.ALLOW_NULL;
-  }
+  ) {}
 
   ngOnInit() {
     this.cloudScene = new CloudScene();
