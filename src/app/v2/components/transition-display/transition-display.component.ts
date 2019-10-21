@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Transition } from '../../game-structures/transition/transition.class';
 import { TransitionsService } from '../../services/transitions.service';
+import { Configuration } from '../../configuration.class';
 
 @Component({
   selector: 'transition-display',
@@ -20,5 +21,13 @@ export class TransitionDisplayComponent implements OnInit {
 
   deleteItem() {
     this.transitionsService.delete(this.transition);
+  }
+
+  get eases(): string[] {
+    return Configuration.EASES;
+  }
+
+  playTransition() {
+    
   }
 }

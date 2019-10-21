@@ -13,6 +13,7 @@ import { DetailsData } from '../v2/interfaces/details-data.interface';
 import { ModalService } from '../v2/services/modal.service';
 import { SetData } from '../v2/interfaces/set-data.interface';
 import { TransitionsService } from '../v2/services/transitions.service';
+import { DiffsService } from '../v2/services/diffs.service';
 
 @Component({
   selector: 'app-cloud-view',
@@ -41,6 +42,7 @@ export class CloudViewComponent implements OnInit {
   constructor(
     public inspectionService: InspectionService,
     public statesService: StatesService,
+    public diffsService: DiffsService,
     public modalService: ModalService,
     public transitionsService: TransitionsService,
     public ref: ChangeDetectorRef
@@ -148,33 +150,10 @@ export class CloudViewComponent implements OnInit {
   }
 
   loadData() {
-    let statesIndex = localStorage["states-index"];
     
-    if (statesIndex != null) {
-      this.tempStateId = statesIndex;
-    }
-
-    let diffsIndex = localStorage["diffs-index"];
-
-    if (diffsIndex != null) {
-      this.statesService.tempDiffId = diffsIndex;
-    }
-    
-    let statesStr: string = localStorage["states"];
-    
-    if (statesStr != null) {
-      let states: Object[] = JSON.parse(statesStr);
-      this.statesService.states = this.jsonConverter.deserializeArray(states, CloudState);
-    }
-
-    let diffsStr: string = localStorage["diffs"];
-
-    if (diffsStr != null) {
-      let diffs: Object[] = JSON.parse(diffsStr);
-      this.statesService.diffs = this.jsonConverter.deserializeArray(diffs, CloudState);
-    }
-
+    this.statesService.load();
     this.transitionsService.load();
+    this.diffsService.load();
   }
 
   onPointerDown(pointer: Phaser.Input.Pointer) {
@@ -303,19 +282,20 @@ export class CloudViewComponent implements OnInit {
       },
       onComplete: () => {
         console.log("Tween complete");
-        // console.log(node.relativeRotation);
       }
     });
   }
 
   createState() {
     this.modalService.openDetailsModal().then(value => {
+      console.log(value);
+      
       if (value) {
         let id = "state" + ++this.tempStateId;
         let state = CloudState.fromNodesList(id, this.selectedStructure, this.selectedStructure.nodesList);
         state.name = value.name;
         state.description = value.description;
-        this.statesService.states.push(state);
+        this.statesService.push(state);
       }
     }); 
   }
@@ -393,33 +373,14 @@ export class CloudViewComponent implements OnInit {
   }
 
   clearAllStates() {
-    this.statesService.states = [];
-    this.tempStateId = 0;
-
-    delete localStorage["states"];
-    delete localStorage["states-index"];
-
-    this.statesService.diffs = [];
-    this.statesService.tempDiffId = 0;
-    delete localStorage["diffs"];
-    delete localStorage["diffs-index"];
+    this.statesService.clear();
+    this.transitionsService.clear();
+    this.diffsService.clear();
   }
 
   saveStates() {
-    let str = JSON.stringify(this.jsonConverter.serializeArray(this.statesService.states));    
-
-    localStorage["states"] = str;
-    localStorage["states-index"] = this.tempStateId;
-
-    let diffStr = JSON.stringify(this.jsonConverter.serializeArray(this.statesService.diffs));
-
-    localStorage["diffs"] = diffStr;
-    localStorage["diffs-index"] = this.statesService.tempDiffId;
-
-    /* let obj = this.jsonConverter.serialize(this.statesService.states);
-    let st = this.jsonConverter.deserializeArray(obj, CloudState);
-    console.log(obj, st); */
-
+    this.statesService.save();
     this.transitionsService.save();
+    this.diffsService.save();
   }
 }

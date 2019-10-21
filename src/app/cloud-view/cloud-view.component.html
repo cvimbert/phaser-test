@@ -34,12 +34,12 @@
 </div>
 <div class="states-container">
   <state-display
-    *ngFor="let state of statesService.states"
+    *ngFor="let state of statesService.items"
     [state]="state"
     (onSetPosition)="setPosition($event)"
     ></state-display>
   <state-display
-    *ngFor="let diff of statesService.diffs"
+    *ngFor="let diff of diffsService.items"
     type="diff"
     [state]="diff"
     (onSetPosition)="setPosition($event)"

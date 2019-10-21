@@ -23,6 +23,8 @@ import { DetailsInputComponent } from './v2/components/details-input/details-inp
 import { ModalService } from './v2/services/modal.service';
 import { TransitionDisplayComponent } from './v2/components/transition-display/transition-display.component';
 import { TransitionsService } from './v2/services/transitions.service';
+import { CloudService } from './v2/services/cloud.service';
+import { DiffsService } from './v2/services/diffs.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { TransitionsService } from './v2/services/transitions.service';
     InspectionService,
     ModalService,
     StatesService,
-    TransitionsService
+    DiffsService,
+    TransitionsService,
+    CloudService
   ],
   bootstrap: [AppComponent]
 })

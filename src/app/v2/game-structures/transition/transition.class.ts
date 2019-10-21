@@ -18,6 +18,6 @@ export class Transition {
   @JsonProperty("d", Number)
   duration: number = 0;
 
-  @JsonProperty("eas", Number)
-  easingType: number = 0;
+  @JsonProperty("eas", String)
+  easingType: string = "0";
 }

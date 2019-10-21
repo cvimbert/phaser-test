@@ -33,7 +33,7 @@ export class Configuration {
     'Bounce.easeInOut'
   ];
 
-  static STATES_STORAGE_KEY = "states";
-  static DIFFS_STORAGE_KEY = "diffs";
-  static TRANSITIONS_STORAGE_KEY = "transitions"
+  static STATES_STORAGE_KEY = "state";
+  static DIFFS_STORAGE_KEY = "diff";
+  static TRANSITIONS_STORAGE_KEY = "transition"
 }

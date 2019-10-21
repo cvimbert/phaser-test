@@ -5,6 +5,7 @@ import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 import { ModalService } from '../../services/modal.service';
 import { SetData } from '../../interfaces/set-data.interface';
 import { TransitionsService } from '../../services/transitions.service';
+import { DiffsService } from '../../services/diffs.service';
 
 @Component({
   selector: 'state-display',
@@ -39,6 +40,7 @@ export class StateDisplayComponent implements OnInit {
   constructor(
     public statesService: StatesService,
     public transitionsService: TransitionsService,
+    public diffsService: DiffsService,
     public modalService: ModalService
   ) { }
 
@@ -74,11 +76,11 @@ export class StateDisplayComponent implements OnInit {
   }
 
   set selectedDiffStateId(value: string) {
-    this.selectedDiffState = this.statesService.states.find(state => state.id === value);
+    this.selectedDiffState = this.statesService.items.find(state => state.id === value);
   }
 
   getDiffTargets(): CloudState[] {
-    return this.statesService.states.filter(cstate => cstate !== this.state);
+    return this.statesService.items.filter(cstate => cstate !== this.state);
   }
 
   logStateValue() {
@@ -86,19 +88,10 @@ export class StateDisplayComponent implements OnInit {
   }
 
   deleteState() {
-
-    let storage: CloudState[];
-
     if (this.type === StateDisplayerType.BASIC) {
-      storage = this.statesService.states;
+      this.statesService.delete(this.state);
     } else if (this.type === StateDisplayerType.DIFF) {
-      storage = this.statesService.diffs;
-    }
-
-    let index = storage.indexOf(this.state);
-    
-    if (index != -1) {
-      storage.splice(index, 1);
+      this.diffsService.delete(this.state);
     }
   }
 
@@ -106,10 +99,10 @@ export class StateDisplayComponent implements OnInit {
     this.modalService.openDetailsModal().then(data => {
       if (data) {
         let state = this.state.getDiff(this.selectedDiffState);
-        state.id = "diff" + ++this.statesService.tempDiffId;
+        state.id = "diff" + ++this.diffsService.tempId;
         state.name = data.name;
         state.description = data.description;
-        this.statesService.diffs.push(state);
+        this.statesService.push(state);
       }
     });
   }

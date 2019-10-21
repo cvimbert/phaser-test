@@ -1,4 +1,9 @@
 <div class="transition">
   <div>Name: {{ transition.name }}</div>
   <input type="button" value="Delete" (click)="deleteItem()">
+  <select [(ngModel)]="transition.easingType">
+    <option *ngFor="let ease of eases; let i = index" value="{{ i }}">{{ ease }}</option>
+  </select>
+  <input type="number" [(ngModel)]="transition.duration">
+  <input type="button" value="Play" (click)="playTransition()">
 </div>
