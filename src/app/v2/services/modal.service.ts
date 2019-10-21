@@ -34,4 +34,9 @@ export class ModalService {
     this.displayDetailsModal = false;
     this.promiseResolver(this.detailsData);
   }
+
+  closeDetailsModal() {
+    this.displayDetailsModal = false;
+    this.promiseResolver(null);
+  }
 }

@@ -102,7 +102,7 @@ export class StateDisplayComponent implements OnInit {
         state.id = "diff" + ++this.diffsService.tempId;
         state.name = data.name;
         state.description = data.description;
-        this.statesService.push(state);
+        this.diffsService.push(state);
       }
     });
   }
@@ -121,7 +121,9 @@ export class StateDisplayComponent implements OnInit {
 
   createTransition() {
     this.modalService.openDetailsModal().then(data => {
-      this.transitionsService.createItem(data);
+      if (data) {
+        this.transitionsService.createItem(data);
+      }
     });
   }
 }

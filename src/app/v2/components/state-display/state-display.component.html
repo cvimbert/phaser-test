@@ -15,7 +15,7 @@
 
   <ng-container *ngIf="type === 'basic'">
     <input type="button" value="Diff with" (click)="diffTest()">
-    <ng-container *ngIf="statesService.states">
+    <ng-container *ngIf="statesService.items">
       <select [(ngModel)]="selectedDiffStateId">
         <option *ngFor="let cstate of getDiffTargets(state)" value="{{ cstate.id }}">{{ cstate.name }}</option>
       </select>

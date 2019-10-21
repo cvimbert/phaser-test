@@ -46,8 +46,6 @@ export class DetailsInputComponent implements OnInit {
   }
 
   close() {
-    this.modalService.validateDetailModal(null);
+    this.modalService.closeDetailsModal();
   }
-
-
 }
