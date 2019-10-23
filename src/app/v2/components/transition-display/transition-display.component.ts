@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Transition } from '../../game-structures/transition/transition.class';
 import { TransitionsService } from '../../services/transitions.service';
 import { Configuration } from '../../configuration.class';
+import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 
 @Component({
   selector: 'transition-display',
@@ -28,6 +29,8 @@ export class TransitionDisplayComponent implements OnInit {
   }
 
   playTransition() {
+    console.log(this);
     
+    this.transitionsService.initiateTween(StateDisplayerType.BASIC, this.transition.stateId);
   }
 }

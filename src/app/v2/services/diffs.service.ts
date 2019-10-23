@@ -11,4 +11,14 @@ export class DiffsService extends DataBank<CloudState> {
   constructor() {
     super(Configuration.DIFFS_STORAGE_KEY, CloudState);
   }
+  
+  getState(id: string): CloudState {
+    let state: CloudState = this.items.find(item => item.id === id);
+
+    if (!CloudState) {
+      console.warn(`No state named ${ id } found in DiffsService.`);
+    }
+
+    return state;
+  }
 }
