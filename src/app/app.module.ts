@@ -26,6 +26,8 @@ import { TransitionsService } from './v2/services/transitions.service';
 import { CloudService } from './v2/services/cloud.service';
 import { DiffsService } from './v2/services/diffs.service';
 import { GraphViewComponent } from './graph-view/graph-view.component';
+import { GraphService } from './v2/graph-view/services/graph.service';
+import { BaseGraphItemComponent } from './v2/graph-view/components/base-graph-item/base-graph-item.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { GraphViewComponent } from './graph-view/graph-view.component';
     StateDisplayComponent,
     DetailsInputComponent,
     TransitionDisplayComponent,
-    GraphViewComponent
+    GraphViewComponent,
+    BaseGraphItemComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { GraphViewComponent } from './graph-view/graph-view.component';
     StatesService,
     DiffsService,
     TransitionsService,
-    CloudService
+    CloudService,
+    GraphService
   ],
   bootstrap: [AppComponent]
 })

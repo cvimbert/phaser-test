@@ -1,3 +1,6 @@
-<p>
-  graph-view works!
-</p>
+<div class="main-container">
+  <div class="canvas-container">
+    <base-graph-item *ngFor="let item of testItems" [data]="item"></base-graph-item>
+    <div #canvasElement></div>
+  </div>
+</div>
