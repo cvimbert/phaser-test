@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TreeViewComponent } from './tree-view/tree-view.component';
 import { RobotViewComponent } from './robot-view/robot-view.component';
 import { CloudViewComponent } from './cloud-view/cloud-view.component';
+import { GraphViewComponent } from './graph-view/graph-view.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: "cloud",
     component: CloudViewComponent
+  },
+  {
+    path: "graph",
+    component: GraphViewComponent
   }
 ];
 

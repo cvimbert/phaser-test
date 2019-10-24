@@ -25,6 +25,7 @@ import { TransitionDisplayComponent } from './v2/components/transition-display/t
 import { TransitionsService } from './v2/services/transitions.service';
 import { CloudService } from './v2/services/cloud.service';
 import { DiffsService } from './v2/services/diffs.service';
+import { GraphViewComponent } from './graph-view/graph-view.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { DiffsService } from './v2/services/diffs.service';
     FlooredPipe,
     StateDisplayComponent,
     DetailsInputComponent,
-    TransitionDisplayComponent
+    TransitionDisplayComponent,
+    GraphViewComponent
   ],
   imports: [
     BrowserModule,
