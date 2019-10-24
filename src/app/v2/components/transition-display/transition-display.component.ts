@@ -29,8 +29,10 @@ export class TransitionDisplayComponent implements OnInit {
   }
 
   playTransition() {
-    console.log(this);
-    
-    this.transitionsService.initiateTween(StateDisplayerType.BASIC, this.transition.stateId);
+    this.transitionsService.initiateTween(this.transition.from, this.transition.stateId);
+  }
+
+  logTransition() {
+    console.log(this.transition);
   }
 }

@@ -20,9 +20,10 @@ export class TransitionsService extends DataBank<Transition> {
   }
 
   initiateTween(type: StateDisplayerType, stateId: string) {
-
-    console.log("state id", stateId);
     
+    if (!stateId) {
+      console.log(`No state id provided.`);
+    }
 
     let targetState: CloudState;
 
@@ -32,6 +33,6 @@ export class TransitionsService extends DataBank<Transition> {
       targetState = this.diffsService.getState(stateId);
     }
 
-    console.log("Jusqu'ici c'est bon.");
+    console.log("Jusqu'ici c'est bon.", type, targetState);
   }
 }

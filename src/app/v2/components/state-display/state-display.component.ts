@@ -122,7 +122,9 @@ export class StateDisplayComponent implements OnInit {
   createTransition() {
     this.modalService.openDetailsModal().then(data => {
       if (data) {
-        this.transitionsService.createItem(data);
+        let transition = this.transitionsService.createItem(data);
+        transition.from = this.type;
+        transition.stateId = this.state.id;
       }
     });
   }

@@ -15,12 +15,10 @@ export class StatesService extends DataBank<CloudState> {
   getState(id: string): CloudState {
     let state: CloudState = this.items.find(item => item.id === id);
 
-    if (!CloudState) {
-      console.warn(`No state named ${ id } found in StatesService.`);
+    if (!state) {
+      console.warn(`No state named "${ id }" found in StatesService.`);
     }
-
-    console.log(state);
-
+    
     return state;
   }
 }
