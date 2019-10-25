@@ -28,6 +28,7 @@ import { DiffsService } from './v2/services/diffs.service';
 import { GraphViewComponent } from './graph-view/graph-view.component';
 import { GraphService } from './v2/graph-view/services/graph.service';
 import { BaseGraphItemComponent } from './v2/graph-view/components/base-graph-item/base-graph-item.component';
+import { GraphAnchorComponent } from './v2/graph-view/components/graph-anchor/graph-anchor.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { BaseGraphItemComponent } from './v2/graph-view/components/base-graph-it
     DetailsInputComponent,
     TransitionDisplayComponent,
     GraphViewComponent,
-    BaseGraphItemComponent
+    BaseGraphItemComponent,
+    GraphAnchorComponent
   ],
   imports: [
     BrowserModule,

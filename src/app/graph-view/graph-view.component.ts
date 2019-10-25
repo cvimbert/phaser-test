@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GraphScene } from '../v2/graph-view/graph-scene.class';
 import { Game } from 'phaser';
-import { Point } from '../v2/interfaces/point.interface';
 import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interface';
 
 @Component({
@@ -16,20 +15,63 @@ export class GraphViewComponent implements OnInit {
   graphScene: GraphScene;
   game: Game;
 
-  testItems: BaseItemData[] = [
+  testLinks = [
     {
-      position: {
-        x: 100,
-        y: 100
-      }
-    },
-    {
-      position: {
-        x: 450,
-        y: 300
+      from: {
+        item: "it1",
+        anchor: "out1"
+      },
+      to: {
+        item: "it2",
+        anchor: "in1"
       }
     }
   ];
+
+  testItems: { [key: string]: BaseItemData } = {
+    it1: {
+      position: {
+        x: 100,
+        y: 100
+      },
+      anchors: {
+        in1: {
+          x: 0,
+          y: 50
+        },
+        out1: {
+          x: 100,
+          y: 20
+        },
+        out2: {
+          x: 100,
+          y: 80
+        }
+      }
+    },
+    it2: {
+      position: {
+        x: 450,
+        y: 300
+      },
+      anchors: {
+        in1: {
+          x: 0,
+          y: 50
+        },
+        out1: {
+          x: 100,
+          y: 20
+        },
+        out2: {
+          x: 100,
+          y: 80
+        }
+      }
+    }
+  };
+
+  items: BaseItemData[];
 
   constructor() { }
 
@@ -47,6 +89,14 @@ export class GraphViewComponent implements OnInit {
       backgroundColor: '#ffffff',
       parent: this.canvasElement.nativeElement
     }; 
+
+    this.items = [];
+
+    for (let key in this.testItems) {
+      let item = this.testItems[key];
+      item.id = key;
+      this.items.push(item);
+    }
 
     this.game = new Game(config);
     this.drawLinks();
