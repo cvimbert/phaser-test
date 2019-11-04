@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { GraphScene } from '../v2/graph-view/graph-scene.class';
 import { Game } from 'phaser';
 import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interface';
+import { GraphService } from '../v2/graph-view/services/graph.service';
+import { BaseGraphItemComponent } from '../v2/graph-view/components/base-graph-item/base-graph-item.component';
+import { Point } from '../v2/interfaces/point.interface';
 
 @Component({
   selector: 'app-graph-view',
@@ -11,6 +14,7 @@ import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interfa
 export class GraphViewComponent implements OnInit {
 
   @ViewChild("canvasElement") canvasElement: ElementRef;
+  @ViewChildren("itemComponent") itemComponents: QueryList<BaseGraphItemComponent>;
 
   graphScene: GraphScene;
   game: Game;
@@ -19,10 +23,40 @@ export class GraphViewComponent implements OnInit {
     {
       from: {
         item: "it1",
-        anchor: "out1"
+        anchor: "out2"
       },
       to: {
         item: "it2",
+        anchor: "in1"
+      }
+    },
+    {
+      from: {
+        item: "it1",
+        anchor: "out1"
+      },
+      to: {
+        item: "it3",
+        anchor: "in1"
+      }
+    },
+    {
+      from: {
+        item: "it2",
+        anchor: "out1"
+      },
+      to: {
+        item: "it4",
+        anchor: "in1"
+      }
+    },
+    {
+      from: {
+        item: "it3",
+        anchor: "out1"
+      },
+      to: {
+        item: "it4",
         anchor: "in1"
       }
     }
@@ -68,15 +102,58 @@ export class GraphViewComponent implements OnInit {
           y: 80
         }
       }
+    },
+    it3: {
+      position: {
+        x: 450,
+        y: 30
+      },
+      anchors: {
+        in1: {
+          x: 0,
+          y: 50
+        },
+        out1: {
+          x: 100,
+          y: 20
+        },
+        out2: {
+          x: 100,
+          y: 80
+        }
+      }
+    },
+    it4: {
+      position: {
+        x: 700,
+        y: 130
+      },
+      anchors: {
+        in1: {
+          x: 0,
+          y: 50
+        },
+        out1: {
+          x: 100,
+          y: 20
+        },
+        out2: {
+          x: 100,
+          y: 80
+        }
+      }
     }
   };
 
   items: BaseItemData[];
 
-  constructor() { }
+  constructor(
+    private graphService: GraphService
+  ) { }
 
   ngOnInit() {
     this.graphScene = new GraphScene();
+    this.graphService.scene = this.graphScene;
 
     let config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
@@ -99,10 +176,37 @@ export class GraphViewComponent implements OnInit {
     }
 
     this.game = new Game(config);
-    this.drawLinks();
+
+    // en attendant mieux
+    setTimeout(() => {
+      this.createLinks();
+      this.drawAllLinks();
+    });
   }
 
-  drawLinks() {
+  createLinks() {
+    this.testLinks.forEach(link => {
+      this.graphService.createLink(link["from"], link["to"]);
+    });
+  }
 
+  drawAllLinks() {
+    this.graphService.links.forEach(link => {
+        link.drawLink();
+    });
+  }
+
+  resetPositions() {
+
+  }
+
+  savePositions() {
+    let positions: { [key: string]: Point } = {};
+
+    this.itemComponents.forEach(item => {
+      positions[item.data.id] = item.currentPos;
+    });
+
+    // console.log(JSON.stringify(positions));
   }
 }

@@ -35,5 +35,6 @@ export class Configuration {
 
   static STATES_STORAGE_KEY = "state";
   static DIFFS_STORAGE_KEY = "diff";
-  static TRANSITIONS_STORAGE_KEY = "transition"
+  static TRANSITIONS_STORAGE_KEY = "transition";
+  static GRAPH_ITEMS_STORAGE_KEY = "graphitems";
 }

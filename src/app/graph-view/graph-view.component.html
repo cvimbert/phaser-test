@@ -1,6 +1,7 @@
 <div class="main-container">
   <div class="canvas-container">
-    <base-graph-item *ngFor="let item of items" [data]="item"></base-graph-item>
+    <base-graph-item *ngFor="let item of items" [data]="item" #itemComponent></base-graph-item>
     <div #canvasElement></div>
   </div>
 </div>
+<input type="button" value="Save positions" (click)="savePositions()">
