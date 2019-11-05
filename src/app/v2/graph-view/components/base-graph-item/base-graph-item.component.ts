@@ -94,8 +94,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
 
     if (anchorPoint) {
       return {
-        x: anchorPoint.x + this.draggable.x,
-        y: anchorPoint.y + this.draggable.y
+        x: anchorPoint.x + this.currentPos.x,
+        y: anchorPoint.y + this.currentPos.y
       }
     }
   }
