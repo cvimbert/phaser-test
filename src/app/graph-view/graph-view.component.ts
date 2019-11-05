@@ -5,6 +5,10 @@ import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interfa
 import { GraphService } from '../v2/graph-view/services/graph.service';
 import { BaseGraphItemComponent } from '../v2/graph-view/components/base-graph-item/base-graph-item.component';
 import { Point } from '../v2/interfaces/point.interface';
+import { JsonConvert } from 'json2typescript';
+import { DataDictionary } from '../v2/data-dictionary.class';
+import { SerializablePoint } from '../v2/serializable-point.class';
+import { Configuration } from '../v2/configuration.class';
 
 @Component({
   selector: 'app-graph-view',
@@ -18,6 +22,8 @@ export class GraphViewComponent implements OnInit {
 
   graphScene: GraphScene;
   game: Game;
+
+  positionsDictionary: DataDictionary<SerializablePoint>;
 
   testLinks = [
     {
@@ -147,9 +153,13 @@ export class GraphViewComponent implements OnInit {
 
   items: BaseItemData[];
 
+  private jsonConverter: JsonConvert;
+
   constructor(
     private graphService: GraphService
-  ) { }
+  ) {
+    this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
+  }
 
   ngOnInit() {
     this.graphScene = new GraphScene();
@@ -179,9 +189,55 @@ export class GraphViewComponent implements OnInit {
 
     // en attendant mieux
     setTimeout(() => {
-      this.createLinks();
+      // attention, possibilité de fonctionnement asynchrone ici
+      this.loadPositions();
+
+      setTimeout(() => {
+        // this.drawAllLinks();
+      });
+      // 
+    });
+  }
+
+  loadPositions() {
+    this.positionsDictionary.load();
+
+    let comps: { [key: string]: BaseGraphItemComponent } = {};
+
+    this.itemComponents.forEach(item => {
+      comps[item.data.id] = item;
+    });
+
+
+    for (let itemId in this.positionsDictionary.items) {
+      if (comps[itemId]) {
+        comps[itemId].setPosition({
+          x: this.positionsDictionary.items[itemId].x,
+          y: this.positionsDictionary.items[itemId].y
+        });
+      }
+    }
+
+    for (let itemId in this.positionsDictionary.items) {
+      if (comps[itemId]) {
+        comps[itemId].sendPosition({
+          x: this.positionsDictionary.items[itemId].x,
+          y: this.positionsDictionary.items[itemId].y
+        });
+      }
+    }
+
+    this.createLinks();
+
+    setTimeout(() => {
+      
       this.drawAllLinks();
     });
+    
+
+    /* setTimeout(() => {
+      
+    }); */
   }
 
   createLinks() {
@@ -196,17 +252,16 @@ export class GraphViewComponent implements OnInit {
     });
   }
 
-  resetPositions() {
-
-  }
-
   savePositions() {
-    let positions: { [key: string]: Point } = {};
+    this.positionsDictionary.clear();
 
     this.itemComponents.forEach(item => {
-      positions[item.data.id] = item.currentPos;
+      let pt = new SerializablePoint();
+      pt.x = item.currentPos.x;
+      pt.y = item.currentPos.y;
+      this.positionsDictionary.addItem(item.data.id, pt);
     });
 
-    // console.log(JSON.stringify(positions));
+    this.positionsDictionary.save();
   }
 }

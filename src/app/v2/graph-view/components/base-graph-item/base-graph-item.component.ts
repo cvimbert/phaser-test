@@ -29,18 +29,10 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
-    let pos: Point = {
+    this.setPosition({
       x: this.data.position.x,
       y: this.data.position.y
-    }
-
-    this.currentPos = pos;
-
-    TweenLite.set(this.item.nativeElement, {
-      css: pos
     });
-
-    this.positionSubject.next(pos);
 
     this.draggable = Draggable.create(this.item.nativeElement, {
       type: "x,y",
@@ -66,6 +58,21 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
 
     // console.log(this.getAnchorPosition("in1"));
     this.graphservice.registerItemComponent(this.data.id, this);
+  }
+
+  setPosition(positionPoint: Point) {
+    this.data.position.x = positionPoint.x;
+    this.data.position.y = positionPoint.y;
+     
+    this.currentPos = positionPoint;
+
+    TweenLite.set(this.item.nativeElement, {
+      css: positionPoint
+    });
+  }
+
+  sendPosition(positionPoint: Point) {
+    this.positionSubject.next(positionPoint)
   }
 
   ngOnChanges(changes: SimpleChanges) {
