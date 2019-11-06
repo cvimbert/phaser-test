@@ -6,6 +6,7 @@ import Draggable from "gsap/Draggable";
 import { TweenLite } from 'gsap';
 import { GraphService } from '../../services/graph.service';
 import { BehaviorSubject } from 'rxjs';
+import { Rectangle } from 'src/app/v2/rectangle.class';
 
 @Component({
   selector: 'base-graph-item',
@@ -15,11 +16,14 @@ import { BehaviorSubject } from 'rxjs';
 export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   @Input() data: BaseItemData;
+  @Input() pos: number;
+  @Input() bounds: Rectangle;
   @ViewChildren("anchorElem") anchorElems: GraphAnchorComponent[];
   @ViewChild("item") item: ElementRef;
+  @ViewChild("triggerElement") triggerElement: ElementRef;
   anchors: Point[];
   draggable: Draggable;
-  positionSubject: BehaviorSubject<Point> = new BehaviorSubject({ x: 0, y: 0 });
+  positionSubject = new BehaviorSubject<Point>({ x: 0, y: 0 });
 
   currentPos: Point;
 
@@ -32,10 +36,15 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     this.setPosition({
       x: this.data.position.x,
       y: this.data.position.y
-    });
+    });    
 
     this.draggable = Draggable.create(this.item.nativeElement, {
       type: "x,y",
+      trigger: this.triggerElement.nativeElement,
+
+      // les bounds sont à vérifier
+      //bounds: { x: this.bounds.width, y: this.bounds.height },
+      
       onDragStart: () => {
         // console.log("drag start");
       },
@@ -56,7 +65,6 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
       }
     })[0];
 
-    // console.log(this.getAnchorPosition("in1"));
     this.graphservice.registerItemComponent(this.data.id, this);
   }
 
@@ -69,10 +77,16 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     TweenLite.set(this.item.nativeElement, {
       css: positionPoint
     });
+
+    this.sendPosition(positionPoint);
   }
 
   sendPosition(positionPoint: Point) {
     this.positionSubject.next(positionPoint)
+  }
+
+  anchorClick(evt: MouseEvent) {
+    console.log(evt);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -82,11 +96,6 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
         this.anchors.push(this.data.anchors[key]);
       }
     }
-
-    // il doit être possible de remplacer ce setTimeout par autre chose de plus judicieux
-    /* setTimeout(() => {
-      console.log("elems", this.anchorElems);
-    }); */
   }
 
   getAnchorPosition(anchorId: string): Point {

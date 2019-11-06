@@ -1,6 +1,12 @@
 <div class="main-container">
   <div class="canvas-container">
-    <base-graph-item *ngFor="let item of items" [data]="item" #itemComponent></base-graph-item>
+    <base-graph-item
+      #itemComponent
+      *ngFor="let item of items; let i = index"
+      [pos]="i"
+      [data]="item"
+      [bounds]="bounds"
+    ></base-graph-item>
     <div #canvasElement></div>
   </div>
 </div>

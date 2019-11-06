@@ -1,5 +1,6 @@
 import { BaseGraphItemComponent } from './components/base-graph-item/base-graph-item.component';
 import { GraphScene } from './graph-scene.class';
+import { Point } from '../interfaces/point.interface';
 
 export class GraphLink {
 
@@ -10,6 +11,7 @@ export class GraphLink {
   scene: GraphScene;
 
   private lineGraphics: Phaser.GameObjects.Graphics;
+  private arrow: Phaser.GameObjects.Graphics;
 
 
   drawLink() {
@@ -27,25 +29,52 @@ export class GraphLink {
     let fromPoint = this.fromItem.getAnchorPosition(this.fromAnchor);
     let toPoint = this.toItem.getAnchorPosition(this.toAnchor);
 
-    // les direction ne sont pas fonctionnelles, à voir plus tard
-    let verticalDirection = 1;
-    let horizontalDirection = 1;
-
-    let bat = (toPoint.x - fromPoint.x) / 4;
-    let yBat = verticalDirection * ((toPoint.y - fromPoint.y) / 2);
-    
-    let points: Phaser.Math.Vector2[] = [
-      new Phaser.Math.Vector2(fromPoint.x, fromPoint.y),
-      new Phaser.Math.Vector2(fromPoint.x + bat, fromPoint.y + 20),
-      new Phaser.Math.Vector2(fromPoint.x + bat * 2, fromPoint.y + yBat),
-
-      new Phaser.Math.Vector2(toPoint.x - bat * 2, toPoint.y - yBat),
-      new Phaser.Math.Vector2(toPoint.x - bat, toPoint.y - 20),
-      new Phaser.Math.Vector2(toPoint.x, toPoint.y)
-    ];
+    let points = this.getSplinePoints(toPoint, fromPoint);
 
     let curve = new Phaser.Curves.Spline(points);
     curve.draw(this.lineGraphics);
+
+    let tPoint = curve.getPoint(0.5);
+    let tTangent = curve.getTangent(0.5);
+    let angle = Math.atan2(tTangent.y, tTangent.x);
+
+    // console.log(tPoint, tTangent, angle);
+  }
+
+  drawArrow(x: number, y: number, rotation: number) {
+    if (!this.arrow) {
+      this.arrow = this.scene.add.graphics({
+        fillStyle: {
+          color: 0x000000
+        }
+      });
+
+      this.arrow.fillTriangle(-5, -4, 5, -4, 5, 0);
+    } else {
+
+    }
+
+    this.arrow.x = x;
+    this.arrow.y = y;
+    this.arrow.rotation = rotation;
+  }
+
+  getSplinePoints(from: Point, to: Point): Phaser.Math.Vector2[] {
+    
+    let xBat = to.x - from.x;
+    let yBat = to.y - from.y;
+
+    let yMini = yBat / 8;
+    let xQuarter = xBat / 3.5;
+
+    let points: Point[] = [
+      { x: from.x, y: from.y },
+      { x: from.x + xQuarter, y: from.y + yMini },
+      { x: to.x - xQuarter, y: to.y - yMini },
+      { x: to.x, y: to.y },
+    ];
+
+    return points.map(point => new Phaser.Math.Vector2(point.x, point.y));
   }
 
   subscribeToPositions() {

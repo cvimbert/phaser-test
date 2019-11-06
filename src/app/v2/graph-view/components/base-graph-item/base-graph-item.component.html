@@ -1,3 +1,9 @@
 <div class="item" #item>
-  <graph-anchor #anchorElem *ngFor="let anchor of anchors" [position]="anchor"></graph-anchor>
+  <div #triggerElement id="drag-anchor-{{ pos }}" class="drag-anchor">+</div>
+  <graph-anchor
+    #anchorElem
+    *ngFor="let anchor of anchors"
+    [position]="anchor"
+    (mousedown)="anchorClick($event)"
+  ></graph-anchor>
 </div>

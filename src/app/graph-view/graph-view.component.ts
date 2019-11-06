@@ -9,6 +9,7 @@ import { JsonConvert } from 'json2typescript';
 import { DataDictionary } from '../v2/data-dictionary.class';
 import { SerializablePoint } from '../v2/serializable-point.class';
 import { Configuration } from '../v2/configuration.class';
+import { Rectangle } from '../v2/rectangle.class';
 
 @Component({
   selector: 'app-graph-view',
@@ -22,6 +23,7 @@ export class GraphViewComponent implements OnInit {
 
   graphScene: GraphScene;
   game: Game;
+  bounds = new Rectangle(0, 0, 1024, 600);
 
   positionsDictionary: DataDictionary<SerializablePoint>;
 
@@ -167,8 +169,8 @@ export class GraphViewComponent implements OnInit {
 
     let config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
-      width: 1024,
-      height: 600,
+      width: this.bounds.width,
+      height: this.bounds.height,
       scale: {
         mode: Phaser.Scale.NONE
       },
@@ -218,20 +220,10 @@ export class GraphViewComponent implements OnInit {
       }
     }
 
-    for (let itemId in this.positionsDictionary.items) {
-      if (comps[itemId]) {
-        comps[itemId].sendPosition({
-          x: this.positionsDictionary.items[itemId].x,
-          y: this.positionsDictionary.items[itemId].y
-        });
-      }
-    }
-
     this.createLinks();
 
     setTimeout(() => {
-      
-      this.drawAllLinks();
+      //this.drawAllLinks();
     });
     
 
