@@ -39,6 +39,8 @@ export class GraphLink {
     let angle = Math.atan2(tTangent.y, tTangent.x);
 
     // console.log(tPoint, tTangent, angle);
+
+    this.drawArrow(tPoint.x, tPoint.y, angle);
   }
 
   drawArrow(x: number, y: number, rotation: number) {
@@ -49,7 +51,7 @@ export class GraphLink {
         }
       });
 
-      this.arrow.fillTriangle(-5, -4, 5, -4, 5, 0);
+      this.arrow.fillTriangle(10, -6, 10, 6, -10, 0);
     } else {
 
     }
