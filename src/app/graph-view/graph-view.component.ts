@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { GraphScene } from '../v2/graph-view/graph-scene.class';
 import { Game } from 'phaser';
 import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interface';
@@ -8,6 +8,9 @@ import { DataDictionary } from '../v2/data-dictionary.class';
 import { SerializablePoint } from '../v2/serializable-point.class';
 import { Configuration } from '../v2/configuration.class';
 import { Rectangle } from '../v2/rectangle.class';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { GenericMessageModalData } from '../v2/graph-view/interfaces/generic-message-modal-data.interface';
+import { GenericMessageModalComponent } from '../v2/graph-view/components/generic-message-modal/generic-message-modal.component';
 
 @Component({
   selector: 'app-graph-view',
@@ -22,7 +25,7 @@ export class GraphViewComponent implements OnInit {
 
   graphScene: GraphScene;
   game: Game;
-  bounds = new Rectangle(0, 0, 1024, 600);
+  bounds = new Rectangle(0, 0, 1024, 800);
 
   positionsDictionary: DataDictionary<SerializablePoint>;
 
@@ -155,7 +158,8 @@ export class GraphViewComponent implements OnInit {
   items: BaseItemData[];
 
   constructor(
-    private graphService: GraphService
+    private graphService: GraphService,
+    private dialog: MatDialog
   ) {
     this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
   }
@@ -173,7 +177,6 @@ export class GraphViewComponent implements OnInit {
 
     // console.log(offsetRect, this.graphService.canvasContainerOffset);
     
-
     let config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
       width: this.bounds.width,
@@ -196,12 +199,26 @@ export class GraphViewComponent implements OnInit {
 
     this.game = new Game(config);
     
-
     // en attendant mieux
     setTimeout(() => {
       // attention, possibilité de fonctionnement asynchrone ici
-      this.game.scale.resize(document.body.clientWidth, 600);
+      this.setCanvasSize();
       this.loadPositions();
+    });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(evt: Event) {
+      this.setCanvasSize();
+  }
+
+  setCanvasSize() {
+    this.game.scale.resize(document.body.clientWidth, 800);
+  }
+
+  openTestModal() {
+    const ref = this.dialog.open(GenericMessageModalComponent, {
+      data: {}
     });
   }
 
@@ -225,15 +242,6 @@ export class GraphViewComponent implements OnInit {
     }
 
     this.createLinks();
-
-    setTimeout(() => {
-      //this.drawAllLinks();
-    });
-    
-
-    /* setTimeout(() => {
-      
-    }); */
   }
 
   createLinks() {

@@ -30,6 +30,8 @@ import { GraphService } from './v2/graph-view/services/graph.service';
 import { BaseGraphItemComponent } from './v2/graph-view/components/base-graph-item/base-graph-item.component';
 import { GraphAnchorComponent } from './v2/graph-view/components/graph-anchor/graph-anchor.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GenericMessageModalComponent } from './v2/graph-view/components/generic-message-modal/generic-message-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -48,17 +50,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TransitionDisplayComponent,
     GraphViewComponent,
     BaseGraphItemComponent,
-    GraphAnchorComponent
+    GraphAnchorComponent,
+    GenericMessageModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     PhaserModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   exports: [
     ToDegreesPipe
+  ],
+  entryComponents: [
+    GenericMessageModalComponent
   ],
   providers: [
     NodeEditorService,

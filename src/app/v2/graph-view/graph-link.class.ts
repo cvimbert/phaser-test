@@ -49,12 +49,29 @@ export class GraphLink {
         }
       });
 
+      
       this.arrow.fillTriangle(10, -6, 10, 6, -10, 0);
+
+      
+      let rect = new Phaser.Geom.Rectangle(-10, -10, 20, 20).setPosition(x, y);
+      console.log(rect);
+      
+
+      //this.arrow.fillRectShape(rect);
+      this.arrow.setInteractive(rect, this.testEvt).on("pointerup", this.clickOnArrow);
     }
 
     this.arrow.x = x;
     this.arrow.y = y;
     this.arrow.rotation = rotation;
+  }
+
+  testEvt(rect: Phaser.Geom.Rectangle, x: number, y: number) {
+    return x > rect.left && x < rect.right && y > rect.top && y < rect.bottom;
+  }
+
+  clickOnArrow() {
+    console.log("ok");
   }
 
   getSplinePoints(from: Point, to: Point): Phaser.Math.Vector2[] {
