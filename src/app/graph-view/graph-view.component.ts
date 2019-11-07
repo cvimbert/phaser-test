@@ -171,7 +171,7 @@ export class GraphViewComponent implements OnInit {
       y: offsetRect.top
     };
 
-    console.log(offsetRect, this.graphService.canvasContainerOffset);
+    // console.log(offsetRect, this.graphService.canvasContainerOffset);
     
 
     let config: Phaser.Types.Core.GameConfig = {
@@ -195,10 +195,12 @@ export class GraphViewComponent implements OnInit {
     }
 
     this.game = new Game(config);
+    
 
     // en attendant mieux
     setTimeout(() => {
       // attention, possibilité de fonctionnement asynchrone ici
+      this.game.scale.resize(document.body.clientWidth, 600);
       this.loadPositions();
     });
   }
