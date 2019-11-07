@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { Point } from 'src/app/v2/interfaces/point.interface';
 
 @Component({
@@ -8,6 +8,7 @@ import { Point } from 'src/app/v2/interfaces/point.interface';
 })
 export class GraphAnchorComponent implements OnInit {
 
+  @ViewChild("banchor") bAnchor: ElementRef;
   @Input() position: Point;
 
   constructor(
@@ -15,6 +16,12 @@ export class GraphAnchorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // console.log(this.bAnchor);
+    
+  }
+
+  onAnchorClicked() {
+    console.log(this.bAnchor.nativeElement.getBoundingClientRect());
   }
 
 }

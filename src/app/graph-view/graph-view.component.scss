@@ -1,7 +1,6 @@
 .canvas-container {
+  position: relative;
   border: 1px solid black;
   display: inline-block;
-
-  // ne fonctionne pas pour les éléments draggable, sûrement à cause du z-index
   overflow: hidden;
 }

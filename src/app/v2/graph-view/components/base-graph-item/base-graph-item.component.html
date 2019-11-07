@@ -1,9 +1,44 @@
 <div class="item" #item>
-  <div #triggerElement id="drag-anchor-{{ pos }}" class="drag-anchor"><i class="fas fa-arrows-alt"></i></div>
+  <div #triggerElement id="drag-anchor-{{ pos }}" class="drag-anchor">
+    <i class="fas fa-arrows-alt"></i>
+  </div>
+
+  <div class="item-type">Transition</div>
+  <div class="content">
+    <div class="column left-column">
+      <div class="command">Play
+        <graph-anchor
+          #anchorElem
+        ></graph-anchor>
+      </div>
+      <div class="command">Stop
+        <graph-anchor
+          #anchorElem
+        ></graph-anchor>
+      </div>
+      <div class="command">Reset the animation
+        <graph-anchor
+          #anchorElem
+        ></graph-anchor>
+      </div>
+    </div>
+    <div class="column right-column">
+      <div class="command">On start
+        <graph-anchor
+          #anchorElem
+        ></graph-anchor>
+      </div>
+      <div class="command">On complete
+        <graph-anchor
+          #anchorElem
+        ></graph-anchor>
+      </div>
+    </div>
+  </div>
+
   <graph-anchor
     #anchorElem
     *ngFor="let anchor of anchors"
     [position]="anchor"
-    (mousedown)="anchorClick($event)"
   ></graph-anchor>
 </div>

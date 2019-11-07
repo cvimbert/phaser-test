@@ -38,8 +38,6 @@ export class GraphLink {
     let tTangent = curve.getTangent(0.5);
     let angle = Math.atan2(tTangent.y, tTangent.x);
 
-    // console.log(tPoint, tTangent, angle);
-
     this.drawArrow(tPoint.x, tPoint.y, angle);
   }
 
@@ -52,8 +50,6 @@ export class GraphLink {
       });
 
       this.arrow.fillTriangle(10, -6, 10, 6, -10, 0);
-    } else {
-
     }
 
     this.arrow.x = x;

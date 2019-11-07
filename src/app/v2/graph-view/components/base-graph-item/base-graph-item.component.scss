@@ -1,8 +1,8 @@
 .item {
   background-color: blueviolet;
   border: 1px solid black;
-  width: 100px;
-  height: 100px;
+  // width: 100px;
+  //min-height: 100px;
   position: absolute;
   border-radius: 17px;
 }
@@ -14,5 +14,64 @@
     cursor: pointer;
     color: white;
     font-size: 15px;
-    opacity: 0.8;
+    // opacity: 0.8;
+}
+
+.item-type {
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  color: white;
+  font-weight: bold;
+}
+
+.content {
+  border-top: 1px solid white;
+  margin-top: 24px;
+  display: flex;
+  //height: 30px;
+
+  .left-column {
+    flex: 1;
+    border-right: 1px solid white;
+    text-align: left;
+
+    graph-anchor {
+      top: 16px;
+      position: absolute;
+      left: 0;
+    }
+
+    .command {
+      padding-left: 10px;
+    }
+  }
+
+  .right-column {
+    flex: 1;
+    text-align: right;
+
+    graph-anchor {
+      top: 16px;
+      position: absolute;
+      right: 0;
+    }
+
+    .command {
+      padding-right: 10px;
+    }
+  }
+
+  .command {
+    position: relative;
+    color: white;
+    padding: 9px;
+    padding-bottom: 0;
+    white-space: nowrap;
+    font-style: italic;
+
+    &:last-child {
+      padding-bottom: 6px;
+    }
+  }
 }
