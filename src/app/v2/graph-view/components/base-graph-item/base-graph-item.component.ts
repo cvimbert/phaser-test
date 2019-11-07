@@ -31,8 +31,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     private graphservice: GraphService
   ) { }
 
-  ngOnInit() {
-
+  ngOnInit() {    
+    
     this.setPosition({
       x: this.data.position.x,
       y: this.data.position.y
@@ -41,10 +41,6 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     this.draggable = Draggable.create(this.item.nativeElement, {
       type: "x,y",
       trigger: this.triggerElement.nativeElement,
-
-      // les bounds sont à vérifier
-      //bounds: { x: this.bounds.width, y: this.bounds.height },
-      
       onDragStart: () => {
         // console.log("drag start");
       },
@@ -86,7 +82,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   }
 
   anchorClick(evt: MouseEvent) {
-    console.log(evt);
+    console.log(this.anchorElems);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -106,6 +102,14 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
         x: anchorPoint.x + this.currentPos.x,
         y: anchorPoint.y + this.currentPos.y
       }
+    }
+  }
+
+  getAnchorComponentPosition(anchorId: string): Point {
+    let anchorComponent = this.anchorElems.find(comp => comp.id == anchorId);
+
+    if (anchorComponent) {
+      return anchorComponent.getClientPosition();
     }
   }
 }

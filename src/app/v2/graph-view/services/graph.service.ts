@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseGraphItemComponent } from '../components/base-graph-item/base-graph-item.component';
 import { GraphLink } from '../graph-link.class';
 import { GraphScene } from '../graph-scene.class';
+import { Point } from '../../interfaces/point.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class GraphService {
   items: { [key: string]: BaseGraphItemComponent } = {};
   links: GraphLink[] = [];
   scene: GraphScene;
+  canvasContainerOffset: Point;
 
   constructor() { }
 

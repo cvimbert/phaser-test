@@ -26,8 +26,8 @@ export class GraphLink {
       this.lineGraphics.clear();
     }
 
-    let fromPoint = this.fromItem.getAnchorPosition(this.fromAnchor);
-    let toPoint = this.toItem.getAnchorPosition(this.toAnchor);
+    let fromPoint = this.fromItem.getAnchorComponentPosition(this.fromAnchor);
+    let toPoint = this.toItem.getAnchorComponentPosition(this.toAnchor);
 
     let points = this.getSplinePoints(toPoint, fromPoint);
 

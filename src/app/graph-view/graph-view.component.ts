@@ -4,8 +4,6 @@ import { Game } from 'phaser';
 import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interface';
 import { GraphService } from '../v2/graph-view/services/graph.service';
 import { BaseGraphItemComponent } from '../v2/graph-view/components/base-graph-item/base-graph-item.component';
-import { Point } from '../v2/interfaces/point.interface';
-import { JsonConvert } from 'json2typescript';
 import { DataDictionary } from '../v2/data-dictionary.class';
 import { SerializablePoint } from '../v2/serializable-point.class';
 import { Configuration } from '../v2/configuration.class';
@@ -19,6 +17,7 @@ import { Rectangle } from '../v2/rectangle.class';
 export class GraphViewComponent implements OnInit {
 
   @ViewChild("canvasElement") canvasElement: ElementRef;
+  @ViewChild("canvasContainer") canvasContainer: ElementRef;
   @ViewChildren("itemComponent") itemComponents: QueryList<BaseGraphItemComponent>;
 
   graphScene: GraphScene;
@@ -155,8 +154,6 @@ export class GraphViewComponent implements OnInit {
 
   items: BaseItemData[];
 
-  private jsonConverter: JsonConvert;
-
   constructor(
     private graphService: GraphService
   ) {
@@ -166,6 +163,16 @@ export class GraphViewComponent implements OnInit {
   ngOnInit() {
     this.graphScene = new GraphScene();
     this.graphService.scene = this.graphScene;
+
+    let offsetRect: DOMRect = this.canvasContainer.nativeElement.getBoundingClientRect();
+
+    this.graphService.canvasContainerOffset = {
+      x: offsetRect.left,
+      y: offsetRect.top
+    };
+
+    console.log(offsetRect, this.graphService.canvasContainerOffset);
+    
 
     let config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
@@ -193,11 +200,6 @@ export class GraphViewComponent implements OnInit {
     setTimeout(() => {
       // attention, possibilité de fonctionnement asynchrone ici
       this.loadPositions();
-
-      setTimeout(() => {
-        // this.drawAllLinks();
-      });
-      // 
     });
   }
 
