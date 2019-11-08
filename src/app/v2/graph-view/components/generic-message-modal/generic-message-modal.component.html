@@ -1,3 +1,6 @@
-<p>
-  generic-message-modal works!
-</p>
+<div class="content">
+  <div class="text-container">{{ text }}</div>
+  <div class="buttons">
+    <input *ngFor="let button of buttons" type="button" value="{{ button }}" (click)="sendAction(button)">
+  </div>
+</div>

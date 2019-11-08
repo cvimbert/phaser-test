@@ -3,6 +3,8 @@ import { BaseGraphItemComponent } from '../components/base-graph-item/base-graph
 import { GraphLink } from '../graph-link.class';
 import { GraphScene } from '../graph-scene.class';
 import { Point } from '../../interfaces/point.interface';
+import { GenericMessageModalComponent } from '../components/generic-message-modal/generic-message-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,9 @@ export class GraphService {
   scene: GraphScene;
   canvasContainerOffset: Point;
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   registerItemComponent(id: string, item: BaseGraphItemComponent) {
     this.items[id] = item;
@@ -25,7 +29,7 @@ export class GraphService {
   }
 
   createLink(from: any, to: any) {
-    let link = new GraphLink();
+    let link = new GraphLink(this);
     link.fromItem = this.getItemComponent(from["item"]);
     link.fromAnchor = from["anchor"];
     link.toItem = this.getItemComponent(to["item"]);
@@ -35,6 +39,16 @@ export class GraphService {
     link.subscribeToPositions();
 
     this.links.push(link);
+  }
+
+  tryDeleteLink(link: GraphLink) {
+    this.dialog.open(GenericMessageModalComponent, {
+      data: {
+        text: "Delete this link ?"
+      }
+    }).afterClosed().subscribe((value: string) => {
+      console.log(value);
+    });
   }
   
 }

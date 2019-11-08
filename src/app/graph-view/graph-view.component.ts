@@ -25,7 +25,7 @@ export class GraphViewComponent implements OnInit {
 
   graphScene: GraphScene;
   game: Game;
-  bounds = new Rectangle(0, 0, 1024, 800);
+  bounds = new Rectangle(0, 0, 1024, 600);
 
   positionsDictionary: DataDictionary<SerializablePoint>;
 
@@ -213,12 +213,16 @@ export class GraphViewComponent implements OnInit {
   }
 
   setCanvasSize() {
-    this.game.scale.resize(document.body.clientWidth, 800);
+    this.game.scale.resize(document.body.clientWidth, 600);
   }
 
   openTestModal() {
-    const ref = this.dialog.open(GenericMessageModalComponent, {
-      data: {}
+    this.dialog.open(GenericMessageModalComponent, {
+      data: {
+        text: "Delete this link ?"
+      }
+    }).afterClosed().subscribe((value: string) => {
+      console.log(value);
     });
   }
 

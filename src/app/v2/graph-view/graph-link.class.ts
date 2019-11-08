@@ -1,6 +1,7 @@
 import { BaseGraphItemComponent } from './components/base-graph-item/base-graph-item.component';
 import { GraphScene } from './graph-scene.class';
 import { Point } from '../interfaces/point.interface';
+import { GraphService } from './services/graph.service';
 
 export class GraphLink {
 
@@ -9,10 +10,17 @@ export class GraphLink {
   toItem: BaseGraphItemComponent;
   toAnchor: string;
   scene: GraphScene;
+  baseRect: Phaser.Geom.Rectangle;
+  triangleRect: Phaser.Geom.Rectangle;
 
   private lineGraphics: Phaser.GameObjects.Graphics;
   private arrow: Phaser.GameObjects.Graphics;
 
+  constructor(
+    private graphService: GraphService
+  ) {
+
+  }
 
   drawLink() {
     if (!this.lineGraphics) {
@@ -49,29 +57,26 @@ export class GraphLink {
         }
       });
 
-      
       this.arrow.fillTriangle(10, -6, 10, 6, -10, 0);
-
-      
-      let rect = new Phaser.Geom.Rectangle(-10, -10, 20, 20).setPosition(x, y);
-      console.log(rect);
-      
-
-      //this.arrow.fillRectShape(rect);
-      this.arrow.setInteractive(rect, this.testEvt).on("pointerup", this.clickOnArrow);
+      this.baseRect = new Phaser.Geom.Rectangle(-10, -10, 20, 20);
+      this.scene.input.on("pointerup", this.clickOnScene, this);
     }
 
+    this.triangleRect = this.baseRect.setPosition(x - 10, y - 10);
     this.arrow.x = x;
     this.arrow.y = y;
     this.arrow.rotation = rotation;
   }
 
-  testEvt(rect: Phaser.Geom.Rectangle, x: number, y: number) {
-    return x > rect.left && x < rect.right && y > rect.top && y < rect.bottom;
-  }
-
-  clickOnArrow() {
-    console.log("ok");
+  clickOnScene(pointer: Phaser.Input.Pointer) {        
+    if (
+      pointer.x > this.triangleRect.left &&
+      pointer.x < this.triangleRect.right &&
+      pointer.y > this.triangleRect.top &&
+      pointer.y < this.triangleRect.bottom
+    ) {
+      this.graphService.tryDeleteLink(this);
+    }
   }
 
   getSplinePoints(from: Point, to: Point): Phaser.Math.Vector2[] {
