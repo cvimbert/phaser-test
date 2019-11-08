@@ -10,3 +10,13 @@
     margin-right: 6px;
   }
 }
+
+.bottom-left-panel {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+
+  input {
+    margin-left: 5px;
+  }
+}

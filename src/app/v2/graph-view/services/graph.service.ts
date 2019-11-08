@@ -5,6 +5,9 @@ import { GraphScene } from '../graph-scene.class';
 import { Point } from '../../interfaces/point.interface';
 import { GenericMessageModalComponent } from '../components/generic-message-modal/generic-message-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DataBank } from '../../data-bank.class';
+import { GraphItem } from '../graph-item.class';
+import { Configuration } from '../../configuration.class';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +19,13 @@ export class GraphService {
   scene: GraphScene;
   canvasContainerOffset: Point;
 
+  graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
+
   constructor(
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.graphItems.load();
+  }
 
   registerItemComponent(id: string, item: BaseGraphItemComponent) {
     this.items[id] = item;
@@ -49,6 +56,19 @@ export class GraphService {
     }).afterClosed().subscribe((value: string) => {
       console.log(value);
     });
+  }
+
+  createGraphItem(type: string) {
+    let item = this.graphItems.createItem({
+      description: "",
+      name: "Test"
+    });
+
+    item.type = type;
+  }
+
+  saveGraphItems() {
+    this.graphItems.save();
   }
   
 }
