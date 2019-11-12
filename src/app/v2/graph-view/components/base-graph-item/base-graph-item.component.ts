@@ -7,6 +7,7 @@ import { TweenLite } from 'gsap';
 import { GraphService } from '../../services/graph.service';
 import { BehaviorSubject } from 'rxjs';
 import { Rectangle } from 'src/app/v2/rectangle.class';
+import { GraphItem } from '../../graph-item.class';
 
 @Component({
   selector: 'base-graph-item',
@@ -15,7 +16,7 @@ import { Rectangle } from 'src/app/v2/rectangle.class';
 })
 export class BaseGraphItemComponent implements OnInit, OnChanges {
 
-  @Input() data: BaseItemData;
+  @Input() data: GraphItem;
   @Input() pos: number;
   @Input() bounds: Rectangle;
   @ViewChildren("anchorElem") anchorElems: GraphAnchorComponent[];
@@ -34,8 +35,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   ngOnInit() {    
     
     this.setPosition({
-      x: this.data.position.x,
-      y: this.data.position.y
+      x: this.data.x,
+      y: this.data.y
     });    
 
     this.draggable = Draggable.create(this.item.nativeElement, {
@@ -65,8 +66,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   }
 
   setPosition(positionPoint: Point) {
-    this.data.position.x = positionPoint.x;
-    this.data.position.y = positionPoint.y;
+    this.data.x = positionPoint.x;
+    this.data.y = positionPoint.y;
      
     this.currentPos = positionPoint;
 
@@ -88,21 +89,27 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes["data"]) {
       this.anchors = [];
-      for (let key in this.data.anchors) {
+
+      // En attente
+      /* for (let key in this.data.anchors) {
         this.anchors.push(this.data.anchors[key]);
-      }
+      } */
     }
   }
 
   getAnchorPosition(anchorId: string): Point {
-    let anchorPoint = this.data.anchors[anchorId];
+
+    // En attente
+    /* let anchorPoint = this.data.anchors[anchorId];
 
     if (anchorPoint) {
       return {
         x: anchorPoint.x + this.currentPos.x,
         y: anchorPoint.y + this.currentPos.y
       }
-    }
+    } */
+
+    return;
   }
 
   getAnchorComponentPosition(anchorId: string): Point {

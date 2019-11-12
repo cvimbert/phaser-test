@@ -11,6 +11,8 @@ import { Rectangle } from '../v2/rectangle.class';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GenericMessageModalData } from '../v2/graph-view/interfaces/generic-message-modal-data.interface';
 import { GenericMessageModalComponent } from '../v2/graph-view/components/generic-message-modal/generic-message-modal.component';
+import { GraphItemType } from '../v2/graph-view/graph-item-type.class';
+import { GraphItem } from '../v2/graph-view/graph-item.class';
 
 @Component({
   selector: 'app-graph-view',
@@ -28,132 +30,7 @@ export class GraphViewComponent implements OnInit {
   bounds = new Rectangle(0, 0, 1024, 600);
 
   positionsDictionary: DataDictionary<SerializablePoint>;
-
-  testLinks = [
-    {
-      from: {
-        item: "it1",
-        anchor: "out2"
-      },
-      to: {
-        item: "it2",
-        anchor: "in1"
-      }
-    },
-    {
-      from: {
-        item: "it1",
-        anchor: "out1"
-      },
-      to: {
-        item: "it3",
-        anchor: "in1"
-      }
-    },
-    {
-      from: {
-        item: "it2",
-        anchor: "out1"
-      },
-      to: {
-        item: "it4",
-        anchor: "in1"
-      }
-    },
-    {
-      from: {
-        item: "it3",
-        anchor: "out1"
-      },
-      to: {
-        item: "it4",
-        anchor: "in1"
-      }
-    }
-  ];
-
-  testItems: { [key: string]: BaseItemData } = {
-    it1: {
-      position: {
-        x: 100,
-        y: 100
-      },
-      anchors: {
-        in1: {
-          x: 0,
-          y: 50
-        },
-        out1: {
-          x: 100,
-          y: 20
-        },
-        out2: {
-          x: 100,
-          y: 80
-        }
-      }
-    },
-    it2: {
-      position: {
-        x: 450,
-        y: 300
-      },
-      anchors: {
-        in1: {
-          x: 0,
-          y: 50
-        },
-        out1: {
-          x: 100,
-          y: 20
-        },
-        out2: {
-          x: 100,
-          y: 80
-        }
-      }
-    },
-    it3: {
-      position: {
-        x: 450,
-        y: 30
-      },
-      anchors: {
-        in1: {
-          x: 0,
-          y: 50
-        },
-        out1: {
-          x: 100,
-          y: 20
-        },
-        out2: {
-          x: 100,
-          y: 80
-        }
-      }
-    },
-    it4: {
-      position: {
-        x: 700,
-        y: 130
-      },
-      anchors: {
-        in1: {
-          x: 0,
-          y: 50
-        },
-        out1: {
-          x: 100,
-          y: 20
-        },
-        out2: {
-          x: 100,
-          y: 80
-        }
-      }
-    }
-  };
+  selectedGraphItemType = GraphItemType.ITEMS_LIST[0];
 
   items: BaseItemData[];
 
@@ -191,11 +68,11 @@ export class GraphViewComponent implements OnInit {
 
     this.items = [];
 
-    for (let key in this.testItems) {
+    /*for (let key in this.testItems) {
       let item = this.testItems[key];
       item.id = key;
       this.items.push(item);
-    }
+    }*/
 
     this.game = new Game(config);
     
@@ -216,6 +93,14 @@ export class GraphViewComponent implements OnInit {
     this.game.scale.resize(document.body.clientWidth, 600);
   }
 
+  addGraphItem() {
+    this.graphService.createGraphItem(this.selectedGraphItemType);
+  }
+
+  get graphItemsList(): string[] {
+    return GraphItemType.ITEMS_LIST;
+  }
+
   openTestModal() {
     this.dialog.open(GenericMessageModalComponent, {
       data: {
@@ -227,7 +112,11 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadPositions() {
+
+    // plus utile bientôt ??
     this.positionsDictionary.load();
+
+    this.graphService.graphItems.load();
 
     let comps: { [key: string]: BaseGraphItemComponent } = {};
 
@@ -235,29 +124,32 @@ export class GraphViewComponent implements OnInit {
       comps[item.data.id] = item;
     });
 
-
-    for (let itemId in this.positionsDictionary.items) {
+   /*  for (let itemId in this.positionsDictionary.items) {
       if (comps[itemId]) {
         comps[itemId].setPosition({
           x: this.positionsDictionary.items[itemId].x,
           y: this.positionsDictionary.items[itemId].y
         });
       }
-    }
+    } */
 
     this.createLinks();
   }
 
   createLinks() {
-    this.testLinks.forEach(link => {
+    /* this.testLinks.forEach(link => {
       this.graphService.createLink(link["from"], link["to"]);
-    });
+    }); */
   }
 
   drawAllLinks() {
     this.graphService.links.forEach(link => {
         link.drawLink();
     });
+  }
+
+  get graphItems(): GraphItem[] {
+    return this.graphService.graphItems.items;
   }
 
   savePositions() {
@@ -271,5 +163,12 @@ export class GraphViewComponent implements OnInit {
     });
 
     this.positionsDictionary.save();
+  }
+
+  saveAll() {
+    // bientôt plus utile (à priori)
+    this.savePositions();
+
+    this.graphService.saveGraphItems();
   }
 }

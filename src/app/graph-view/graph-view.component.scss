@@ -11,6 +11,10 @@
   }
 }
 
+.layer-panel {
+  z-index: 2000;
+}
+
 .bottom-left-panel {
   position: absolute;
   left: 5px;

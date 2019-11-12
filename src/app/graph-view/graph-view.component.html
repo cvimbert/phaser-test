@@ -2,23 +2,20 @@
   <div class="canvas-container" #canvasContainer>
     <base-graph-item
       #itemComponent
-      *ngFor="let item of items; let i = index"
+      *ngFor="let item of graphItems; let i = index"
       [pos]="i"
       [data]="item"
-      [bounds]="bounds"
     ></base-graph-item>
     <div #canvasElement></div>
-    <div class="bottom-left-panel">
-      <select>
-        <option value="transition">Transition</option>
-        <option value="timer">Timer</option>
-        <option value="trigger">Trigger</option>
+    <div class="bottom-left-panel layer-panel">
+      <select [(ngModel)]="selectedGraphItemType">
+        <option *ngFor="let item of graphItemsList" value="{{ item }}">{{ item }}</option>
       </select>
-      <input type="button" value="Add">
+      <input type="button" value="Add" (click)="addGraphItem()">
     </div>
   </div>
 </div>
 <div class="actions">
-  <input type="button" value="Save positions" (click)="savePositions()">
+  <input type="button" value="Save all" (click)="saveAll()">
   <input type="button" value="Open modal" (click)="openTestModal()">
 </div>
