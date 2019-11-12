@@ -17,6 +17,8 @@ export class DataBank<T> {
       ValueCheckingMode.ALLOW_NULL,
       false
     );
+
+    this.load();
   }
 
   createItem(data: DetailsData): T {

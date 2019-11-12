@@ -50,6 +50,9 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
       },
       onDrag: () => {
         // console.log("drag");
+
+        this.data.x = this.draggable.x;
+        this.data.y = this.draggable.y;
         
         let dragPos: Point = {
           x: this.draggable.x,

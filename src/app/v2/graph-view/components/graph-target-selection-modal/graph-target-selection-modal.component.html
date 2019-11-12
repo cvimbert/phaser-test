@@ -1,0 +1,9 @@
+<div class="content">
+  <select [(ngModel)]="selectedTargetId">
+    <option *ngFor="let target of graphTargets" value="{{ target.id }}">{{ target.name }}</option>
+  </select>
+  <div class="actions">
+    <input type="button" value="Cancel" (click)="cancel()">
+    <input type="button" value="Validate" (click)="validate()">
+  </div>
+</div>

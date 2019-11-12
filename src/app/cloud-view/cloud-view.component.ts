@@ -137,7 +137,7 @@ export class CloudViewComponent implements OnInit {
     this.selectedStructure.displayNames(this.inspectionService.namesAreDisplayed);
 
     // chargement des datas depuis le localstorage
-    this.loadData();
+    // this.loadData();
     this.ref.detectChanges();
   }
 

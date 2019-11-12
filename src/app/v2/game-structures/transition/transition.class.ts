@@ -1,8 +1,9 @@
 import { JsonObject, JsonProperty, Any } from 'json2typescript';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
+import { GraphTarget } from '../../graph-view/interfaces/graph-target.interface';
 
 @JsonObject("Transition")
-export class Transition {
+export class Transition implements GraphTarget {
 
   @JsonProperty("id", String)
   id: string = "";

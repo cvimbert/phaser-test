@@ -32,6 +32,7 @@ import { GraphAnchorComponent } from './v2/graph-view/components/graph-anchor/gr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GenericMessageModalComponent } from './v2/graph-view/components/generic-message-modal/generic-message-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { GraphTargetSelectionModalComponent } from './v2/graph-view/components/graph-target-selection-modal/graph-target-selection-modal.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     GraphViewComponent,
     BaseGraphItemComponent,
     GraphAnchorComponent,
-    GenericMessageModalComponent
+    GenericMessageModalComponent,
+    GraphTargetSelectionModalComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ToDegreesPipe
   ],
   entryComponents: [
-    GenericMessageModalComponent
+    GenericMessageModalComponent,
+    GraphTargetSelectionModalComponent
   ],
   providers: [
     NodeEditorService,

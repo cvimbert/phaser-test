@@ -13,6 +13,8 @@ import { GenericMessageModalData } from '../v2/graph-view/interfaces/generic-mes
 import { GenericMessageModalComponent } from '../v2/graph-view/components/generic-message-modal/generic-message-modal.component';
 import { GraphItemType } from '../v2/graph-view/graph-item-type.class';
 import { GraphItem } from '../v2/graph-view/graph-item.class';
+import { GraphTargetSelectionModalComponent } from '../v2/graph-view/components/graph-target-selection-modal/graph-target-selection-modal.component';
+import { GraphTarget } from '../v2/graph-view/interfaces/graph-target.interface';
 
 @Component({
   selector: 'app-graph-view',
@@ -94,7 +96,15 @@ export class GraphViewComponent implements OnInit {
   }
 
   addGraphItem() {
-    this.graphService.createGraphItem(this.selectedGraphItemType);
+    this.dialog.open(GraphTargetSelectionModalComponent, {
+      data: {
+        type: this.selectedGraphItemType
+      }
+    }).afterClosed().subscribe((target: GraphTarget) => {
+      if (target) {
+        this.graphService.createGraphItem(this.selectedGraphItemType);
+      }
+    });
   }
 
   get graphItemsList(): string[] {
