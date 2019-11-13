@@ -1,6 +1,11 @@
 <div class="item" #item>
-  <div #triggerElement id="drag-anchor-{{ pos }}" class="drag-anchor">
-    <i class="fas fa-arrows-alt"></i>
+  <div class="tools">
+      <div #triggerElement id="drag-anchor-{{ pos }}" class="drag-anchor tool">
+        <i class="fas fa-arrows-alt"></i>
+      </div>
+      <div class="tool deletion" (click)="tryDeleteItem()">
+        <i class="fa fa-trash-alt"></i>
+      </div>
   </div>
 
   <div class="item-type">Transition</div>

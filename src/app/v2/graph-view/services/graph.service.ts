@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataBank } from '../../data-bank.class';
 import { GraphItem } from '../graph-item.class';
 import { Configuration } from '../../configuration.class';
+import { GraphItemType } from '../graph-item-type.class';
+import { GenericModalActions } from '../generic-modal-actions.class';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +57,18 @@ export class GraphService {
       }
     }).afterClosed().subscribe((value: string) => {
       console.log(value);
+    });
+  }
+
+  tryDeleteItem(item: GraphItem) {
+    this.dialog.open(GenericMessageModalComponent, {
+      data: {
+        text: "Delete item ?"
+      }
+    }).afterClosed().subscribe((value: string) => {
+      if (value === GenericModalActions.YES) {
+        this.graphItems.delete(item);
+      }
     });
   }
 

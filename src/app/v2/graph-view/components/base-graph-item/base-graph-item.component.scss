@@ -7,14 +7,25 @@
   border-radius: 17px;
 }
 
-.drag-anchor {
-    position: absolute;
-    left: 6px;
-    top: 4px;
+.tools {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  color: white;
+  font-size: 15px;
+
+  .tool {
+    &.drag-anchor {
+      margin-right: 15px;
+    }
+
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  .deletion {
     cursor: pointer;
-    color: white;
-    font-size: 15px;
-    // opacity: 0.8;
+  }
 }
 
 .item-type {
