@@ -1,4 +1,5 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
+import { GraphTarget } from './interfaces/graph-target.interface';
 
 @JsonObject("GraphItem")
 export class GraphItem {
@@ -21,4 +22,6 @@ export class GraphItem {
 
   @JsonProperty("itemId")
   itemId = "";
+
+  targetItem: GraphTarget;
 }

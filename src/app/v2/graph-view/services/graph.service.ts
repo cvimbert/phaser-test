@@ -8,8 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataBank } from '../../data-bank.class';
 import { GraphItem } from '../graph-item.class';
 import { Configuration } from '../../configuration.class';
-import { GraphItemType } from '../graph-item-type.class';
 import { GenericModalActions } from '../generic-modal-actions.class';
+import { GraphTarget } from '../interfaces/graph-target.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -72,13 +72,17 @@ export class GraphService {
     });
   }
 
-  createGraphItem(type: string) {
+  createGraphItem(type: string, target: GraphTarget) {
     let item = this.graphItems.createItem({
       description: "",
-      name: "Test"
+      name: ""
     });
 
     item.type = type;
+    item.itemId = target.id;
+
+    // Peut-être pas une bonne idée de passer la target dans l'objet... à voir
+    item.targetItem = target;
   }
 
   saveGraphItems() {

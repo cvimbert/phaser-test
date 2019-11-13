@@ -1,5 +1,17 @@
 .item {
-  background-color: blueviolet;
+
+  &.transition {
+    background-color: blueviolet;
+  }
+
+  &.timer {
+    background-color: green;
+  }
+
+  &.trigger {
+    background-color: maroon;
+  }
+
   border: 1px solid black;
   // width: 100px;
   //min-height: 100px;

@@ -87,7 +87,7 @@ export class GraphViewComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(evt: Event) {
+  onResize() {
       this.setCanvasSize();
   }
 
@@ -100,25 +100,15 @@ export class GraphViewComponent implements OnInit {
       data: {
         type: this.selectedGraphItemType
       }
-    }).afterClosed().subscribe((target: GraphTarget) => {
+    }).afterClosed().subscribe((target: GraphTarget) => {      
       if (target) {
-        this.graphService.createGraphItem(this.selectedGraphItemType);
+        this.graphService.createGraphItem(this.selectedGraphItemType, target);
       }
     });
   }
 
   get graphItemsList(): string[] {
     return GraphItemType.ITEMS_LIST;
-  }
-
-  openTestModal() {
-    this.dialog.open(GenericMessageModalComponent, {
-      data: {
-        text: "Delete this link ?"
-      }
-    }).afterClosed().subscribe((value: string) => {
-      console.log(value);
-    });
   }
 
   loadPositions() {
@@ -133,15 +123,6 @@ export class GraphViewComponent implements OnInit {
     this.itemComponents.forEach(item => {
       comps[item.data.id] = item;
     });
-
-   /*  for (let itemId in this.positionsDictionary.items) {
-      if (comps[itemId]) {
-        comps[itemId].setPosition({
-          x: this.positionsDictionary.items[itemId].x,
-          y: this.positionsDictionary.items[itemId].y
-        });
-      }
-    } */
 
     this.createLinks();
   }
@@ -162,7 +143,7 @@ export class GraphViewComponent implements OnInit {
     return this.graphService.graphItems.items;
   }
 
-  savePositions() {
+  /* savePositions() {
     this.positionsDictionary.clear();
 
     this.itemComponents.forEach(item => {
@@ -173,11 +154,11 @@ export class GraphViewComponent implements OnInit {
     });
 
     this.positionsDictionary.save();
-  }
+  } */
 
   saveAll() {
     // bientôt plus utile (à priori)
-    this.savePositions();
+    // this.savePositions();
 
     this.graphService.saveGraphItems();
   }

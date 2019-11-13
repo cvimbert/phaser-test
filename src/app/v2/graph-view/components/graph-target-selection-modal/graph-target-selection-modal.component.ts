@@ -43,7 +43,7 @@ export class GraphTargetSelectionModalComponent implements OnInit {
 
   validate() {
     // valeur de retour à améliorer potentiellement
-    this.dialogRef.close(this.selectedTargetId);
+    this.dialogRef.close(this.selectedTarget);
   }
 
 }
