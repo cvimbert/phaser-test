@@ -8,6 +8,7 @@ import { GraphService } from '../../services/graph.service';
 import { BehaviorSubject } from 'rxjs';
 import { Rectangle } from 'src/app/v2/rectangle.class';
 import { GraphItem } from '../../graph-item.class';
+import { AnchorItem } from '../../interfaces/anchor-item.interface';
 
 @Component({
   selector: 'base-graph-item',
@@ -66,6 +67,14 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     })[0];
 
     this.graphservice.registerItemComponent(this.data.id, this);
+  }
+
+  get inAnchor(): AnchorItem[] {
+    return this.data.targetItem ? this.data.targetItem.inAnchors : [];
+  }
+
+  get outAnchors(): AnchorItem[] {
+    return this.data.targetItem ? this.data.targetItem.outAnchors : [];
   }
 
   setPosition(positionPoint: Point) {

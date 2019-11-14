@@ -4,9 +4,7 @@ import { GraphTarget } from './interfaces/graph-target.interface';
 @JsonObject("GraphItem")
 export class GraphItem {
 
-  constructor() {
-
-  }
+  constructor() {}
 
   @JsonProperty("id")
   id = "";

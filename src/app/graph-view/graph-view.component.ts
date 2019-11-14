@@ -15,6 +15,7 @@ import { GraphItemType } from '../v2/graph-view/graph-item-type.class';
 import { GraphItem } from '../v2/graph-view/graph-item.class';
 import { GraphTargetSelectionModalComponent } from '../v2/graph-view/components/graph-target-selection-modal/graph-target-selection-modal.component';
 import { GraphTarget } from '../v2/graph-view/interfaces/graph-target.interface';
+import { TransitionsService } from '../v2/services/transitions.service';
 
 @Component({
   selector: 'app-graph-view',
@@ -38,6 +39,7 @@ export class GraphViewComponent implements OnInit {
 
   constructor(
     private graphService: GraphService,
+    private transitionsService: TransitionsService,
     private dialog: MatDialog
   ) {
     this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
@@ -84,6 +86,16 @@ export class GraphViewComponent implements OnInit {
       this.setCanvasSize();
       this.loadPositions();
     });
+
+    // on set ici toutes les targets, à savoir si c'est une bonne idée...
+    this.graphService.graphItems.items.forEach(item => {
+      // en attendant mieux
+      if (item.type === GraphItemType.TRANSITION) {
+        item.targetItem = this.transitionsService.getItemById(item.itemId);
+      }
+    });
+
+    // console.log(this.graphService.graphItems.items);
   }
 
   @HostListener('window:resize', ['$event'])

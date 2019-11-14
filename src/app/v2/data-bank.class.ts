@@ -40,6 +40,10 @@ export class DataBank<T> {
     this.items.push(item);
   }
 
+  getItemById(id: string): T {
+    return this.items.find(item => item["id"] === id);
+  }
+
   clear() {
     this.items.length = 0;
     this.tempId = 0;

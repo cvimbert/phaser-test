@@ -11,13 +11,17 @@
   <div class="item-type">Transition</div>
   <div class="content">
     <div class="column left-column">
+
       <div class="command">Play
         <graph-anchor
+          *ngFor="let anchor of inAnchors"
           #anchorElem
           id="in1"
         ></graph-anchor>
       </div>
-      <div class="command">Stop
+
+
+      <!-- <div class="command">Stop
         <graph-anchor
           #anchorElem
           id="in2"
@@ -28,21 +32,26 @@
           #anchorElem
           id="in3"
         ></graph-anchor>
-      </div>
+      </div> -->
+      
     </div>
     <div class="column right-column">
+
       <div class="command">On start
         <graph-anchor
+          *ngFor="let anchor of outAnchors"
           #anchorElem
           id="out1"
         ></graph-anchor>
       </div>
-      <div class="command">On complete
+
+      <!-- <div class="command">On complete
         <graph-anchor
           id="out2"
           #anchorElem
         ></graph-anchor>
-      </div>
+      </div> -->
+
     </div>
   </div>
 </div>
