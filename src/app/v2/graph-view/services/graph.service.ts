@@ -26,7 +26,7 @@ export class GraphService {
   constructor(
     private dialog: MatDialog
   ) {
-    this.graphItems.load();
+    //this.graphItems.load();
   }
 
   registerItemComponent(id: string, item: BaseGraphItemComponent) {

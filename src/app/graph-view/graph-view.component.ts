@@ -128,7 +128,7 @@ export class GraphViewComponent implements OnInit {
     // plus utile bientôt ??
     this.positionsDictionary.load();
 
-    this.graphService.graphItems.load();
+    //this.graphService.graphItems.load();
 
     let comps: { [key: string]: BaseGraphItemComponent } = {};
 

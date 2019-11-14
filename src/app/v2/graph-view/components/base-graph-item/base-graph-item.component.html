@@ -10,48 +10,24 @@
 
   <div class="item-type">Transition</div>
   <div class="content">
+
     <div class="column left-column">
-
-      <div class="command">Play
+      <div class="command" *ngFor="let anchor of inAnchors">{{ anchor.label }}
         <graph-anchor
-          *ngFor="let anchor of inAnchors"
           #anchorElem
-          id="in1"
+          [id]="anchor.id"
         ></graph-anchor>
       </div>
-
-
-      <!-- <div class="command">Stop
-        <graph-anchor
-          #anchorElem
-          id="in2"
-        ></graph-anchor>
-      </div>
-      <div class="command">Reset the animation
-        <graph-anchor
-          #anchorElem
-          id="in3"
-        ></graph-anchor>
-      </div> -->
-      
     </div>
+
     <div class="column right-column">
-
-      <div class="command">On start
+      <div class="command" *ngFor="let anchor of outAnchors">{{ anchor.label }}
         <graph-anchor
-          *ngFor="let anchor of outAnchors"
           #anchorElem
-          id="out1"
+          [id]="anchor.id"
         ></graph-anchor>
       </div>
-
-      <!-- <div class="command">On complete
-        <graph-anchor
-          id="out2"
-          #anchorElem
-        ></graph-anchor>
-      </div> -->
-
     </div>
+    
   </div>
 </div>

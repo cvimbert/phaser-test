@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChildren, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChildren, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { BaseItemData } from '../../interfaces/base-item-data.interface';
 import { Point } from 'src/app/v2/interfaces/point.interface';
 import { GraphAnchorComponent } from '../graph-anchor/graph-anchor.component';
@@ -13,7 +13,8 @@ import { AnchorItem } from '../../interfaces/anchor-item.interface';
 @Component({
   selector: 'base-graph-item',
   templateUrl: './base-graph-item.component.html',
-  styleUrls: ['./base-graph-item.component.scss']
+  styleUrls: ['./base-graph-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseGraphItemComponent implements OnInit, OnChanges {
 
@@ -69,7 +70,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     this.graphservice.registerItemComponent(this.data.id, this);
   }
 
-  get inAnchor(): AnchorItem[] {
+  get inAnchors(): AnchorItem[] {
     return this.data.targetItem ? this.data.targetItem.inAnchors : [];
   }
 
@@ -105,6 +106,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes["data"]) {
       this.anchors = [];
+
+      console.log("changes")
 
       // En attente
       /* for (let key in this.data.anchors) {

@@ -143,9 +143,9 @@ export class CloudViewComponent implements OnInit {
 
   loadData() {
     
-    this.statesService.load();
+    /*this.statesService.load();
     this.transitionsService.load();
-    this.diffsService.load();
+    this.diffsService.load();*/
   }
 
   onPointerDown(pointer: Phaser.Input.Pointer) {

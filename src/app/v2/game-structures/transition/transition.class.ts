@@ -36,6 +36,8 @@ export class Transition implements GraphTarget {
   inAnchors = Transition.inAnchors;
   outAnchors = Transition.outAnchors;
 
+  constructor() {}
+
   @JsonProperty("id", String)
   id: string = "";
 
