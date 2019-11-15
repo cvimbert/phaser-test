@@ -22,7 +22,8 @@ export class GraphAnchorComponent implements OnInit {
   }
 
   onAnchorClicked() {
-    console.log(this.bAnchor.nativeElement.getBoundingClientRect());
+    // console.log(this.bAnchor.nativeElement.getBoundingClientRect());
+    this.graphService.startDrawTemporaryLink(this);
   }
 
   getClientPosition(): Point {
@@ -34,5 +35,4 @@ export class GraphAnchorComponent implements OnInit {
       y: rect.top + rect.height / 2 - this.graphService.canvasContainerOffset.y + 8
     }
   }
-
 }

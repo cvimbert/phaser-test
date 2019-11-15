@@ -1,1 +1,7 @@
-<div #banchor (click)="onAnchorClicked()" class="base-anchor" [style.left.px]="position ? position.x : 0" [style.top.px]="position ? position.y : 0"></div>
+<div
+  #banchor
+  (mousedown)="onAnchorClicked()"
+  class="base-anchor"
+  [style.left.px]="position ? position.x : 0"
+  [style.top.px]="position ? position.y : 0"
+></div>

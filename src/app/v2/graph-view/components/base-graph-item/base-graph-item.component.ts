@@ -100,14 +100,13 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   }
 
   anchorClick(evt: MouseEvent) {
+    // on commence le tracé d'un lien temporaire
     console.log(this.anchorElems);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes["data"]) {
       this.anchors = [];
-
-      console.log("changes")
 
       // En attente
       /* for (let key in this.data.anchors) {

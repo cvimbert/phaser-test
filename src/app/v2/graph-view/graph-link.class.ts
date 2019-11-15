@@ -37,7 +37,7 @@ export class GraphLink {
     let fromPoint = this.fromItem.getAnchorComponentPosition(this.fromAnchor);
     let toPoint = this.toItem.getAnchorComponentPosition(this.toAnchor);
 
-    let points = this.getSplinePoints(toPoint, fromPoint);
+    let points = GraphLink.getSplinePoints(toPoint, fromPoint);
 
     let curve = new Phaser.Curves.Spline(points);
     curve.draw(this.lineGraphics);
@@ -79,7 +79,7 @@ export class GraphLink {
     }
   }
 
-  getSplinePoints(from: Point, to: Point): Phaser.Math.Vector2[] {
+  static getSplinePoints(from: Point, to: Point): Phaser.Math.Vector2[] {
     
     let xBat = to.x - from.x;
     let yBat = to.y - from.y;

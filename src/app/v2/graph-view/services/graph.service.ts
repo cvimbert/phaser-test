@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, HostListener } from '@angular/core';
 import { BaseGraphItemComponent } from '../components/base-graph-item/base-graph-item.component';
 import { GraphLink } from '../graph-link.class';
 import { GraphScene } from '../graph-scene.class';
@@ -10,6 +10,8 @@ import { GraphItem } from '../graph-item.class';
 import { Configuration } from '../../configuration.class';
 import { GenericModalActions } from '../generic-modal-actions.class';
 import { GraphTarget } from '../interfaces/graph-target.interface';
+import { TemporaryLink } from '../temporary-link.class';
+import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +23,13 @@ export class GraphService {
   scene: GraphScene;
   canvasContainerOffset: Point;
 
+  tempLink: TemporaryLink;
+
   graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
 
   constructor(
     private dialog: MatDialog
-  ) {
-    //this.graphItems.load();
-  }
+  ) {}
 
   registerItemComponent(id: string, item: BaseGraphItemComponent) {
     this.items[id] = item;
@@ -48,6 +50,19 @@ export class GraphService {
     link.subscribeToPositions();
 
     this.links.push(link);
+  }
+
+  startDrawTemporaryLink(anchor: GraphAnchorComponent) {
+    console.log("start draw");
+    this.scene.input.on("pointerup", this.stopDrawTemporaryLink, this);
+    this.tempLink = new TemporaryLink(this.scene, anchor.getClientPosition());
+  }
+
+  stopDrawTemporaryLink() {
+    console.log("stop draw");
+    this.scene.input.off("pointerup", this.stopDrawTemporaryLink);
+    this.tempLink.destroy();
+    this.tempLink = null;
   }
 
   tryDeleteLink(link: GraphLink) {

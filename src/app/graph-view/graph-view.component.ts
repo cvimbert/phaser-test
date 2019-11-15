@@ -45,6 +45,11 @@ export class GraphViewComponent implements OnInit {
     this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
   }
 
+  @HostListener("document:mouseup", ["$event"])
+  onDocumentMouseUp() {
+    console.log("c'est ok");
+  }
+
   ngOnInit() {
     this.graphScene = new GraphScene();
     this.graphService.scene = this.graphScene;
