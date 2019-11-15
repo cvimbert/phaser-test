@@ -54,15 +54,17 @@ export class GraphService {
 
   startDrawTemporaryLink(anchor: GraphAnchorComponent) {
     console.log("start draw");
-    this.scene.input.on("pointerup", this.stopDrawTemporaryLink, this);
+    //this.scene.input.on("pointerup", this.stopDrawTemporaryLink, this);
     this.tempLink = new TemporaryLink(this.scene, anchor.getClientPosition());
   }
 
   stopDrawTemporaryLink() {
-    console.log("stop draw");
-    this.scene.input.off("pointerup", this.stopDrawTemporaryLink);
-    this.tempLink.destroy();
-    this.tempLink = null;
+    if (this.tempLink) {
+      console.log("stop draw");
+      //this.scene.input.off("pointerup", this.stopDrawTemporaryLink);
+      this.tempLink.destroy();
+      this.tempLink = null;
+    }
   }
 
   tryDeleteLink(link: GraphLink) {

@@ -1,6 +1,5 @@
 import { Point } from '../interfaces/point.interface';
 import { GraphLink } from './graph-link.class';
-import { link } from 'fs';
 
 export class TemporaryLink {
 

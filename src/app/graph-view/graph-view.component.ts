@@ -47,7 +47,7 @@ export class GraphViewComponent implements OnInit {
 
   @HostListener("document:mouseup", ["$event"])
   onDocumentMouseUp() {
-    console.log("c'est ok");
+    this.graphService.stopDrawTemporaryLink();
   }
 
   ngOnInit() {
