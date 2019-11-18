@@ -1,4 +1,4 @@
-<div class="item {{ data.type }}" #item>
+<div class="item {{ data.type }}" [class.disabled]="graphservice.tempDrawing === true" #item>
   <div class="tools">
       <div #triggerElement id="drag-anchor-{{ pos }}" class="drag-anchor tool">
         <i class="fas fa-arrows-alt"></i>

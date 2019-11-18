@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { GraphScene } from '../v2/graph-view/graph-scene.class';
 import { Game } from 'phaser';
 import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interface';
@@ -20,7 +20,8 @@ import { TransitionsService } from '../v2/services/transitions.service';
 @Component({
   selector: 'app-graph-view',
   templateUrl: './graph-view.component.html',
-  styleUrls: ['./graph-view.component.scss']
+  styleUrls: ['./graph-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GraphViewComponent implements OnInit {
 
@@ -45,10 +46,10 @@ export class GraphViewComponent implements OnInit {
     this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
   }
 
-  @HostListener("document:mouseup", ["$event"])
+  /* @HostListener("document:mouseup", ["$event"])
   onDocumentMouseUp() {
     this.graphService.stopDrawTemporaryLink();
-  }
+  } */
 
   ngOnInit() {
     this.graphScene = new GraphScene();

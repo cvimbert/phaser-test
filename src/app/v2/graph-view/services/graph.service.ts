@@ -12,6 +12,7 @@ import { GenericModalActions } from '../generic-modal-actions.class';
 import { GraphTarget } from '../interfaces/graph-target.interface';
 import { TemporaryLink } from '../temporary-link.class';
 import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.component';
+import { GraphViewComponent } from 'src/app/graph-view/graph-view.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class GraphService {
   canvasContainerOffset: Point;
 
   tempLink: TemporaryLink;
+  tempDrawing = false;
 
   graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
 
@@ -54,16 +56,18 @@ export class GraphService {
 
   startDrawTemporaryLink(anchor: GraphAnchorComponent) {
     console.log("start draw");
-    //this.scene.input.on("pointerup", this.stopDrawTemporaryLink, this);
+    this.tempDrawing = true;
+    this.scene.input.on("pointerup", this.stopDrawTemporaryLink, this);
     this.tempLink = new TemporaryLink(this.scene, anchor.getClientPosition());
   }
 
   stopDrawTemporaryLink() {
     if (this.tempLink) {
       console.log("stop draw");
-      //this.scene.input.off("pointerup", this.stopDrawTemporaryLink);
+      this.scene.input.off("pointerup", this.stopDrawTemporaryLink);
       this.tempLink.destroy();
       this.tempLink = null;
+      this.tempDrawing = false;
     }
   }
 

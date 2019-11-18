@@ -14,7 +14,7 @@ import { AnchorItem } from '../../interfaces/anchor-item.interface';
   selector: 'base-graph-item',
   templateUrl: './base-graph-item.component.html',
   styleUrls: ['./base-graph-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseGraphItemComponent implements OnInit, OnChanges {
 
@@ -31,7 +31,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   currentPos: Point;
 
   constructor(
-    private graphservice: GraphService
+    public graphservice: GraphService
   ) { }
 
   ngOnInit() {    

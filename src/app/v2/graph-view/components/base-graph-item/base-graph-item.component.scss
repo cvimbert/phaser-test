@@ -1,6 +1,14 @@
 .item {
   user-select: none;
 
+  &.disabled {
+    pointer-events: none;
+
+    graph-anchor {
+      pointer-events: initial;
+    }
+  }
+
   &.transition {
     background-color: blueviolet;
   }
