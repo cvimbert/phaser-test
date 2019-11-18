@@ -13,14 +13,13 @@ import { AnchorItem } from '../../interfaces/anchor-item.interface';
 @Component({
   selector: 'base-graph-item',
   templateUrl: './base-graph-item.component.html',
-  styleUrls: ['./base-graph-item.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./base-graph-item.component.scss']
 })
 export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   @Input() data: GraphItem;
   @Input() pos: number;
-  @Input() bounds: Rectangle;
+  // @Input() bounds: Rectangle;
   @ViewChildren("anchorElem") anchorElems: GraphAnchorComponent[];
   @ViewChild("item") item: ElementRef;
   @ViewChild("triggerElement") triggerElement: ElementRef;

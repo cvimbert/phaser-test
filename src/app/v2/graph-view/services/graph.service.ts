@@ -29,6 +29,8 @@ export class GraphService {
 
   graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
 
+  onAnchor: GraphAnchorComponent;
+
   constructor(
     private dialog: MatDialog
   ) {}
@@ -68,6 +70,10 @@ export class GraphService {
       this.tempLink.destroy();
       this.tempLink = null;
       this.tempDrawing = false;
+
+      if (this.onAnchor) {
+        console.log("selected anchor", this.onAnchor);
+      }
     }
   }
 

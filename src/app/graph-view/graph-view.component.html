@@ -9,7 +9,7 @@
     <div #canvasElement></div>
     <div class="bottom-left-panel layer-panel">
       <select [(ngModel)]="selectedGraphItemType">
-        <option *ngFor="let item of graphItemsList" value="{{ item }}">{{ item }}</option>
+        <option *ngFor="let item of graphItemsList"  value="{{ item }}">{{ item }}</option>
       </select>
       <input type="button" value="Add" (click)="addGraphItem()">
     </div>

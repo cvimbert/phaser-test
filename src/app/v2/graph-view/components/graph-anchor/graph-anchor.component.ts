@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { Point } from 'src/app/v2/interfaces/point.interface';
 import { GraphService } from '../../services/graph.service';
+import { BaseGraphItemComponent } from '../base-graph-item/base-graph-item.component';
 
 @Component({
   selector: 'graph-anchor',
@@ -12,6 +13,7 @@ export class GraphAnchorComponent implements OnInit {
   @ViewChild("banchor") bAnchor: ElementRef;
   @Input() position: Point;
   @Input() id: string;
+  @Input() parentItem: BaseGraphItemComponent;
 
   constructor(
     public element: ElementRef,
@@ -19,6 +21,20 @@ export class GraphAnchorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  onOver() {
+    this.graphService.onAnchor = this;
+  }
+
+  onOut() {
+    this.graphService.onAnchor = null;
+  }
+
+  onMouseUp() {
+    if (this.graphService.tempDrawing) {
+      this.graphService.stopDrawTemporaryLink();
+    }
   }
 
   onAnchorClicked() {
