@@ -22,7 +22,7 @@ export class GraphItem {
   @JsonProperty("itemId", String)
   itemId = "";
 
-  @JsonProperty("outLinks", [OutLink])
+  // @JsonProperty("outLinks", [OutLink])
   outLinks: OutLink[] = [];
 
   targetItem: GraphTarget;

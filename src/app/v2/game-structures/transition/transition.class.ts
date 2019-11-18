@@ -6,7 +6,20 @@ import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
 @JsonObject("Transition")
 export class Transition implements GraphTarget {
 
-  static inAnchors: AnchorItem[] = [
+  outAnchors: AnchorItem[] = [
+    {
+      id: "onstart",
+      label: "On start",
+      callback: this.onTransitionStart
+    },
+    {
+      id: "oncomplete",
+      label: "On complete",
+      callback: this.onTransitionComplete
+    }
+  ];
+
+  inAnchors: AnchorItem[] = [
     {
       id: "play",
       label: "Play"
@@ -20,21 +33,6 @@ export class Transition implements GraphTarget {
       label: "Reset the animation"
     }
   ];
-
-  static outAnchors: AnchorItem[] = [
-    {
-      id: "onstart",
-      label: "On start"
-    },
-    {
-      id: "oncomplete",
-      label: "On complete"
-    }
-  ];
-
-  // un peu tordu de redéclarer comme ça, mais ça évite un switch/case superflu
-  inAnchors = Transition.inAnchors;
-  outAnchors = Transition.outAnchors;
 
   constructor() {}
 
@@ -58,4 +56,12 @@ export class Transition implements GraphTarget {
 
   @JsonProperty("eas", String)
   easingType: string = "0";
+
+  onTransitionComplete() {
+    console.log("Transition complete callback");
+  }
+
+  onTransitionStart() {
+    console.log("Transition start callback");
+  }
 }
