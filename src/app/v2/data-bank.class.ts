@@ -10,7 +10,7 @@ export class DataBank<T> {
 
   constructor(
     public storageKey: string,
-    public itemClass: new () => T
+    public itemClass: {new (): T}
   ) {
     this.jsonConverter = new JsonConvert(
       OperationMode.ENABLE,
@@ -58,6 +58,8 @@ export class DataBank<T> {
   }
 
   save() {
+
+    console.log(this.items);
     localStorage[this.storageKey + Configuration.INDEX_SUFFIX] = this.tempId;
 
     let obj = this.jsonConverter.serializeArray(this.items);

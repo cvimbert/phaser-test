@@ -12,6 +12,7 @@ import { GenericModalActions } from '../generic-modal-actions.class';
 import { GraphTarget } from '../interfaces/graph-target.interface';
 import { TemporaryLink } from '../temporary-link.class';
 import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.component';
+import { OutLink } from '../out-link.class';
 
 @Injectable({
   providedIn: 'root'
@@ -81,12 +82,12 @@ export class GraphService {
         let targetObject = this.targetDrawAnchor.parentItem.data.id;
         let localProp = this.initialDrawAnchor.data.id;
         
+        let link = new OutLink();
+        link.localProperty = localProp;
+        link.targetProperty = targetProp;
+        link.targetObject = targetObject;
 
-        this.initialDrawAnchor.parentItem.data.outLinks.push({
-          localProperty: localProp,
-          targetProperty: targetProp,
-          targetObject: targetObject
-        });
+        this.initialDrawAnchor.parentItem.data.outLinks.push(link);
 
         console.log(this.initialDrawAnchor.parentItem.data.outLinks);
       }
