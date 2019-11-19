@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { GraphScene } from '../v2/graph-view/graph-scene.class';
 import { Game } from 'phaser';
 import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interface';
@@ -41,7 +41,8 @@ export class GraphViewComponent implements OnInit {
   constructor(
     private graphService: GraphService,
     private transitionsService: TransitionsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef
   ) {
     this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
   }
@@ -121,6 +122,7 @@ export class GraphViewComponent implements OnInit {
     }).afterClosed().subscribe((target: GraphTarget) => {      
       if (target) {
         this.graphService.createGraphItem(this.selectedGraphItemType, target);
+        this.cdRef.detectChanges();
       }
     });
   }

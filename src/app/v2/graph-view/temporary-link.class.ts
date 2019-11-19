@@ -6,6 +6,7 @@ export class TemporaryLink {
   link: Phaser.GameObjects.Graphics;
 
   constructor(
+    public from: string,
     private scene: Phaser.Scene,
     private startPoint: Point
   ) {

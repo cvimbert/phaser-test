@@ -3,11 +3,12 @@ import { JsonObject, JsonProperty } from 'json2typescript';
 @JsonObject("OutLink")
 export class OutLink {
 
-    constructor() {}
+    @JsonProperty("lProp", String)
+    localProperty = "";
 
-    @JsonProperty("pName", String)
-    propertyName = "";
+    @JsonProperty("tObj", String)
+    targetObject = "";
 
-    @JsonProperty("to", String)
-    to = "";
+    @JsonProperty("tProp", String)
+    targetProperty = "";
 }

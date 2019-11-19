@@ -15,6 +15,7 @@
       <div class="command" *ngFor="let anchor of inAnchors">{{ anchor.label }}
         <graph-anchor
           #anchorElem
+          [data]="anchor"
           [id]="anchor.id"
           [parentItem]="this"
         ></graph-anchor>
@@ -25,6 +26,7 @@
       <div class="command" *ngFor="let anchor of outAnchors">{{ anchor.label }}
         <graph-anchor
           #anchorElem
+          [data]="anchor"
           [id]="anchor.id"
           [parentItem]="this"
         ></graph-anchor>

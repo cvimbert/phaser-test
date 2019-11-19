@@ -61,7 +61,6 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
         };
 
         this.currentPos = dragPos;
-
         this.positionSubject.next(dragPos);
       }
     })[0];

@@ -12,7 +12,6 @@ import { GenericModalActions } from '../generic-modal-actions.class';
 import { GraphTarget } from '../interfaces/graph-target.interface';
 import { TemporaryLink } from '../temporary-link.class';
 import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.component';
-import { GraphViewComponent } from 'src/app/graph-view/graph-view.component';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +28,8 @@ export class GraphService {
 
   graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
 
-  onAnchor: GraphAnchorComponent;
+  targetDrawAnchor: GraphAnchorComponent;
+  initialDrawAnchor: GraphAnchorComponent;
 
   constructor(
     private dialog: MatDialog
@@ -60,7 +60,11 @@ export class GraphService {
     console.log("start draw");
     this.tempDrawing = true;
     this.scene.input.on("pointerup", this.stopDrawTemporaryLink, this);
-    this.tempLink = new TemporaryLink(this.scene, anchor.getClientPosition());
+    this.initialDrawAnchor = anchor;
+
+    console.log(anchor.data.id);
+    
+    this.tempLink = new TemporaryLink(anchor.data.id, this.scene, anchor.getClientPosition());
   }
 
   stopDrawTemporaryLink() {
@@ -68,12 +72,27 @@ export class GraphService {
       console.log("stop draw");
       this.scene.input.off("pointerup", this.stopDrawTemporaryLink);
       this.tempLink.destroy();
+
+      if (this.targetDrawAnchor) {
+        // ajout du lien au modèle
+
+        // se fier aux tag d'anchor, in ou out pour création des datas
+        let targetProp = this.targetDrawAnchor.data.id;
+        let targetObject = this.targetDrawAnchor.parentItem.data.id;
+        let localProp = this.initialDrawAnchor.data.id;
+        
+
+        this.initialDrawAnchor.parentItem.data.outLinks.push({
+          localProperty: localProp,
+          targetProperty: targetProp,
+          targetObject: targetObject
+        });
+
+        console.log(this.initialDrawAnchor.parentItem.data.outLinks);
+      }
+
       this.tempLink = null;
       this.tempDrawing = false;
-
-      if (this.onAnchor) {
-        console.log("selected anchor", this.onAnchor);
-      }
     }
   }
 
