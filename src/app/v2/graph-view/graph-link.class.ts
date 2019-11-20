@@ -2,6 +2,8 @@ import { BaseGraphItemComponent } from './components/base-graph-item/base-graph-
 import { GraphScene } from './graph-scene.class';
 import { Point } from '../interfaces/point.interface';
 import { GraphService } from './services/graph.service';
+import { OutLink } from './out-link.class';
+import { GraphItem } from './graph-item.class';
 
 export class GraphLink {
 
@@ -12,6 +14,8 @@ export class GraphLink {
   scene: GraphScene;
   baseRect: Phaser.Geom.Rectangle;
   triangleRect: Phaser.Geom.Rectangle;
+  linkData: OutLink;
+  graphItemData: GraphItem;
 
   private lineGraphics: Phaser.GameObjects.Graphics;
   private arrow: Phaser.GameObjects.Graphics;

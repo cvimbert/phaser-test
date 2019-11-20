@@ -5,10 +5,12 @@ import { GraphAnchorComponent } from '../graph-anchor/graph-anchor.component';
 import Draggable from "gsap/Draggable";
 import { TweenLite } from 'gsap';
 import { GraphService } from '../../services/graph.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 import { Rectangle } from 'src/app/v2/rectangle.class';
 import { GraphItem } from '../../graph-item.class';
 import { AnchorItem } from '../../interfaces/anchor-item.interface';
+import { GraphLink } from '../../graph-link.class';
+import { OutLink } from '../../out-link.class';
 
 @Component({
   selector: 'base-graph-item',
@@ -19,7 +21,6 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   @Input() data: GraphItem;
   @Input() pos: number;
-  // @Input() bounds: Rectangle;
   @ViewChildren("anchorElem") anchorElems: GraphAnchorComponent[];
   @ViewChild("item") item: ElementRef;
   @ViewChild("triggerElement") triggerElement: ElementRef;
@@ -28,6 +29,9 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   positionSubject = new BehaviorSubject<Point>({ x: 0, y: 0 });
 
   currentPos: Point;
+
+  // utile ou pas ?
+  links: GraphLink[] = [];
 
   constructor(
     public graphservice: GraphService
@@ -66,6 +70,21 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     })[0];
 
     this.graphservice.registerItemComponent(this.data.id, this);
+
+    /* setTimeout(() => {
+      this.drawChildrenLinks();
+    }); */
+  }
+
+  drawChildrenLinks() {
+    for (let linkData of this.data.outLinks) {
+      this.drawChildLink(linkData);
+    }
+  }
+
+  drawChildLink(linkData: OutLink) {
+    let link = this.graphservice.createLinkFromData(this.data, linkData);
+      this.links.push(link);
   }
 
   get inAnchors(): AnchorItem[] {

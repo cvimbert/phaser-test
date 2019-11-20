@@ -13,12 +13,14 @@ import { GraphTarget } from '../interfaces/graph-target.interface';
 import { TemporaryLink } from '../temporary-link.class';
 import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.component';
 import { OutLink } from '../out-link.class';
+import { GraphViewComponent } from 'src/app/graph-view/graph-view.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GraphService {
 
+  mainView: GraphViewComponent;
   items: { [key: string]: BaseGraphItemComponent } = {};
   links: GraphLink[] = [];
   scene: GraphScene;
@@ -44,7 +46,7 @@ export class GraphService {
     return this.items[id];
   }
 
-  createLink(from: any, to: any) {
+  createLink(from: any, to: any): GraphLink {
     let link = new GraphLink(this);
     link.fromItem = this.getItemComponent(from["item"]);
     link.fromAnchor = from["anchor"];
@@ -55,6 +57,25 @@ export class GraphService {
     link.subscribeToPositions();
 
     this.links.push(link);
+
+    return link;
+  }
+
+  createLinkFromData(graphItemData: GraphItem, linkData: OutLink): GraphLink {
+    let fromData: any = {
+      item: graphItemData.id,
+      anchor: linkData.localProperty
+    };
+
+    let toData: any = {
+      item: linkData.targetObject,
+      anchor: linkData.targetProperty
+    };
+
+    let link = this.createLink(fromData, toData);
+    link.graphItemData = graphItemData;
+    link.linkData = linkData;
+    return link;
   }
 
   startDrawTemporaryLink(anchor: GraphAnchorComponent) {
@@ -88,8 +109,7 @@ export class GraphService {
         link.targetObject = targetObject;
 
         this.initialDrawAnchor.parentItem.data.outLinks.push(link);
-
-        console.log(this.initialDrawAnchor.parentItem.data.outLinks);
+        this.initialDrawAnchor.parentItem.drawChildLink(link);
       }
 
       this.tempLink = null;
@@ -115,6 +135,7 @@ export class GraphService {
     }).afterClosed().subscribe((value: string) => {
       if (value === GenericModalActions.YES) {
         this.graphItems.delete(item);
+        this.mainView.update();
       }
     });
   }
@@ -135,5 +156,6 @@ export class GraphService {
   saveGraphItems() {
     this.graphItems.save();
   }
+
   
 }

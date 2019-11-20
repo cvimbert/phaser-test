@@ -53,6 +53,7 @@ export class GraphViewComponent implements OnInit {
   } */
 
   ngOnInit() {
+    this.graphService.mainView = this;
     this.graphScene = new GraphScene();
     this.graphService.scene = this.graphScene;
 
@@ -92,6 +93,7 @@ export class GraphViewComponent implements OnInit {
       // attention, possibilité de fonctionnement asynchrone ici
       this.setCanvasSize();
       this.loadPositions();
+      this.createAllLinks();
     });
 
     // on set ici toutes les targets, à savoir si c'est une bonne idée...
@@ -122,9 +124,13 @@ export class GraphViewComponent implements OnInit {
     }).afterClosed().subscribe((target: GraphTarget) => {      
       if (target) {
         this.graphService.createGraphItem(this.selectedGraphItemType, target);
-        this.cdRef.detectChanges();
+        this.update();
       }
     });
+  }
+
+  update() {
+    this.cdRef.detectChanges();
   }
 
   get graphItemsList(): string[] {
@@ -153,10 +159,14 @@ export class GraphViewComponent implements OnInit {
     }); */
   }
 
-  drawAllLinks() {
+  redrawAllLinks() {
     this.graphService.links.forEach(link => {
         link.drawLink();
     });
+  }
+
+  createAllLinks() {
+    this.itemComponents.forEach(item => item.drawChildrenLinks());
   }
 
   get graphItems(): GraphItem[] {

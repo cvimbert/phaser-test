@@ -58,8 +58,6 @@ export class DataBank<T> {
   }
 
   save() {
-
-    console.log(this.items);
     localStorage[this.storageKey + Configuration.INDEX_SUFFIX] = this.tempId;
 
     let obj = this.jsonConverter.serializeArray(this.items);
