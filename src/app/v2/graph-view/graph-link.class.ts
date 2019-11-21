@@ -4,6 +4,7 @@ import { Point } from '../interfaces/point.interface';
 import { GraphService } from './services/graph.service';
 import { OutLink } from './out-link.class';
 import { GraphItem } from './graph-item.class';
+import { Subscription } from 'rxjs';
 
 export class GraphLink {
 
@@ -19,6 +20,9 @@ export class GraphLink {
 
   private lineGraphics: Phaser.GameObjects.Graphics;
   private arrow: Phaser.GameObjects.Graphics;
+
+  fromSubscription: Subscription;
+  toSubscription: Subscription;
 
   constructor(
     private graphService: GraphService
@@ -102,15 +106,26 @@ export class GraphLink {
   }
 
   subscribeToPositions() {
-    this.fromItem.positionSubject.subscribe(() => {
+    this.fromSubscription = this.fromItem.positionSubject.subscribe(() => {
       this.onMove();
     });
-    this.toItem.positionSubject.subscribe(() => {
+    this.toSubscription = this.toItem.positionSubject.subscribe(() => {
       this.onMove();
     });
   }
 
   onMove() {
     this.drawLink();
+  }
+
+  destroy() {
+    this.lineGraphics.destroy();
+    this.lineGraphics = null;
+    this.arrow.destroy();
+    this.arrow = null;
+    this.fromSubscription.unsubscribe();
+    this.toSubscription.unsubscribe();
+
+    this.graphItemData.removeLink(this.linkData);
   }
 }

@@ -173,19 +173,6 @@ export class GraphViewComponent implements OnInit {
     return this.graphService.graphItems.items;
   }
 
-  /* savePositions() {
-    this.positionsDictionary.clear();
-
-    this.itemComponents.forEach(item => {
-      let pt = new SerializablePoint();
-      pt.x = item.currentPos.x;
-      pt.y = item.currentPos.y;
-      this.positionsDictionary.addItem(item.data.id, pt);
-    });
-
-    this.positionsDictionary.save();
-  } */
-
   saveAll() {
     // bientôt plus utile (à priori)
     // this.savePositions();

@@ -26,4 +26,12 @@ export class GraphItem {
   outLinks: OutLink[] = [];
 
   targetItem: GraphTarget;
+
+  removeLink(link: OutLink) {
+    let index = this.outLinks.indexOf(link);
+    
+    if (index != -1) {
+      this.outLinks.splice(index, 1);
+    }
+  }
 }

@@ -109,7 +109,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   }
 
   tryDeleteItem() {
-    this.graphservice.tryDeleteItem(this.data);
+    this.graphservice.tryDeleteItem(this);
   }
 
   sendPosition(positionPoint: Point) {

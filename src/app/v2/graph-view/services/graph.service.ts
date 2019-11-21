@@ -123,18 +123,41 @@ export class GraphService {
         text: "Delete this link ?"
       }
     }).afterClosed().subscribe((value: string) => {
-      console.log(value);
+      this.deleteLink(link);
     });
   }
 
-  tryDeleteItem(item: GraphItem) {
+  deleteLink(link: GraphLink) {
+    let index = this.links.indexOf(link);
+    this.links.splice(index, 1);
+    link.destroy();
+  }
+
+  tryDeleteItem(item: BaseGraphItemComponent) {
     this.dialog.open(GenericMessageModalComponent, {
       data: {
         text: "Delete item ?"
       }
     }).afterClosed().subscribe((value: string) => {
       if (value === GenericModalActions.YES) {
-        this.graphItems.delete(item);
+        this.graphItems.delete(item.data);
+
+        // Suppression des liens inter-objets
+        
+        // Attention, ces suppressions mélangent modèle et display, ce qui n'est pas très clean
+        
+        // Dans l'idéal, suppression des liens du modèle, et l'affichage doit en découler
+
+        // mais en attendant...
+
+        // 1- Liens au départ de l'objet
+        item.links.forEach(link => link.destroy());
+
+        // 2- Liens arrivant à l'objet
+        this.links
+          .filter(link => link.linkData.targetObject === item.data.id)
+          .forEach(link => link.destroy());
+
         this.mainView.update();
       }
     });
