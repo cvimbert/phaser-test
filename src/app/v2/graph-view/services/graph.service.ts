@@ -79,19 +79,18 @@ export class GraphService {
   }
 
   startDrawTemporaryLink(anchor: GraphAnchorComponent) {
-    console.log("start draw");
+    // console.log("start draw");
     this.tempDrawing = true;
     this.scene.input.on("pointerup", this.stopDrawTemporaryLink, this);
     this.initialDrawAnchor = anchor;
 
-    console.log(anchor.data.id);
+    // console.log(anchor.data.id);
     
     this.tempLink = new TemporaryLink(anchor.data.id, this.scene, anchor.getClientPosition());
   }
 
   stopDrawTemporaryLink() {
     if (this.tempLink) {
-      console.log("stop draw");
       this.scene.input.off("pointerup", this.stopDrawTemporaryLink);
       this.tempLink.destroy();
 
@@ -145,10 +144,8 @@ export class GraphService {
         // Suppression des liens inter-objets
         
         // Attention, ces suppressions mélangent modèle et display, ce qui n'est pas très clean
-        
         // Dans l'idéal, suppression des liens du modèle, et l'affichage doit en découler
-
-        // mais en attendant...
+        // mais en attendant ça fera l'affaire...
 
         // 1- Liens au départ de l'objet
         item.links.forEach(link => link.destroy());

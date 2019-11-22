@@ -12,7 +12,10 @@
   <div class="content">
 
     <div class="column left-column">
-      <div class="command" *ngFor="let anchor of inAnchors">{{ anchor.label }}
+      <div class="command in"
+        *ngFor="let anchor of inAnchors"
+        (click)="triggerIn(anchor)"
+      ><span class="anchor-label">{{ anchor.label }}</span>
         <graph-anchor
           #anchorElem
           [data]="anchor"
@@ -23,7 +26,10 @@
     </div>
 
     <div class="column right-column">
-      <div class="command" *ngFor="let anchor of outAnchors">{{ anchor.label }}
+      <div class="command out"
+        *ngFor="let anchor of outAnchors"
+        (click)="triggerOut(anchor)"
+      ><span class="anchor-label">{{ anchor.label }}</span>
         <graph-anchor
           #anchorElem
           [data]="anchor"

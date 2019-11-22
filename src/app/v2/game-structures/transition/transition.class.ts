@@ -6,31 +6,44 @@ import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
 @JsonObject("Transition")
 export class Transition implements GraphTarget {
 
+  inAnchors: AnchorItem[] = [
+    {
+      id: "play",
+      label: "Play",
+      callback: () => {
+        this.play();
+      }
+    },
+    {
+      id: "stop",
+      label: "Stop",
+      callback: () => {
+        this.stop();
+      }
+    },
+    {
+      id: "reset",
+      label: "Reset the animation",
+      callback: () => {
+        this.reset();
+      }
+    }
+  ];
+
   outAnchors: AnchorItem[] = [
     {
       id: "onstart",
       label: "On start",
-      callback: this.onTransitionStart
+      callback: () => {
+        this.onTransitionStart();
+      }
     },
     {
       id: "oncomplete",
       label: "On complete",
-      callback: this.onTransitionComplete
-    }
-  ];
-
-  inAnchors: AnchorItem[] = [
-    {
-      id: "play",
-      label: "Play"
-    },
-    {
-      id: "stop",
-      label: "Stop"
-    },
-    {
-      id: "reset",
-      label: "Reset the animation"
+      callback: () => {
+        this.onTransitionComplete();
+      }
     }
   ];
 
@@ -58,10 +71,29 @@ export class Transition implements GraphTarget {
   easingType: string = "0";
 
   onTransitionComplete() {
-    console.log("Transition complete callback");
+    console.log(this.id + ": transition complete");
   }
 
   onTransitionStart() {
-    console.log("Transition start callback");
+    console.log(this.id + ": transition start");
+  }
+
+  play() {
+    // simulation
+    console.log(this.id + ": play");
+    
+    this.onTransitionStart();
+
+    setTimeout(() => {
+      this.onTransitionComplete();
+    }, 2000);
+  }
+
+  stop() {
+    console.log(this.id + ": stop");
+  }
+
+  reset() {
+    console.log(this.id + ": reset");
   }
 }

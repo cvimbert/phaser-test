@@ -32,6 +32,8 @@ export class GraphItem {
     
     if (index != -1) {
       this.outLinks.splice(index, 1);
+    } else {
+      console.warn("Link unavailable in graphItem");
     }
   }
 }

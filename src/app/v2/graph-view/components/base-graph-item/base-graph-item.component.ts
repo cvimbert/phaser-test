@@ -70,10 +70,15 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     })[0];
 
     this.graphservice.registerItemComponent(this.data.id, this);
+  }
 
-    /* setTimeout(() => {
-      this.drawChildrenLinks();
-    }); */
+  triggerIn(anchor: AnchorItem) {
+    console.log("triggered:", anchor);
+    anchor.callback();
+  }
+
+  triggerOut(anchor: AnchorItem) {
+
   }
 
   drawChildrenLinks() {
