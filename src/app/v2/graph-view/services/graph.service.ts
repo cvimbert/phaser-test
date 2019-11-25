@@ -14,6 +14,7 @@ import { TemporaryLink } from '../temporary-link.class';
 import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.component';
 import { OutLink } from '../out-link.class';
 import { GraphViewComponent } from 'src/app/graph-view/graph-view.component';
+import { AnchorItem } from '../interfaces/anchor-item.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -122,7 +123,9 @@ export class GraphService {
         text: "Delete this link ?"
       }
     }).afterClosed().subscribe((value: string) => {
-      this.deleteLink(link);
+      if (value === GenericModalActions.YES) {
+        this.deleteLink(link);
+      }
     });
   }
 
@@ -160,6 +163,21 @@ export class GraphService {
     });
   }
 
+  playAnchor(anchor: AnchorItem, graphItem: GraphItem) {
+    if (anchor.callback) {
+      anchor.callback();
+    } else {
+      this.playOut(anchor, graphItem);
+    }
+  }
+
+  playOut(anchor: AnchorItem, graphItem: GraphItem) {
+    console.log("play out: " + graphItem.id + " => " + anchor.id);
+
+    // appel de la cible dans le graph
+    
+  }
+
   createGraphItem(type: string, target: GraphTarget) {
     let item = this.graphItems.createItem({
       description: "",
@@ -171,6 +189,7 @@ export class GraphService {
 
     // Peut-être pas une bonne idée de passer la target dans l'objet... à voir
     item.targetItem = target;
+    item.graphService = this;
   }
 
   saveGraphItems() {

@@ -77,15 +77,9 @@
     .command {
       padding-left: 10px;
 
-      &.in {
-        .anchor-label {
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
+      //&.in {
+        
+      //}
     }
   }
 
@@ -114,6 +108,14 @@
 
     &:last-child {
       padding-bottom: 6px;
+    }
+
+    .anchor-label {
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

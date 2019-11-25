@@ -2,9 +2,13 @@ import { JsonObject, JsonProperty, Any } from 'json2typescript';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 import { GraphTarget } from '../../graph-view/interfaces/graph-target.interface';
 import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
+import { GraphService } from '../../graph-view/services/graph.service';
 
 @JsonObject("Transition")
 export class Transition implements GraphTarget {
+
+  // ou bien un graph manager, ce qui permettrait de sortir de la structure d'angular
+  graphService: GraphService;
 
   inAnchors: AnchorItem[] = [
     {
@@ -34,16 +38,16 @@ export class Transition implements GraphTarget {
     {
       id: "onstart",
       label: "On start",
-      callback: () => {
+      /*callback: () => {
         this.onTransitionStart();
-      }
+      }*/
     },
     {
       id: "oncomplete",
       label: "On complete",
-      callback: () => {
+      /*callback: () => {
         this.onTransitionComplete();
-      }
+      }*/
     }
   ];
 
@@ -71,7 +75,7 @@ export class Transition implements GraphTarget {
   easingType: string = "0";
 
   onTransitionComplete() {
-    console.log(this.id + ": transition complete");
+    console.log(this.id + ": transition complete", this.graphService);
   }
 
   onTransitionStart() {

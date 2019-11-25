@@ -17,6 +17,8 @@ import { OutLink } from '../../out-link.class';
   templateUrl: './base-graph-item.component.html',
   styleUrls: ['./base-graph-item.component.scss']
 })
+
+// cette classe pourrait étendre un potentiel graphManager
 export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   @Input() data: GraphItem;
@@ -37,7 +39,9 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     public graphservice: GraphService
   ) { }
 
-  ngOnInit() {    
+  ngOnInit() {  
+    
+    this.data.graphService = this.graphservice;
     
     this.setPosition({
       x: this.data.x,
@@ -72,6 +76,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     this.graphservice.registerItemComponent(this.data.id, this);
   }
 
+  // les deux méthodes suivantes peuvent être réunies en une seule
   triggerIn(anchor: AnchorItem) {
     console.log("triggered:", anchor);
     anchor.callback();
@@ -79,6 +84,11 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   triggerOut(anchor: AnchorItem) {
 
+    // ces ancres là ne sont que des sorties, on n'éxécute pas de code particulier
+    console.log("triggered:", anchor);
+    
+    // anchor.callback();
+    this.graphservice.playOut(anchor, this.data);
   }
 
   drawChildrenLinks() {
@@ -118,7 +128,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   }
 
   sendPosition(positionPoint: Point) {
-    this.positionSubject.next(positionPoint)
+    this.positionSubject.next(positionPoint);
   }
 
   anchorClick(evt: MouseEvent) {

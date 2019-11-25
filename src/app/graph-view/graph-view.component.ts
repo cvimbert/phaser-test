@@ -101,6 +101,7 @@ export class GraphViewComponent implements OnInit {
       // en attendant mieux
       if (item.type === GraphItemType.TRANSITION) {
         item.targetItem = this.transitionsService.getItemById(item.itemId);
+        item.targetItem.graphService = this.graphService;
       }
     });
 

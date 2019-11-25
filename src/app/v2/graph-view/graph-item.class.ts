@@ -1,11 +1,14 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { GraphTarget } from './interfaces/graph-target.interface';
 import { OutLink } from './out-link.class';
+import { GraphService } from './services/graph.service';
 
 @JsonObject("GraphItem")
 export class GraphItem {
 
   constructor() {}
+
+  graphService: GraphService;
 
   @JsonProperty("id", String)
   id = "";
