@@ -1,6 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, HostListener, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DetailsData } from '../../interfaces/details-data.interface';
-import { ModalService } from '../../services/modal.service';
+// import { DetailsData } from '../../interfaces/details-data.interface';
+// import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'details-input',
@@ -9,15 +11,19 @@ import { ModalService } from '../../services/modal.service';
 })
 export class DetailsInputComponent implements OnInit {
 
-  @Output("onValidated") onValidated = new EventEmitter<DetailsData>();
+  // @Output("onValidated") onValidated = new EventEmitter<DetailsData>();
   @ViewChild("firstElement") firstElement: ElementRef;
 
   name = "";
   description = "";
 
   constructor(
-    public modalService: ModalService
-  ) { }
+    private ref: MatDialogRef<DetailsInputComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DetailsData
+  ) {
+    this.name = data.name;
+    this.description = data.description;
+  }
 
   ngOnInit() {
     this.firstElement.nativeElement.focus();
@@ -39,13 +45,10 @@ export class DetailsInputComponent implements OnInit {
   }
 
   validateDetails() {
-    this.modalService.validateDetailModal({
-      name: this.name,
-      description: this.description
-    });
+    this.ref.close(this.data);
   }
 
   close() {
-    this.modalService.closeDetailsModal();
+    this.ref.close();
   }
 }

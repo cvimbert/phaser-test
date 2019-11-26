@@ -68,7 +68,8 @@ import { GraphTargetSelectionModalComponent } from './v2/graph-view/components/g
   ],
   entryComponents: [
     GenericMessageModalComponent,
-    GraphTargetSelectionModalComponent
+    GraphTargetSelectionModalComponent,
+    DetailsInputComponent
   ],
   providers: [
     NodeEditorService,

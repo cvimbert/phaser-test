@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DetailsData } from '../interfaces/details-data.interface';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DetailsInputComponent } from '../components/details-input/details-input.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,25 +14,34 @@ export class ModalService {
 
   detailsData: DetailsData;
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
-  openDetailsModal(data?: DetailsData): Promise<DetailsData> {
+  openDetailsModal(data?: DetailsData): MatDialogRef<DetailsInputComponent> {
 
-    this.detailsData = data || {
+    return this.dialog.open(DetailsInputComponent, {
+      data: data || {
+        name: "",
+        description: ""
+      }
+    });
+
+    /* this.detailsData = data || {
       name: "",
       description: ""
-    };
+    }; */
     
-    this.displayDetailsModal = true;
+    /* this.displayDetailsModal = true;
 
     let promise = new Promise<DetailsData>((resolve: any) => {
       this.promiseResolver = resolve;
     });
 
-    return promise;
+    return promise; */
   }
 
-  validateDetailModal(data: DetailsData) {
+  /* validateDetailModal(data: DetailsData) {
     this.displayDetailsModal = false;
     this.promiseResolver(this.detailsData);
   }
@@ -38,5 +49,5 @@ export class ModalService {
   closeDetailsModal() {
     this.displayDetailsModal = false;
     this.promiseResolver(null);
-  }
+  } */
 }

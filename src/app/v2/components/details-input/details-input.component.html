@@ -2,11 +2,11 @@
   <div class="modal-content">
     <div>
       <div class="block-label">Name:</div>
-      <input #firstElement [(ngModel)]="modalService.detailsData.name" type="text">
+      <input #firstElement [(ngModel)]="data.name" type="text">
     </div>
     <div>
       <div class="block-label">Description:</div>
-      <textarea [(ngModel)]="modalService.detailsData.description" rows="6"></textarea>
+      <textarea [(ngModel)]="data.description" rows="6"></textarea>
     </div>
     <div class="actions">
       <input type="button" value="Validate" (click)="validateDetails()">

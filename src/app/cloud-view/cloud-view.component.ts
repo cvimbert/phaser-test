@@ -279,7 +279,7 @@ export class CloudViewComponent implements OnInit {
   }
 
   createState() {
-    this.modalService.openDetailsModal().then(value => {
+    this.modalService.openDetailsModal().afterClosed().subscribe(value => {
       console.log(value);
       
       if (value) {
@@ -289,6 +289,8 @@ export class CloudViewComponent implements OnInit {
         state.description = value.description;
         this.statesService.push(state);
       }
+      
+      this.ref.detectChanges();
     }); 
   }
 

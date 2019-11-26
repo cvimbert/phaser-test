@@ -96,7 +96,7 @@ export class StateDisplayComponent implements OnInit {
   }
 
   diffTest() {
-    this.modalService.openDetailsModal().then(data => {
+    this.modalService.openDetailsModal().afterClosed().subscribe(data => {
       if (data) {
         let state = this.state.getDiff(this.selectedDiffState);
         state.id = "diff" + ++this.diffsService.tempId;
@@ -111,7 +111,7 @@ export class StateDisplayComponent implements OnInit {
     this.modalService.openDetailsModal({
       name: this.state.name,
       description: this.state.description
-    }).then(data => {
+    }).afterClosed().subscribe(data => {
       if (data) {
         this.state.name = data.name;
         this.state.description = data.description;
@@ -120,7 +120,7 @@ export class StateDisplayComponent implements OnInit {
   }
 
   createTransition() {
-    this.modalService.openDetailsModal().then(data => {
+    this.modalService.openDetailsModal().afterClosed().subscribe(data => {
       if (data) {
         let transition = this.transitionsService.createItem(data);
         transition.from = this.type;
