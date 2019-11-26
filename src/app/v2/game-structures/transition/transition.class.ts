@@ -3,12 +3,14 @@ import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 import { GraphTarget } from '../../graph-view/interfaces/graph-target.interface';
 import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
 import { GraphService } from '../../graph-view/services/graph.service';
+import { GraphItem } from '../../graph-view/graph-item.class';
 
 @JsonObject("Transition")
 export class Transition implements GraphTarget {
 
   // ou bien un graph manager, ce qui permettrait de sortir de la structure d'angular
   graphService: GraphService;
+  parentGraphItem: GraphItem;
 
   inAnchors: AnchorItem[] = [
     {
@@ -75,11 +77,13 @@ export class Transition implements GraphTarget {
   easingType: string = "0";
 
   onTransitionComplete() {
-    console.log(this.id + ": transition complete", this.graphService);
+    console.log(this.id + ": transition complete");
+    this.graphService.playOut(this.outAnchors[1], this.parentGraphItem);
   }
 
   onTransitionStart() {
     console.log(this.id + ": transition start");
+    this.graphService.playOut(this.outAnchors[0], this.parentGraphItem);
   }
 
   play() {

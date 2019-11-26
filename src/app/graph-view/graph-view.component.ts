@@ -103,6 +103,8 @@ export class GraphViewComponent implements OnInit {
         item.targetItem = this.transitionsService.getItemById(item.itemId);
         item.targetItem.graphService = this.graphService;
       }
+
+      item.targetItem.parentGraphItem = item;
     });
 
     // console.log(this.graphService.graphItems.items);

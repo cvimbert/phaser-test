@@ -39,6 +39,10 @@ export class GraphService {
     private dialog: MatDialog
   ) {}
 
+  getGraphItemByTarget(target: GraphTarget) {
+    return this.graphItems.items.find(item => item.targetItem === target);
+  }
+
   registerItemComponent(id: string, item: BaseGraphItemComponent) {
     this.items[id] = item;
   }
@@ -172,10 +176,17 @@ export class GraphService {
   }
 
   playOut(anchor: AnchorItem, graphItem: GraphItem) {
-    console.log("play out: " + graphItem.id + " => " + anchor.id);
+    console.log("play out: " + graphItem.id + "->" + anchor.id);
 
     // appel de la cible dans le graph
-    
+    let outLinks = graphItem.outLinks.filter(link => link.localProperty === anchor.id);
+
+    outLinks.forEach(link => {
+      let targetItem = this.graphItems.items.find(item => item.id === link.targetObject);
+      let targetProp = targetItem.targetItem.outAnchors.find(anchor => anchor.id === link.targetProperty);
+
+      console.log("targeted:", targetItem, targetProp);
+    });
   }
 
   createGraphItem(type: string, target: GraphTarget) {
@@ -189,6 +200,7 @@ export class GraphService {
 
     // Peut-être pas une bonne idée de passer la target dans l'objet... à voir
     item.targetItem = target;
+    item.targetItem.parentGraphItem = item;
     item.graphService = this;
   }
 

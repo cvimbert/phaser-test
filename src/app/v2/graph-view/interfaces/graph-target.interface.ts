@@ -1,5 +1,6 @@
 import { AnchorItem } from './anchor-item.interface';
 import { GraphService } from '../services/graph.service';
+import { GraphItem } from '../graph-item.class';
 
 export interface GraphTarget {
     id: string;
@@ -8,4 +9,5 @@ export interface GraphTarget {
     inAnchors: AnchorItem[];
     outAnchors: AnchorItem[];
     graphService: GraphService;
+    parentGraphItem: GraphItem;
 }
