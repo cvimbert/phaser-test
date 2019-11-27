@@ -178,7 +178,6 @@ export class GraphService {
   playOut(anchor: AnchorItem, graphItem: GraphItem) {
     console.log("play out: " + graphItem.id + " -> " + anchor.id);
 
-    // appel de la cible dans le graph
     let outLinks = graphItem.outLinks.filter(link => link.localProperty === anchor.id);
 
     outLinks.forEach(link => {
@@ -186,7 +185,7 @@ export class GraphService {
       let targetProp = targetItem.targetItem.inAnchors.find(anchor => anchor.id === link.targetProperty);
 
       if (!targetProp) {
-        console.warn("Ici", targetProp);
+        console.warn("No targetProp for", targetItem);
         return;
       }
 
@@ -195,7 +194,6 @@ export class GraphService {
       } else {
         console.warn("No callback in:", targetProp);
       }
-      // console.log("targeted:", targetItem, targetProp);
     });
   }
 

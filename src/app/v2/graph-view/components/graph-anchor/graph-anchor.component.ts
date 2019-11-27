@@ -12,7 +12,6 @@ import { AnchorItem } from '../../interfaces/anchor-item.interface';
 export class GraphAnchorComponent implements OnInit {
 
   @ViewChild("banchor") bAnchor: ElementRef;
-  @Input() position: Point;
   @Input() data: AnchorItem;
   @Input() id: string;
   @Input() parentItem: BaseGraphItemComponent;
@@ -40,7 +39,6 @@ export class GraphAnchorComponent implements OnInit {
   }
 
   onAnchorClicked() {
-    // console.log(this.bAnchor.nativeElement.getBoundingClientRect());
     this.graphService.startDrawTemporaryLink(this);
   }
 
