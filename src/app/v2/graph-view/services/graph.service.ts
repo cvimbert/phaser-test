@@ -176,16 +176,26 @@ export class GraphService {
   }
 
   playOut(anchor: AnchorItem, graphItem: GraphItem) {
-    console.log("play out: " + graphItem.id + "->" + anchor.id);
+    console.log("play out: " + graphItem.id + " -> " + anchor.id);
 
     // appel de la cible dans le graph
     let outLinks = graphItem.outLinks.filter(link => link.localProperty === anchor.id);
 
     outLinks.forEach(link => {
       let targetItem = this.graphItems.items.find(item => item.id === link.targetObject);
-      let targetProp = targetItem.targetItem.outAnchors.find(anchor => anchor.id === link.targetProperty);
+      let targetProp = targetItem.targetItem.inAnchors.find(anchor => anchor.id === link.targetProperty);
 
-      console.log("targeted:", targetItem, targetProp);
+      if (!targetProp) {
+        console.warn("Ici", targetProp);
+        return;
+      }
+
+      if (targetProp.callback) {
+        targetProp.callback();
+      } else {
+        console.warn("No callback in:", targetProp);
+      }
+      // console.log("targeted:", targetItem, targetProp);
     });
   }
 

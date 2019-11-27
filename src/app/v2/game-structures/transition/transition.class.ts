@@ -77,18 +77,18 @@ export class Transition implements GraphTarget {
   easingType: string = "0";
 
   onTransitionComplete() {
-    console.log(this.id + ": transition complete");
+    // console.log(this.id + ": transition complete");
     this.graphService.playOut(this.outAnchors[1], this.parentGraphItem);
   }
 
   onTransitionStart() {
-    console.log(this.id + ": transition start");
+    // console.log(this.id + ": transition start");
     this.graphService.playOut(this.outAnchors[0], this.parentGraphItem);
   }
 
   play() {
     // simulation
-    console.log(this.id + ": play");
+    // console.log(this.id + ": play");
     
     this.onTransitionStart();
 
@@ -98,10 +98,10 @@ export class Transition implements GraphTarget {
   }
 
   stop() {
-    console.log(this.id + ": stop");
+    // console.log(this.id + ": stop");
   }
 
   reset() {
-    console.log(this.id + ": reset");
+    // console.log(this.id + ": reset");
   }
 }
