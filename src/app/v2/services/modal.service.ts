@@ -8,9 +8,9 @@ import { DetailsInputComponent } from '../components/details-input/details-input
 })
 export class ModalService {
 
-  displayDetailsModal = false;
-  displayDetailsPromise: Promise<DetailsData>;
-  promiseResolver: (data: DetailsData) => {};
+  // displayDetailsModal = false;
+  // displayDetailsPromise: Promise<DetailsData>;
+  // promiseResolver: (data: DetailsData) => {};
 
   detailsData: DetailsData;
 
@@ -18,7 +18,7 @@ export class ModalService {
     private dialog: MatDialog
   ) { }
 
-  openDetailsModal(data?: DetailsData): MatDialogRef<DetailsInputComponent> {
+  openDetailsModal(data?: DetailsData): MatDialogRef<DetailsInputComponent, DetailsData> {
 
     return this.dialog.open(DetailsInputComponent, {
       data: data || {
@@ -26,28 +26,5 @@ export class ModalService {
         description: ""
       }
     });
-
-    /* this.detailsData = data || {
-      name: "",
-      description: ""
-    }; */
-    
-    /* this.displayDetailsModal = true;
-
-    let promise = new Promise<DetailsData>((resolve: any) => {
-      this.promiseResolver = resolve;
-    });
-
-    return promise; */
   }
-
-  /* validateDetailModal(data: DetailsData) {
-    this.displayDetailsModal = false;
-    this.promiseResolver(this.detailsData);
-  }
-
-  closeDetailsModal() {
-    this.displayDetailsModal = false;
-    this.promiseResolver(null);
-  } */
 }
