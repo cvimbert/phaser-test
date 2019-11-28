@@ -68,30 +68,14 @@
     border-right: 1px solid white;
     text-align: left;
 
-    graph-anchor {
-      top: 16px;
-      position: absolute;
-      left: 0;
-    }
-
     .command {
       padding-left: 10px;
-
-      //&.in {
-        
-      //}
     }
   }
 
   .right-column {
     flex: 1;
     text-align: right;
-
-    graph-anchor {
-      top: 16px;
-      position: absolute;
-      right: 0;
-    }
 
     .command {
       padding-right: 10px;
@@ -108,14 +92,6 @@
 
     &:last-child {
       padding-bottom: 6px;
-    }
-
-    .anchor-label {
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
     }
   }
 }

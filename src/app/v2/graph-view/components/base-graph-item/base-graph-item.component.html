@@ -15,13 +15,14 @@
       <div class="command in"
         *ngFor="let anchor of inAnchors"
         (click)="triggerIn(anchor)"
-      ><span class="anchor-label">{{ anchor.label }}</span>
-        <graph-anchor
-          #anchorElem
-          [data]="anchor"
-          [id]="anchor.id"
-          [parentItem]="this"
-        ></graph-anchor>
+      >
+      <graph-anchor
+        #anchorElem
+        type="left"
+        [data]="anchor"
+        [id]="anchor.id"
+        [parentItem]="this"
+      ></graph-anchor>
       </div>
     </div>
 
@@ -29,13 +30,14 @@
       <div class="command out"
         *ngFor="let anchor of outAnchors"
         (click)="triggerOut(anchor)"
-      ><span class="anchor-label">{{ anchor.label }}</span>
-        <graph-anchor
-          #anchorElem
-          [data]="anchor"
-          [id]="anchor.id"
-          [parentItem]="this"
-        ></graph-anchor>
+      >
+      <graph-anchor
+        #anchorElem
+        type="right"
+        [data]="anchor"
+        [id]="anchor.id"
+        [parentItem]="this"
+      ></graph-anchor>
       </div>
     </div>
     

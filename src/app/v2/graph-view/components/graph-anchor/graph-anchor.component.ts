@@ -3,15 +3,27 @@ import { Point } from 'src/app/v2/interfaces/point.interface';
 import { GraphService } from '../../services/graph.service';
 import { BaseGraphItemComponent } from '../base-graph-item/base-graph-item.component';
 import { AnchorItem } from '../../interfaces/anchor-item.interface';
+import { trigger, state, style } from '@angular/animations';
 
 @Component({
   selector: 'graph-anchor',
   templateUrl: './graph-anchor.component.html',
-  styleUrls: ['./graph-anchor.component.scss']
+  styleUrls: ['./graph-anchor.component.scss'],
+  animations: [
+    trigger('highlightable', [
+      state('highlighted', style({
+
+      })),
+      state('released', style({
+
+      }))
+    ])
+  ]
 })
 export class GraphAnchorComponent implements OnInit {
 
   @ViewChild("banchor") bAnchor: ElementRef;
+  @Input() type: string;
   @Input() data: AnchorItem;
   @Input() id: string;
   @Input() parentItem: BaseGraphItemComponent;

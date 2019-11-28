@@ -28,7 +28,7 @@ export class GraphService {
   canvasContainerOffset: Point;
 
   tempLink: TemporaryLink;
-  tempDrawing = false;
+  private pTempDrawing = false;
 
   graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
 
@@ -38,6 +38,15 @@ export class GraphService {
   constructor(
     private dialog: MatDialog
   ) {}
+
+  set tempDrawing(value: boolean) {
+    this.pTempDrawing = value;
+    this.mainView.update();
+  }
+
+  get tempDrawing(): boolean {
+    return this.pTempDrawing;
+  }
 
   getGraphItemByTarget(target: GraphTarget) {
     return this.graphItems.items.find(item => item.targetItem === target);
