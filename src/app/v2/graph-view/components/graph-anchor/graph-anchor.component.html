@@ -1,9 +1,11 @@
-<span class="anchor-label">{{ data.label }}</span>
-<div
-  #banchor
-  (mousedown)="onAnchorClicked()"
-  (mouseup)="onMouseUp()"
-  (mouseover)="onOver()"
-  (mouseout)="onOut()"
-  class="base-anchor {{ type }}"
-></div>
+<div [class.highlighted]="highlighted">
+  <span class="anchor-label">{{ data.label }}</span>
+  <div
+    #banchor
+    (mousedown)="onAnchorClicked()"
+    (mouseup)="onMouseUp()"
+    (mouseover)="onOver()"
+    (mouseout)="onOut()"
+    class="base-anchor {{ type }}"
+  ></div>
+</div>

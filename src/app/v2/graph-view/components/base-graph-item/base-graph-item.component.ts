@@ -80,6 +80,9 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   triggerIn(anchor: AnchorItem) {
     console.log("triggered:", anchor);
     anchor.callback();
+
+    // highlighting de l'ancre
+    this.getAnchor(anchor.id).highlight();
   }
 
   triggerOut(anchor: AnchorItem) {
@@ -147,23 +150,12 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     }
   }
 
-  getAnchorPosition(anchorId: string): Point {
-
-    // En attente
-    /* let anchorPoint = this.data.anchors[anchorId];
-
-    if (anchorPoint) {
-      return {
-        x: anchorPoint.x + this.currentPos.x,
-        y: anchorPoint.y + this.currentPos.y
-      }
-    } */
-
-    return;
+  getAnchor(anchorId: string): GraphAnchorComponent {
+    return this.anchorElems.find(comp => comp.id == anchorId);
   }
 
   getAnchorComponentPosition(anchorId: string): Point {
-    let anchorComponent = this.anchorElems.find(comp => comp.id == anchorId);
+    let anchorComponent = this.getAnchor(anchorId);
 
     if (anchorComponent) {
       return anchorComponent.getClientPosition();

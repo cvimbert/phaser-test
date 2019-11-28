@@ -38,4 +38,7 @@ export class Configuration {
   static TRANSITIONS_STORAGE_KEY = "transition";
   static GRAPH_ITEMS_STORAGE_KEY = "graphitems";
   static GRAPH_ITEMS_BIS_STORAGE_KEY = "graph-items-bis";
+
+  // temporaire ??
+  static highlightingTimeoutDelay = 2000;
 }

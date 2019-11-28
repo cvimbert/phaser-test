@@ -29,3 +29,10 @@
     text-decoration: underline;
   }
 }
+
+.highlighted {
+  .anchor-label {
+    color: black;
+    background-color: white;
+  }
+}

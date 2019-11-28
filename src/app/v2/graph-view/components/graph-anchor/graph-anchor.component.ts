@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Point } from 'src/app/v2/interfaces/point.interface';
 import { GraphService } from '../../services/graph.service';
 import { BaseGraphItemComponent } from '../base-graph-item/base-graph-item.component';
 import { AnchorItem } from '../../interfaces/anchor-item.interface';
 import { trigger, state, style } from '@angular/animations';
+import { Configuration } from 'src/app/v2/configuration.class';
 
 @Component({
   selector: 'graph-anchor',
@@ -27,10 +28,13 @@ export class GraphAnchorComponent implements OnInit {
   @Input() data: AnchorItem;
   @Input() id: string;
   @Input() parentItem: BaseGraphItemComponent;
+  highlighted = false;
+  highlightingTimeout: any;
 
   constructor(
     public element: ElementRef,
-    public graphService: GraphService
+    public graphService: GraphService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -48,6 +52,21 @@ export class GraphAnchorComponent implements OnInit {
     if (this.graphService.tempDrawing) {
       this.graphService.stopDrawTemporaryLink();
     }
+  }
+
+  highlight() {
+    this.highlighted = true;
+
+    this.highlightingTimeout = setTimeout(() => {
+      this.highlighted = false;
+    }, Configuration.highlightingTimeoutDelay);
+
+    this.cdRef.detectChanges();
+  }
+
+  breakHighlight() {
+    this.highlighted = false;
+    clearTimeout(this.highlightingTimeout);
   }
 
   onAnchorClicked() {
