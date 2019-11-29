@@ -40,16 +40,16 @@ export class Transition implements GraphTarget {
     {
       id: "onstart",
       label: "On start",
-      /*callback: () => {
+      callback: () => {
         this.onTransitionStart();
-      }*/
+      }
     },
     {
       id: "oncomplete",
       label: "On complete",
-      /*callback: () => {
+      callback: () => {
         this.onTransitionComplete();
-      }*/
+      }
     }
   ];
 
@@ -87,13 +87,12 @@ export class Transition implements GraphTarget {
   }
 
   play() {
-    // simulation
-    // console.log(this.id + ": play");
-    
-    this.onTransitionStart();
+    // this.onTransitionStart();
+    this.graphService.playIn(this.outAnchors[0], this.parentGraphItem);
 
     setTimeout(() => {
-      this.onTransitionComplete();
+      // this.onTransitionComplete();
+      this.graphService.playIn(this.outAnchors[1], this.parentGraphItem);
     }, 2000);
   }
 

@@ -15,6 +15,7 @@ import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.co
 import { OutLink } from '../out-link.class';
 import { GraphViewComponent } from 'src/app/graph-view/graph-view.component';
 import { AnchorItem } from '../interfaces/anchor-item.interface';
+import { GraphUtils } from '../graph-utils.class';
 
 @Injectable({
   providedIn: 'root'
@@ -185,7 +186,7 @@ export class GraphService {
   }
 
   playOut(anchor: AnchorItem, graphItem: GraphItem) {
-    console.log("play out: " + graphItem.id + " -> " + anchor.id);
+    GraphUtils.timeLog("play out: " + graphItem.id + " -> " + anchor.id);
 
     let outLinks = graphItem.outLinks.filter(link => link.localProperty === anchor.id);
 
@@ -200,10 +201,25 @@ export class GraphService {
 
       if (targetProp.callback) {
         targetProp.callback();
+
+        let baseItem = this.mainView.itemComponents.find(item => item.data.id === link.targetObject);
+        baseItem.getAnchor(anchor.id).highlight();
+
       } else {
         console.warn("No callback in:", targetProp);
       }
     });
+  }
+
+  playIn(inAnchor: AnchorItem, graphItem: GraphItem) {
+    GraphUtils.timeLog("play in: " + graphItem.id + " -> " + inAnchor.id);
+
+    let baseItem = this.mainView.itemComponents.find(item => item.data.id === graphItem.id);
+    baseItem.getAnchor(inAnchor.id).highlight();
+
+    if (inAnchor.callback) {
+      inAnchor.callback();
+    }
   }
 
   createGraphItem(type: string, target: GraphTarget) {

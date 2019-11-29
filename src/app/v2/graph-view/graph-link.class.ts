@@ -5,6 +5,7 @@ import { GraphService } from './services/graph.service';
 import { OutLink } from './out-link.class';
 import { GraphItem } from './graph-item.class';
 import { Subscription } from 'rxjs';
+import { Configuration } from '../configuration.class';
 
 export class GraphLink {
 
@@ -85,6 +86,25 @@ export class GraphLink {
     ) {
       this.graphService.tryDeleteLink(this);
     }
+  }
+
+  highlight() {
+    console.log("Graphlink highlight", this);
+
+    // un simple effet sur l'alpha ou un effet de couleur, avec tween, devraient suffire
+    this.applyHighlightFx();
+
+    setTimeout(() => {
+      this.removeHighlightFx();
+    }, Configuration.highlightingTimeoutDelay);
+  }
+
+  applyHighlightFx() {
+
+  }
+
+  removeHighlightFx() {
+
   }
 
   static getSplinePoints(from: Point, to: Point): Phaser.Math.Vector2[] {

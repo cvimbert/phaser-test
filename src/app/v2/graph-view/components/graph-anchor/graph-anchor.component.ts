@@ -56,6 +56,7 @@ export class GraphAnchorComponent implements OnInit {
 
   highlight() {
     this.highlighted = true;
+    this.cdRef.detectChanges();
 
     this.highlightingTimeout = setTimeout(() => {
       this.highlighted = false;
