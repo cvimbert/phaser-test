@@ -31,7 +31,7 @@ export class GraphLink {
 
   }
 
-  drawLink() {
+  drawLink(color = 0x000000) {
     if (!this.lineGraphics) {
       this.lineGraphics = this.scene.add.graphics({
         lineStyle: {
@@ -55,10 +55,10 @@ export class GraphLink {
     let tTangent = curve.getTangent(0.5);
     let angle = Math.atan2(tTangent.y, tTangent.x);
 
-    this.drawArrow(tPoint.x, tPoint.y, angle);
+    this.drawArrow(tPoint.x, tPoint.y, angle, color);
   }
 
-  drawArrow(x: number, y: number, rotation: number) {
+  drawArrow(x: number, y: number, rotation: number, color = 0xffffff) {
     if (!this.arrow) {
       this.arrow = this.scene.add.graphics({
         fillStyle: {
@@ -100,11 +100,11 @@ export class GraphLink {
   }
 
   applyHighlightFx() {
-
+    this.drawLink(0xff0000);
   }
 
   removeHighlightFx() {
-
+    this.drawLink();
   }
 
   static getSplinePoints(from: Point, to: Point): Phaser.Math.Vector2[] {

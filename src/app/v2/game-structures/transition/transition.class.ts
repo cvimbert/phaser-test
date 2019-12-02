@@ -12,45 +12,55 @@ export class Transition implements GraphTarget {
   graphService: GraphService;
   parentGraphItem: GraphItem;
 
-  inAnchors: AnchorItem[] = [
-    {
-      id: "play",
-      label: "Play",
-      callback: () => {
-        this.play();
-      }
-    },
-    {
-      id: "stop",
-      label: "Stop",
-      callback: () => {
-        this.stop();
-      }
-    },
-    {
-      id: "reset",
-      label: "Reset the animation",
-      callback: () => {
-        this.reset();
-      }
+  playItem: AnchorItem = {
+    id: "play",
+    label: "Play",
+    callback: () => {
+      this.play();
     }
+  };
+
+  stopItem: AnchorItem = {
+    id: "stop",
+    label: "Stop",
+    callback: () => {
+      this.stop();
+    }
+  };
+
+  resetItem = {
+    id: "reset",
+    label: "Reset the animation",
+    callback: () => {
+      this.reset();
+    }
+  };
+
+  inAnchors: AnchorItem[] = [
+    this.playItem,
+    this.stopItem,
+    this.resetItem
   ];
 
-  outAnchors: AnchorItem[] = [
-    {
-      id: "onstart",
-      label: "On start",
-      callback: () => {
-        this.onTransitionStart();
-      }
-    },
-    {
-      id: "oncomplete",
-      label: "On complete",
-      callback: () => {
-        this.onTransitionComplete();
-      }
+  onStartItem = {
+    id: "onstart",
+    label: "On start",
+    callback: () => {
+      this.onTransitionStart();
     }
+  };
+
+  onCompleteItem = {
+    id: "oncomplete",
+    label: "On complete",
+    callback: () => {
+      this.onTransitionComplete();
+    }
+  };
+
+  outAnchors: AnchorItem[] = [
+    this.onStartItem,
+    this.onCompleteItem
   ];
 
   constructor() {}
@@ -77,22 +87,18 @@ export class Transition implements GraphTarget {
   easingType: string = "0";
 
   onTransitionComplete() {
-    // console.log(this.id + ": transition complete");
-    this.graphService.playOut(this.outAnchors[1], this.parentGraphItem);
+    this.graphService.playOut(this.onCompleteItem, this.parentGraphItem);
   }
 
   onTransitionStart() {
-    // console.log(this.id + ": transition start");
-    this.graphService.playOut(this.outAnchors[0], this.parentGraphItem);
+    this.graphService.playOut(this.onStartItem, this.parentGraphItem);
   }
 
-  play() {
-    // this.onTransitionStart();
-    this.graphService.playIn(this.outAnchors[0], this.parentGraphItem);
+  play() {    
+    this.graphService.playIn(this.onStartItem, this.parentGraphItem);
 
-    setTimeout(() => {
-      // this.onTransitionComplete();
-      this.graphService.playIn(this.outAnchors[1], this.parentGraphItem);
+    setTimeout(() => {      
+      this.graphService.playIn(this.onCompleteItem, this.parentGraphItem);
     }, 2000);
   }
 

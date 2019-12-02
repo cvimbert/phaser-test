@@ -190,8 +190,12 @@ export class GraphService {
 
     let outLinks = graphItem.outLinks.filter(link => link.localProperty === anchor.id);
 
+    // c'est ici qu'on highlight tous les graphlinks
+    this.links.filter(link => true).forEach(link => link.highlight());
+
+
     outLinks.forEach(link => {
-      let targetItem = this.graphItems.items.find(item => item.id === link.targetObject);
+      let targetItem = this.graphItems.items.find(item => item.id === link.targetObject);      
       let targetProp = targetItem.targetItem.inAnchors.find(anchor => anchor.id === link.targetProperty);
 
       if (!targetProp) {
@@ -199,15 +203,7 @@ export class GraphService {
         return;
       }
 
-      if (targetProp.callback) {
-        targetProp.callback();
-
-        let baseItem = this.mainView.itemComponents.find(item => item.data.id === link.targetObject);
-        baseItem.getAnchor(anchor.id).highlight();
-
-      } else {
-        console.warn("No callback in:", targetProp);
-      }
+      this.playIn(targetProp, targetItem);
     });
   }
 
