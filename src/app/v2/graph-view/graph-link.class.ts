@@ -25,6 +25,8 @@ export class GraphLink {
   fromSubscription: Subscription;
   toSubscription: Subscription;
 
+  private destroyed = false;
+
   constructor(
     private graphService: GraphService
   ) {
@@ -33,15 +35,12 @@ export class GraphLink {
 
   drawLink(color = 0x000000) {
     if (!this.lineGraphics) {
-      this.lineGraphics = this.scene.add.graphics({
-        lineStyle: {
-          color: 0x000000,
-          width: 2
-        }
-      });
+      this.lineGraphics = this.scene.add.graphics();
     } else {
       this.lineGraphics.clear();
     }
+
+    this.lineGraphics.lineStyle(2, color);
 
     let fromPoint = this.fromItem.getAnchorComponentPosition(this.fromAnchor);
     let toPoint = this.toItem.getAnchorComponentPosition(this.toAnchor);
@@ -60,16 +59,15 @@ export class GraphLink {
 
   drawArrow(x: number, y: number, rotation: number, color = 0xffffff) {
     if (!this.arrow) {
-      this.arrow = this.scene.add.graphics({
-        fillStyle: {
-          color: 0x000000
-        }
-      });
-
-      this.arrow.fillTriangle(10, -6, 10, 6, -10, 0);
-      this.baseRect = new Phaser.Geom.Rectangle(-10, -10, 20, 20);
+      this.arrow = this.scene.add.graphics();
       this.scene.input.on("pointerup", this.clickOnScene, this);
+    } else {
+      this.arrow.clear();
     }
+
+    this.arrow.fillStyle(color);
+    this.arrow.fillTriangle(10, -6, 10, 6, -10, 0);
+    this.baseRect = new Phaser.Geom.Rectangle(-10, -10, 20, 20);
 
     this.triangleRect = this.baseRect.setPosition(x - 10, y - 10);
     this.arrow.x = x;
@@ -89,8 +87,7 @@ export class GraphLink {
   }
 
   highlight() {
-    console.log("Graphlink highlight", this);
-
+    // console.log("Graphlink highlight", this);
     // un simple effet sur l'alpha ou un effet de couleur, avec tween, devraient suffire
     this.applyHighlightFx();
 
@@ -100,7 +97,7 @@ export class GraphLink {
   }
 
   applyHighlightFx() {
-    this.drawLink(0xff0000);
+    this.drawLink(0xcc0000);
   }
 
   removeHighlightFx() {
@@ -139,13 +136,17 @@ export class GraphLink {
   }
 
   destroy() {
-    this.lineGraphics.destroy();
-    this.lineGraphics = null;
-    this.arrow.destroy();
-    this.arrow = null;
-    this.fromSubscription.unsubscribe();
-    this.toSubscription.unsubscribe();
+    if (!this.destroyed) {
+      this.lineGraphics.destroy();
+      this.lineGraphics = null;
+      this.arrow.destroy();
+      this.arrow = null;
+      this.fromSubscription.unsubscribe();
+      this.toSubscription.unsubscribe();
+  
+      this.graphItemData.removeLink(this.linkData);
+    }
 
-    this.graphItemData.removeLink(this.linkData);
+    this.destroyed = true;
   }
 }

@@ -186,13 +186,13 @@ export class GraphService {
   }
 
   playOut(anchor: AnchorItem, graphItem: GraphItem) {
-    GraphUtils.timeLog("play out: " + graphItem.id + " -> " + anchor.id);
+    // GraphUtils.timeLog("play out: " + graphItem.id + " -> " + anchor.id);
 
     let outLinks = graphItem.outLinks.filter(link => link.localProperty === anchor.id);
+    let baseItem = this.mainView.itemComponents.find(item => item.data.id === graphItem.id);
 
     // c'est ici qu'on highlight tous les graphlinks
-    this.links.filter(link => true).forEach(link => link.highlight());
-
+    baseItem.links.filter(link => link.linkData.localProperty === anchor.id).forEach(link => link.highlight());
 
     outLinks.forEach(link => {
       let targetItem = this.graphItems.items.find(item => item.id === link.targetObject);      
@@ -208,7 +208,7 @@ export class GraphService {
   }
 
   playIn(inAnchor: AnchorItem, graphItem: GraphItem) {
-    GraphUtils.timeLog("play in: " + graphItem.id + " -> " + inAnchor.id);
+    // GraphUtils.timeLog("play in: " + graphItem.id + " -> " + inAnchor.id);
 
     let baseItem = this.mainView.itemComponents.find(item => item.data.id === graphItem.id);
     baseItem.getAnchor(inAnchor.id).highlight();
