@@ -42,6 +42,9 @@ export class Transition implements GraphTarget {
     this.resetItem
   ];
 
+
+  
+
   onStartItem = {
     id: "onstart",
     label: "On start",

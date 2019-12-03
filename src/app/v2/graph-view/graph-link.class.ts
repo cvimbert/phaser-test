@@ -116,7 +116,7 @@ export class GraphLink {
       { x: from.x, y: from.y },
       { x: from.x + xQuarter, y: from.y + yMini },
       { x: to.x - xQuarter, y: to.y - yMini },
-      { x: to.x, y: to.y },
+      { x: to.x, y: to.y }
     ];
 
     return points.map(point => new Phaser.Math.Vector2(point.x, point.y));
