@@ -68,6 +68,8 @@ export class StateDisplayComponent implements OnInit {
   }
 
   setPosition() {
+
+    // à déplacer vers un service (genre TransitionsService)
     this.onSetPosition.emit({
       state: this.state,
       duration: this.currentSetDuration,
