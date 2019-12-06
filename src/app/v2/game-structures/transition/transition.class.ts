@@ -4,12 +4,16 @@ import { GraphTarget } from '../../graph-view/interfaces/graph-target.interface'
 import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
 import { GraphService } from '../../graph-view/services/graph.service';
 import { GraphItem } from '../../graph-view/graph-item.class';
+import { CloudService } from '../../services/cloud.service';
+import { TransitionsService } from '../../services/transitions.service';
 
 @JsonObject("Transition")
 export class Transition implements GraphTarget {
 
   // ou bien un graph manager, ce qui permettrait de sortir de la structure d'angular
   graphService: GraphService;
+  cloudService: CloudService;
+  transitionsService: TransitionsService;
   parentGraphItem: GraphItem;
 
   playItem: AnchorItem = {
@@ -97,12 +101,12 @@ export class Transition implements GraphTarget {
     this.graphService.playOut(this.onStartItem, this.parentGraphItem);
   }
 
-  play() {    
-    this.graphService.playIn(this.onStartItem, this.parentGraphItem);
-
-    setTimeout(() => {      
+  play() {
+    this.transitionsService.initiateTween(this, () => {
+      this.graphService.playIn(this.onStartItem, this.parentGraphItem);
+    }, () => {
       this.graphService.playIn(this.onCompleteItem, this.parentGraphItem);
-    }, 2000);
+    });
   }
 
   stop() {

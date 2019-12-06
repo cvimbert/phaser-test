@@ -16,6 +16,8 @@ import { GraphItem } from '../v2/graph-view/graph-item.class';
 import { GraphTargetSelectionModalComponent } from '../v2/graph-view/components/graph-target-selection-modal/graph-target-selection-modal.component';
 import { GraphTarget } from '../v2/graph-view/interfaces/graph-target.interface';
 import { TransitionsService } from '../v2/services/transitions.service';
+import { Transition } from '../v2/game-structures/transition/transition.class';
+import { CloudService } from '../v2/services/cloud.service';
 
 @Component({
   selector: 'app-graph-view',
@@ -40,6 +42,7 @@ export class GraphViewComponent implements OnInit {
 
   constructor(
     private graphService: GraphService,
+    private cloudService: CloudService,
     private transitionsService: TransitionsService,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef
@@ -102,12 +105,15 @@ export class GraphViewComponent implements OnInit {
       if (item.type === GraphItemType.TRANSITION) {
         item.targetItem = this.transitionsService.getItemById(item.itemId);
         item.targetItem.graphService = this.graphService;
+
+        if (item.targetItem instanceof Transition) {
+          (<Transition>item.targetItem).cloudService = this.cloudService;
+          (<Transition>item.targetItem).transitionsService = this.transitionsService;
+        }
       }
 
       item.targetItem.parentGraphItem = item;
     });
-
-    // console.log(this.graphService.graphItems.items);
   }
 
   @HostListener('window:resize', ['$event'])

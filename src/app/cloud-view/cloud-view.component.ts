@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CloudScene } from '../v2/cloud-scene.class';
 import { Game } from 'phaser';
 import { CloudStructure } from '../v2/cloud-structure.class';
@@ -14,6 +14,8 @@ import { ModalService } from '../v2/services/modal.service';
 import { SetData } from '../v2/interfaces/set-data.interface';
 import { TransitionsService } from '../v2/services/transitions.service';
 import { DiffsService } from '../v2/services/diffs.service';
+import { CloudService } from '../v2/services/cloud.service';
+import { Configuration } from '../v2/configuration.class';
 
 @Component({
   selector: 'app-cloud-view',
@@ -21,7 +23,7 @@ import { DiffsService } from '../v2/services/diffs.service';
   styleUrls: ['./cloud-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CloudViewComponent implements OnInit {
+export class CloudViewComponent implements OnInit, OnDestroy {
 
   @ViewChild("canvasContainer") canvasContainer: ElementRef;
   cloudScene: CloudScene;
@@ -42,6 +44,7 @@ export class CloudViewComponent implements OnInit {
     public diffsService: DiffsService,
     public modalService: ModalService,
     public transitionsService: TransitionsService,
+    public cloudService: CloudService,
     public ref: ChangeDetectorRef
   ) {}
 
@@ -62,10 +65,12 @@ export class CloudViewComponent implements OnInit {
 
     this.game = new Game(config);
     this.game.events.on("created", this.onCreated, this);
+
+    this.cloudService.cloudView = this;
   }
 
-  validateDetailsModal(data: DetailsData) {
-
+  ngOnDestroy() {
+    this.cloudService.cloudView = null;
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -308,6 +313,13 @@ export class CloudViewComponent implements OnInit {
     // Un premier cas simple de mise à jour de rotation relative
 
     if (!data.state.nodeStates) return;
+
+    let propsNumber = Object.keys(data.state.nodeStates).length;
+    let completedTweenPropsCount = 0; 
+    
+    if (data.onStart) {
+      data.onStart();
+    }
     
     for (let nodeId in data.state.nodeStates) {
       
@@ -341,7 +353,8 @@ export class CloudViewComponent implements OnInit {
           relativeRotation: nodeState.relativeRotation != undefined ? nodeState.relativeRotation : node.relativeRotation,
           ownX: nodeState.ownX != undefined ? nodeState.ownX : node.ownPosition.x,
           ownY: nodeState.ownY != undefined ? nodeState.ownY : node.ownPosition.y,
-          duration: 500,
+          duration: data.duration,
+          ease: Configuration.EASES[data.easing],
           onUpdate: () => {
 
             if (ct % 3 == 2) {
@@ -354,12 +367,20 @@ export class CloudViewComponent implements OnInit {
           onComplete: () => {
             node.ownToAbsolute(updatedKeys, true);
             node.render();
-            console.log("tween complete");
 
-            // ??? setTimeout ??
-            setTimeout(() => {
-              this.ref.detectChanges();
-            });
+            completedTweenPropsCount++;
+
+            if (completedTweenPropsCount === propsNumber) {
+              console.log("tween complete");
+
+              if (data.onComplete) {
+                data.onComplete();
+              }
+
+              setTimeout(() => {
+                this.ref.detectChanges();
+              });
+            }
           }
         });
       }

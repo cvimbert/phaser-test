@@ -29,7 +29,7 @@ export class TransitionDisplayComponent implements OnInit {
   }
 
   playTransition() {
-    this.transitionsService.initiateTween(this.transition.from, this.transition.stateId);
+    this.transitionsService.initiateTween(this.transition);
   }
 
   logTransition() {
