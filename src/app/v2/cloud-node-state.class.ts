@@ -45,12 +45,9 @@ export class CloudNodeState {
   ];
 
   static relativeProperties = [
-    //"initRotation",
     "relativeRotation",
     "ownX",
-    "ownY",
-    /*"relativeX",
-    "relativeY"*/
+    "ownY"
   ];
 
   static absoluteProperties = [
@@ -63,7 +60,7 @@ export class CloudNodeState {
     [DiffMode.ALL]: CloudNodeState.allProperties,
     [DiffMode.RELATIVE]: CloudNodeState.relativeProperties,
     [DiffMode.ABSOLUTE]: CloudNodeState.absoluteProperties
-  }
+  };
     
   constructor() {}
 
@@ -87,13 +84,29 @@ export class CloudNodeState {
 
   diffWithState(state: CloudNodeState, mode: DiffMode): CloudNodeState {
 
+    // console.log("mode =>", mode);
+    console.log(this, state);
+    
     let diff = new CloudNodeState();
     let props = CloudNodeState.propertiesSets[mode];
 
+    // console.log("props", props);
+    
+
     props.forEach(property => {
-      if (this[property] != state[property]) {
-        diff[property] = state[property];
+      
+      if (typeof this[property] === "number") {
+
+        // ajout d'une tolérance pour les erreurs d'arrondi lors des recalculs
+        if (Math.abs(this[property] - state[property]) > 0.5) {
+          diff[property] = state[property];
+        }
+      } else {
+        if (this[property] != state[property]) {
+          diff[property] = state[property];
+        }
       }
+      
     });
 
     return diff;

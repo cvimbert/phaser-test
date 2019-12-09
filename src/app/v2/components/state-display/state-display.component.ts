@@ -6,6 +6,7 @@ import { ModalService } from '../../services/modal.service';
 import { SetData } from '../../interfaces/set-data.interface';
 import { TransitionsService } from '../../services/transitions.service';
 import { DiffsService } from '../../services/diffs.service';
+import { DiffMode } from '../../enums/diff-mode.enum';
 
 @Component({
   selector: 'state-display',
@@ -15,12 +16,13 @@ import { DiffsService } from '../../services/diffs.service';
 export class StateDisplayComponent implements OnInit {
 
   @Input() state: CloudState;
-  @Input() type: StateDisplayerType = StateDisplayerType.BASIC;
+  @Input() type = StateDisplayerType.BASIC;
 
   @Output() onSetPosition = new EventEmitter<SetData>();
 
   selectedDiffState: CloudState;
   displaySetOptions = false;
+  createAbsoluteDiff = false;
 
   setDurations = [
     "0s",
@@ -100,7 +102,7 @@ export class StateDisplayComponent implements OnInit {
   diffTest() {
     this.modalService.openDetailsModal().afterClosed().subscribe(data => {
       if (data) {
-        let state = this.state.getDiff(this.selectedDiffState);
+        let state = this.state.getDiff(this.selectedDiffState, this.createAbsoluteDiff ? DiffMode.ABSOLUTE : DiffMode.RELATIVE);
         state.id = "diff" + ++this.diffsService.tempId;
         state.name = data.name;
         state.description = data.description;

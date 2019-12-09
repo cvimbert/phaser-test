@@ -16,6 +16,7 @@ import { TransitionsService } from '../v2/services/transitions.service';
 import { DiffsService } from '../v2/services/diffs.service';
 import { CloudService } from '../v2/services/cloud.service';
 import { Configuration } from '../v2/configuration.class';
+import { CloudNodeState } from '../v2/cloud-node-state.class';
 
 @Component({
   selector: 'app-cloud-view',
@@ -38,6 +39,7 @@ export class CloudViewComponent implements OnInit, OnDestroy {
   startTranslationPoint: Point;
 
   tempStateId = 0;
+  
   constructor(
     public inspectionService: InspectionService,
     public statesService: StatesService,
@@ -307,6 +309,20 @@ export class CloudViewComponent implements OnInit, OnDestroy {
 
   }
 
+  isNotNullOrUndefined(value: any): boolean {
+    return value !== undefined && value !== null;
+  }
+
+  isRelativeTransform(nodeState: CloudNodeState): boolean {
+    for (let prop of CloudNodeState.relativeProperties) {
+      if (this.isNotNullOrUndefined(nodeState[prop])) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   setPosition(data: SetData) {    
 
     let ct = -1;
@@ -330,42 +346,50 @@ export class CloudViewComponent implements OnInit, OnDestroy {
 
       if (data.duration == 1) {
 
-        if (nodeState.relativeRotation !== undefined) {
-          node.relativeRotation = nodeState.relativeRotation;          
-        }
-
-        if (nodeState.ownX !== undefined) {
-          node.ownPosition.x = nodeState.ownX;
-        }
-
-        if (nodeState.ownY !== undefined) {
-          node.ownPosition.y = nodeState.ownY;
+        for (let key in nodeState) {
+          if (nodeState.hasOwnProperty(key)) {
+            if (nodeState[key] !== undefined && nodeState[key] !== null) {
+              node[key] = nodeState[key];
+            }
+          }
         }
                 
         node.ownToAbsolute([], true);
         node.render();
 
         console.log("set position complete");
+        
       } else {
 
-        this.cloudScene.add.tween({
+        // console.log("C'est ici que ça se passe !", nodeState);
+
+        let pNumber = 0;
+        let pCount = 0;
+
+        let tweenParams: Object = {
           targets: node,
-          relativeRotation: nodeState.relativeRotation != undefined ? nodeState.relativeRotation : node.relativeRotation,
-          ownX: nodeState.ownX != undefined ? nodeState.ownX : node.ownPosition.x,
-          ownY: nodeState.ownY != undefined ? nodeState.ownY : node.ownPosition.y,
           duration: data.duration,
           ease: Configuration.EASES[data.easing],
           onUpdate: () => {
-
-            if (ct % 3 == 2) {
-              node.ownToAbsolute(updatedKeys, true);
-              node.render();
-            }
             
-            ct++;
+            pCount++;            
+
+            if (pCount === pNumber) {
+
+              if (this.isRelativeTransform(nodeState)) {
+                node.ownToAbsolute(updatedKeys, true);
+              }
+
+              node.render();
+              pCount = 0;
+            }
           },
           onComplete: () => {
-            node.ownToAbsolute(updatedKeys, true);
+
+            if (this.isRelativeTransform(nodeState)) {
+              node.ownToAbsolute(updatedKeys, true);
+            }
+            
             node.render();
 
             completedTweenPropsCount++;
@@ -382,7 +406,18 @@ export class CloudViewComponent implements OnInit, OnDestroy {
               });
             }
           }
-        });
+        };        
+
+        for (let key in nodeState) {
+          if (nodeState.hasOwnProperty(key)) {
+            if (nodeState[key] !== undefined && nodeState[key] !== null) {
+              tweenParams[key] = nodeState[key];
+              pNumber++;
+            }
+          }
+        }
+        
+        this.cloudScene.add.tween(tweenParams);
       }
     }
   }

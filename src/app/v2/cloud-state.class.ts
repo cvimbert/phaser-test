@@ -43,12 +43,18 @@ export class CloudState {
         return state;
     }
 
-    getDiff(target: CloudState): CloudState {
+    getDiff(target: CloudState, mode = DiffMode.RELATIVE): CloudState {
 
         let state = new CloudState();
         state.structureId = this.structureId;
 
+        console.log(this, target);
+        
+
         for (let key in this.nodeStates) {
+
+            console.log(key);
+            
 
             // attention : code douteux, et nécessité de cloner, peut-être, les cloudNodeStates
             let ownState = this.nodeStates[key];
@@ -59,7 +65,7 @@ export class CloudState {
             } else if (ownState && !targetState) {
                 state.nodeStates[key] = ownState;
             } else if (ownState && targetState) {
-                let diffState = ownState.diffWithState(targetState, DiffMode.RELATIVE);
+                let diffState = ownState.diffWithState(targetState, mode);
 
                 if (Object.keys(diffState).length > 0) {
                     state.nodeStates[key] = diffState;
