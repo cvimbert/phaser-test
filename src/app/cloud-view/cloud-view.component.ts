@@ -378,6 +378,9 @@ export class CloudViewComponent implements OnInit, OnDestroy {
 
               if (this.isRelativeTransform(nodeState)) {
                 node.ownToAbsolute(updatedKeys, true);
+              } else {
+                // node.calculateGeometry();
+                node.applyAbsoluteTranslation();
               }
 
               node.render();
@@ -388,6 +391,9 @@ export class CloudViewComponent implements OnInit, OnDestroy {
 
             if (this.isRelativeTransform(nodeState)) {
               node.ownToAbsolute(updatedKeys, true);
+            } else {
+              // node.calculateGeometry();
+              node.applyAbsoluteTranslation();
             }
             
             node.render();

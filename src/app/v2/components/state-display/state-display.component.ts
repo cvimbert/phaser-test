@@ -7,6 +7,7 @@ import { SetData } from '../../interfaces/set-data.interface';
 import { TransitionsService } from '../../services/transitions.service';
 import { DiffsService } from '../../services/diffs.service';
 import { DiffMode } from '../../enums/diff-mode.enum';
+import { InspectionService } from '../../services/inspection.service';
 
 @Component({
   selector: 'state-display',
@@ -43,7 +44,8 @@ export class StateDisplayComponent implements OnInit {
     public statesService: StatesService,
     public transitionsService: TransitionsService,
     public diffsService: DiffsService,
-    public modalService: ModalService
+    public modalService: ModalService,
+    public inspectionService: InspectionService
   ) { }
 
   ngOnInit() {
@@ -102,7 +104,7 @@ export class StateDisplayComponent implements OnInit {
   diffTest() {
     this.modalService.openDetailsModal().afterClosed().subscribe(data => {
       if (data) {
-        let state = this.state.getDiff(this.selectedDiffState, this.createAbsoluteDiff ? DiffMode.ABSOLUTE : DiffMode.RELATIVE);
+        let state = this.state.getDiff(this.selectedDiffState, this.createAbsoluteDiff ? DiffMode.ABSOLUTE : DiffMode.RELATIVE, this.inspectionService.selectedNode.id);
         state.id = "diff" + ++this.diffsService.tempId;
         state.name = data.name;
         state.description = data.description;

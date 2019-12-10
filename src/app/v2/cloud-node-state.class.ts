@@ -85,31 +85,43 @@ export class CloudNodeState {
   diffWithState(state: CloudNodeState, mode: DiffMode): CloudNodeState {
 
     // console.log("mode =>", mode);
-    console.log(this, state);
+    // console.log(this, state);
     
     let diff = new CloudNodeState();
     let props = CloudNodeState.propertiesSets[mode];
 
     // console.log("props", props);
     
+    /* if (mode === DiffMode.ABSOLUTE) {
 
-    props.forEach(property => {
-      
-      if (typeof this[property] === "number") {
-
-        // ajout d'une tolérance pour les erreurs d'arrondi lors des recalculs
-        if (Math.abs(this[property] - state[property]) > 0.5) {
-          diff[property] = state[property];
+    } else if (mode === DiffMode.RELATIVE) { */
+      props.forEach(property => {
+        if (typeof this[property] === "number") {
+  
+          // ajout d'une tolérance pour les erreurs d'arrondi lors des recalculs
+          if (Math.abs(this[property] - state[property]) > 0.5) {
+            diff[property] = state[property];
+          }
+        } else {
+          if (this[property] != state[property]) {
+            diff[property] = state[property];
+          }
         }
-      } else {
-        if (this[property] != state[property]) {
-          diff[property] = state[property];
-        }
-      }
-      
-    });
+        
+      });
+    // }
 
     return diff;
+  }
+
+  getAbsoluteProperties(): CloudNodeState {
+    let state = new CloudNodeState();
+
+    let props = CloudNodeState.propertiesSets[DiffMode.ABSOLUTE];
+
+    props.forEach(prop => state[prop] = this[prop]);
+
+    return state;
   }
 
   getUpdatedKeys(): string[] {

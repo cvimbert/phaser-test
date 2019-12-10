@@ -43,35 +43,43 @@ export class CloudState {
         return state;
     }
 
-    getDiff(target: CloudState, mode = DiffMode.RELATIVE): CloudState {
+    getDiff(target: CloudState, mode = DiffMode.RELATIVE, nodeId?: string): CloudState {
 
         let state = new CloudState();
         state.structureId = this.structureId;
 
-        console.log(this, target);
+        // console.log(this, target);
         
+        if (mode === DiffMode.RELATIVE) {
+            for (let key in this.nodeStates) {
 
-        for (let key in this.nodeStates) {
-
-            console.log(key);
-            
-
-            // attention : code douteux, et nécessité de cloner, peut-être, les cloudNodeStates
-            let ownState = this.nodeStates[key];
-            let targetState = target.nodeStates[key];
-            
-            if (!ownState && targetState) {
-                state.nodeStates[key] = targetState;
-            } else if (ownState && !targetState) {
-                state.nodeStates[key] = ownState;
-            } else if (ownState && targetState) {
-                let diffState = ownState.diffWithState(targetState, mode);
-
-                if (Object.keys(diffState).length > 0) {
-                    state.nodeStates[key] = diffState;
+                // console.log(key);
+    
+                // attention : code douteux, et nécessité de cloner, peut-être, les cloudNodeStates
+                let ownState = this.nodeStates[key];
+                let targetState = target.nodeStates[key];
+                
+                if (!ownState && targetState) {
+                    state.nodeStates[key] = targetState;
+                } else if (ownState && !targetState) {
+                    state.nodeStates[key] = ownState;
+                } else if (ownState && targetState) {
+                    let diffState = ownState.diffWithState(targetState, mode);
+    
+                    if (Object.keys(diffState).length > 0) {
+                        state.nodeStates[key] = diffState;
+                    }
                 }
             }
+        } else if (mode === DiffMode.ABSOLUTE) {
+            if (nodeId != undefined) {
+                let ownState = this.nodeStates[nodeId];
+                state.nodeStates[nodeId] = ownState.getAbsoluteProperties();
+            } else {
+                console.warn("Must provide a node id for absolute diff");
+            }
         }
+        
 
         return state;
     }
