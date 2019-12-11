@@ -16,6 +16,8 @@ import { OutLink } from '../out-link.class';
 import { GraphViewComponent } from 'src/app/graph-view/graph-view.component';
 import { AnchorItem } from '../interfaces/anchor-item.interface';
 import { GraphUtils } from '../graph-utils.class';
+import { GraphTimer } from '../graph-timer.class';
+import { GraphTrigger } from '../graph-trigger.class';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +34,9 @@ export class GraphService {
   private pTempDrawing = false;
 
   graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
+  graphTimerItems = new DataBank<GraphTimer>(Configuration.GRAPH_TIMERS_STORAGE_KEY, GraphTimer);
+  graphTriggerItems = new DataBank<GraphTrigger>(Configuration.GRAPH_TRIGGERS_STORAGE_KEY, GraphTrigger);
+  
 
   targetDrawAnchor: GraphAnchorComponent;
   initialDrawAnchor: GraphAnchorComponent;
@@ -235,6 +240,8 @@ export class GraphService {
 
   saveGraphItems() {
     this.graphItems.save();
+    this.graphTimerItems.save();
+    this.graphTriggerItems.save();
   }
 
   

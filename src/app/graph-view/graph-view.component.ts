@@ -18,6 +18,7 @@ import { GraphTarget } from '../v2/graph-view/interfaces/graph-target.interface'
 import { TransitionsService } from '../v2/services/transitions.service';
 import { Transition } from '../v2/game-structures/transition/transition.class';
 import { CloudService } from '../v2/services/cloud.service';
+import { DataBank } from '../v2/data-bank.class';
 
 @Component({
   selector: 'app-graph-view',
@@ -102,16 +103,20 @@ export class GraphViewComponent implements OnInit {
     // on set ici toutes les targets, à savoir si c'est une bonne idée...
     this.graphService.graphItems.items.forEach(item => {
       // en attendant mieux
-      if (item.type === GraphItemType.TRANSITION) {
-        item.targetItem = this.transitionsService.getItemById(item.itemId);
-        item.targetItem.graphService = this.graphService;
 
-        if (item.targetItem instanceof Transition) {
-          (<Transition>item.targetItem).cloudService = this.cloudService;
-          (<Transition>item.targetItem).transitionsService = this.transitionsService;
-        }
+      let banks: { [key: string]: DataBank<any> } = {
+        [GraphItemType.TRANSITION]: this.transitionsService,
+        [GraphItemType.TIMER]: this.graphService.graphTimerItems
+      };
+
+      item.targetItem = banks[item.type].getItemById(item.itemId);
+
+      if (item.type === GraphItemType.TRANSITION) {
+        (<Transition>item.targetItem).cloudService = this.cloudService;
+        (<Transition>item.targetItem).transitionsService = this.transitionsService;
       }
 
+      item.targetItem.graphService = this.graphService;
       item.targetItem.parentGraphItem = item;
     });
   }
@@ -126,7 +131,10 @@ export class GraphViewComponent implements OnInit {
   }
 
   addGraphItem() {
-    this.dialog.open(GraphTargetSelectionModalComponent, {
+
+    let modalComponent: any = GraphItemType.ITEMS_CREATION_MODAL_COMPONENT[this.selectedGraphItemType] || GraphTargetSelectionModalComponent;
+
+    this.dialog.open(modalComponent, {
       data: {
         type: this.selectedGraphItemType
       }
