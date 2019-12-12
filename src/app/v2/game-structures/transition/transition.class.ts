@@ -6,13 +6,13 @@ import { GraphService } from '../../graph-view/services/graph.service';
 import { GraphItem } from '../../graph-view/graph-item.class';
 import { CloudService } from '../../services/cloud.service';
 import { TransitionsService } from '../../services/transitions.service';
+import { BaseGameStructure } from '../base-game-structure.class';
 
 @JsonObject("Transition")
-export class Transition implements GraphTarget {
+export class Transition extends BaseGameStructure implements GraphTarget {
 
   // ou bien un graph manager, ce qui permettrait de sortir de la structure d'angular
-  graphService: GraphService;
-  cloudService: CloudService;
+  
   transitionsService: TransitionsService;
   parentGraphItem: GraphItem;
 
@@ -46,9 +46,6 @@ export class Transition implements GraphTarget {
     this.resetItem
   ];
 
-
-  
-
   onStartItem = {
     id: "onstart",
     label: "On start",
@@ -70,16 +67,9 @@ export class Transition implements GraphTarget {
     this.onCompleteItem
   ];
 
-  constructor() {}
-
-  @JsonProperty("id", String)
-  id: string = "";
-
-  @JsonProperty("n", String)
-  name: string = "";
-
-  @JsonProperty("desc", String)
-  description: string = "";
+  constructor() {
+    super();
+  }
 
   @JsonProperty("stid", String)
   stateId: string = "";

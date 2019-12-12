@@ -106,21 +106,21 @@ export class GraphViewComponent implements OnInit {
         [GraphItemType.ANCHOR]: this.graphService.graphAnchorItems
       };
 
-      item.targetItem = banks[item.type].getItemById(item.itemId);
+      let tItem = banks[item.type].getItemById(item.itemId);
+      item.targetItem = tItem;
 
       console.log(item.type, item.itemId, item.targetItem);
-      
-
-      if (item.type === GraphItemType.TRANSITION) {
-        (<Transition>item.targetItem).cloudService = this.cloudService;
-        (<Transition>item.targetItem).transitionsService = this.transitionsService;
-      }
 
       item.targetItem.graphService = this.graphService;
       item.targetItem.parentGraphItem = item;
       
       if (item.targetItem.init) {
-        item.targetItem.init();
+        item.targetItem.init(tItem, this.graphService, item);
+      }
+
+      if (item.type === GraphItemType.TRANSITION) {
+        (<Transition>item.targetItem).cloudService = this.cloudService;
+        (<Transition>item.targetItem).transitionsService = this.transitionsService;
       }
     });
   }
