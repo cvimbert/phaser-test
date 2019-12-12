@@ -34,6 +34,8 @@ import { GenericMessageModalComponent } from './v2/graph-view/components/generic
 import { MatDialogModule } from '@angular/material/dialog';
 import { GraphTargetSelectionModalComponent } from './v2/graph-view/components/graph-target-selection-modal/graph-target-selection-modal.component';
 import { GraphTimerModalComponent } from './v2/graph-view/components/graph-timer-modal/graph-timer-modal.component';
+import { TriggerCreationModalComponent } from './v2/graph-view/components/trigger-creation-modal/trigger-creation-modal.component';
+import { GraphAnchorModalComponent } from './v2/graph-view/components/graph-anchor-modal/graph-anchor-modal.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { GraphTimerModalComponent } from './v2/graph-view/components/graph-timer
     GraphAnchorComponent,
     GenericMessageModalComponent,
     GraphTargetSelectionModalComponent,
-    GraphTimerModalComponent
+    GraphTimerModalComponent,
+    TriggerCreationModalComponent,
+    GraphAnchorModalComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,9 @@ import { GraphTimerModalComponent } from './v2/graph-view/components/graph-timer
     GenericMessageModalComponent,
     GraphTargetSelectionModalComponent,
     DetailsInputComponent,
-    GraphTimerModalComponent
+    GraphTimerModalComponent,
+    TriggerCreationModalComponent,
+    GraphAnchorModalComponent
   ],
   providers: [
     NodeEditorService,

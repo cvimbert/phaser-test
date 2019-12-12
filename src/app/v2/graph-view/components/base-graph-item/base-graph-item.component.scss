@@ -17,21 +17,25 @@
     background-color: green;
   }
 
-  &.trigger {
+  &.trigger, &.anchor {
     background-color: maroon;
   }
 
   border: 1px solid black;
-  // width: 100px;
-  //min-height: 100px;
   position: absolute;
   border-radius: 17px;
 }
 
+.tools-container {
+  display: flex;
+  white-space: nowrap;
+  padding: 12px;
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+
 .tools {
-  position: absolute;
-  left: 6px;
-  top: 4px;
+  // flex: 1;
   color: white;
   font-size: 15px;
 
@@ -40,7 +44,6 @@
       margin-right: 15px;
     }
 
-    display: inline-block;
     margin-right: 4px;
   }
 
@@ -50,23 +53,25 @@
 }
 
 .item-type {
-  position: absolute;
-  top: 5px;
-  right: 7px;
+  padding-left: 8px;
+  flex: 1;
+  text-align: right;
   color: white;
   font-weight: bold;
 }
 
 .content {
   border-top: 1px solid white;
-  margin-top: 24px;
   display: flex;
-  //height: 30px;
 
   .left-column {
     flex: 1;
     border-right: 1px solid white;
     text-align: left;
+
+    &.no-right-border {
+      border-right: none;
+    }
 
     .command {
       padding-left: 10px;

@@ -18,6 +18,7 @@ import { AnchorItem } from '../interfaces/anchor-item.interface';
 import { GraphUtils } from '../graph-utils.class';
 import { GraphTimer } from '../graph-timer.class';
 import { GraphTrigger } from '../graph-trigger.class';
+import { GraphAnchor } from '../graph-anchor.class';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class GraphService {
   graphItems = new DataBank<GraphItem>(Configuration.GRAPH_ITEMS_BIS_STORAGE_KEY, GraphItem);
   graphTimerItems = new DataBank<GraphTimer>(Configuration.GRAPH_TIMERS_STORAGE_KEY, GraphTimer);
   graphTriggerItems = new DataBank<GraphTrigger>(Configuration.GRAPH_TRIGGERS_STORAGE_KEY, GraphTrigger);
+  graphAnchorItems = new DataBank<GraphAnchor>(Configuration.GRAPH_ANCHORS_STORAGE_KEY, GraphAnchor);
   
 
   targetDrawAnchor: GraphAnchorComponent;
@@ -242,6 +244,7 @@ export class GraphService {
     this.graphItems.save();
     this.graphTimerItems.save();
     this.graphTriggerItems.save();
+    this.graphAnchorItems.save();
   }
 
   

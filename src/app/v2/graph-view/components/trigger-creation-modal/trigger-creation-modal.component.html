@@ -1,0 +1,11 @@
+<div>
+  <select [(ngModel)]="type">
+    <option value="keyboard">Keyboard</option>
+  </select>
+</div>
+<div>
+  <input type="text" [(ngModel)]="key">
+</div>
+<div class="actions">
+  <input type="button" value="Validate" (click)="validate()">
+</div>

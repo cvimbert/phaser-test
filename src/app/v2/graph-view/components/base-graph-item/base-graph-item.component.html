@@ -1,17 +1,21 @@
 <div class="item {{ data.type }}" [class.disabled]="graphservice.tempDrawing === true" #item>
-  <div class="tools">
-      <div #triggerElement id="drag-anchor-{{ pos }}" class="drag-anchor tool">
+  
+  <div class="tools-container">
+    <div class="tools">
+      <!-- <span id="drag-anchor-{{ pos }}" class="drag-anchor tool">
         <i class="fas fa-arrows-alt"></i>
-      </div>
-      <div class="tool deletion" (click)="tryDeleteItem()">
+      </span> -->
+      <span class="tool deletion" (click)="tryDeleteItem()">
         <i class="fa fa-trash-alt"></i>
-      </div>
-  </div>
+      </span>
+    </div>
 
-  <div class="item-type">{{ data.targetItem.name }}</div>
+    <div #triggerElement class="item-type">{{ data.targetItem.name }}</div>
+  </div>
+ 
   <div class="content">
 
-    <div class="column left-column">
+    <div class="column left-column" *ngIf="inAnchors.length > 0" [class.no-right-border]="outAnchors.length === 0">
       <div class="command in"
         *ngFor="let anchor of inAnchors"
         (click)="triggerIn(anchor)"
@@ -26,7 +30,7 @@
       </div>
     </div>
 
-    <div class="column right-column">
+    <div class="column right-column" *ngIf="outAnchors.length > 0">
       <div class="command out"
         *ngFor="let anchor of outAnchors"
         (click)="triggerOut(anchor)"

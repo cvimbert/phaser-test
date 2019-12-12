@@ -42,6 +42,7 @@ export class GraphAnchorComponent implements OnInit {
 
   onOver() {
     this.graphService.targetDrawAnchor = this;
+    console.log("on over");
   }
 
   onOut() {

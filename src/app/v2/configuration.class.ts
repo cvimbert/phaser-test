@@ -40,6 +40,7 @@ export class Configuration {
   static GRAPH_ITEMS_BIS_STORAGE_KEY = "graph-items-bis";
   static GRAPH_TIMERS_STORAGE_KEY = "graph-timer-items";
   static GRAPH_TRIGGERS_STORAGE_KEY = "graph-trigger-items";
+  static GRAPH_ANCHORS_STORAGE_KEY = "graph-anchor-items";
 
   // temporaire ??
   static highlightingTimeoutDelay = 2000;

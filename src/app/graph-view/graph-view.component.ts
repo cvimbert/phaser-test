@@ -4,13 +4,8 @@ import { Game } from 'phaser';
 import { BaseItemData } from '../v2/graph-view/interfaces/base-item-data.interface';
 import { GraphService } from '../v2/graph-view/services/graph.service';
 import { BaseGraphItemComponent } from '../v2/graph-view/components/base-graph-item/base-graph-item.component';
-import { DataDictionary } from '../v2/data-dictionary.class';
-import { SerializablePoint } from '../v2/serializable-point.class';
-import { Configuration } from '../v2/configuration.class';
 import { Rectangle } from '../v2/rectangle.class';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { GenericMessageModalData } from '../v2/graph-view/interfaces/generic-message-modal-data.interface';
-import { GenericMessageModalComponent } from '../v2/graph-view/components/generic-message-modal/generic-message-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 import { GraphItemType } from '../v2/graph-view/graph-item-type.class';
 import { GraphItem } from '../v2/graph-view/graph-item.class';
 import { GraphTargetSelectionModalComponent } from '../v2/graph-view/components/graph-target-selection-modal/graph-target-selection-modal.component';
@@ -36,7 +31,7 @@ export class GraphViewComponent implements OnInit {
   game: Game;
   bounds = new Rectangle(0, 0, 1024, 600);
 
-  positionsDictionary: DataDictionary<SerializablePoint>;
+  //positionsDictionary: DataDictionary<SerializablePoint>;
   selectedGraphItemType = GraphItemType.ITEMS_LIST[0];
 
   items: BaseItemData[];
@@ -48,7 +43,7 @@ export class GraphViewComponent implements OnInit {
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef
   ) {
-    this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
+    //this.positionsDictionary = new DataDictionary<SerializablePoint>(Configuration.GRAPH_ITEMS_STORAGE_KEY, SerializablePoint);
   }
 
   /* @HostListener("document:mouseup", ["$event"])
@@ -106,10 +101,15 @@ export class GraphViewComponent implements OnInit {
 
       let banks: { [key: string]: DataBank<any> } = {
         [GraphItemType.TRANSITION]: this.transitionsService,
-        [GraphItemType.TIMER]: this.graphService.graphTimerItems
+        [GraphItemType.TIMER]: this.graphService.graphTimerItems,
+        [GraphItemType.TRIGGER]: this.graphService.graphTriggerItems,
+        [GraphItemType.ANCHOR]: this.graphService.graphAnchorItems
       };
 
       item.targetItem = banks[item.type].getItemById(item.itemId);
+
+      console.log(item.type, item.itemId, item.targetItem);
+      
 
       if (item.type === GraphItemType.TRANSITION) {
         (<Transition>item.targetItem).cloudService = this.cloudService;
@@ -118,6 +118,10 @@ export class GraphViewComponent implements OnInit {
 
       item.targetItem.graphService = this.graphService;
       item.targetItem.parentGraphItem = item;
+      
+      if (item.targetItem.init) {
+        item.targetItem.init();
+      }
     });
   }
 
@@ -157,7 +161,7 @@ export class GraphViewComponent implements OnInit {
   loadPositions() {
 
     // plus utile bientôt ??
-    this.positionsDictionary.load();
+    //this.positionsDictionary.load();
 
     //this.graphService.graphItems.load();
 

@@ -29,7 +29,7 @@ export class DataBank<T> {
 
     if (data) {
       item["name"] = data.name;
-      item["description"] = data.description;
+      item["description"] = data.description || "";
     }
 
     this.push(item);
