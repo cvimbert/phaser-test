@@ -1,0 +1,24 @@
+<div>
+  <select [(ngModel)]="type">
+    <option value="string">String</option>
+    <option value="number">Number</option>
+    <option value="boolean">Boolean</option>
+  </select>
+</div>
+<div>
+  <ng-container *ngIf="type === 'string'">
+    <input type="text" [(ngModel)]="value">
+  </ng-container>
+  <ng-container *ngIf="type === 'number'">
+    <input type="number" [(ngModel)]="value">
+  </ng-container>
+  <ng-container *ngIf="type === 'boolean'">
+    <select [(ngModel)]="value">
+      <option value="true">True</option>
+      <option value="false">False</option>
+    </select>
+  </ng-container>
+</div>
+<div>
+  <input type="button" value="Validate" (click)="validate()">
+</div>

@@ -27,7 +27,8 @@ export class GraphViewComponent implements OnInit {
     [GraphItemType.TRANSITION]: this.transitionsService,
     [GraphItemType.TIMER]: this.graphService.graphTimerItems,
     [GraphItemType.TRIGGER]: this.graphService.graphTriggerItems,
-    [GraphItemType.ANCHOR]: this.graphService.graphAnchorItems
+    [GraphItemType.ANCHOR]: this.graphService.graphAnchorItems,
+    [GraphItemType.VARIABLE]: this.graphService.variableItems
   };
 
   @ViewChild("canvasElement") canvasElement: ElementRef;

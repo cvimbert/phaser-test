@@ -2,7 +2,6 @@ import { JsonObject, JsonProperty, Any } from 'json2typescript';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 import { GraphTarget } from '../../graph-view/interfaces/graph-target.interface';
 import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
-import { GraphItem } from '../../graph-view/graph-item.class';
 import { TransitionsService } from '../../services/transitions.service';
 import { BaseGameStructure } from '../base-game-structure.class';
 

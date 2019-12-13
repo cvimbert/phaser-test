@@ -36,6 +36,7 @@ import { GraphTargetSelectionModalComponent } from './v2/graph-view/components/g
 import { GraphTimerModalComponent } from './v2/graph-view/components/graph-timer-modal/graph-timer-modal.component';
 import { TriggerCreationModalComponent } from './v2/graph-view/components/trigger-creation-modal/trigger-creation-modal.component';
 import { GraphAnchorModalComponent } from './v2/graph-view/components/graph-anchor-modal/graph-anchor-modal.component';
+import { VariableEditionModalComponent } from './v2/game-structures/variable/variable-edition-modal/variable-edition-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { GraphAnchorModalComponent } from './v2/graph-view/components/graph-anch
     GraphTargetSelectionModalComponent,
     GraphTimerModalComponent,
     TriggerCreationModalComponent,
-    GraphAnchorModalComponent
+    GraphAnchorModalComponent,
+    VariableEditionModalComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,8 @@ import { GraphAnchorModalComponent } from './v2/graph-view/components/graph-anch
     DetailsInputComponent,
     GraphTimerModalComponent,
     TriggerCreationModalComponent,
-    GraphAnchorModalComponent
+    GraphAnchorModalComponent,
+    VariableEditionModalComponent
   ],
   providers: [
     NodeEditorService,

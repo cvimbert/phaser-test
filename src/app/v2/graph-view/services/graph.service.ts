@@ -1,4 +1,4 @@
-import { Injectable, HostListener } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BaseGraphItemComponent } from '../components/base-graph-item/base-graph-item.component';
 import { GraphLink } from '../graph-link.class';
 import { GraphScene } from '../graph-scene.class';
@@ -15,10 +15,10 @@ import { GraphAnchorComponent } from '../components/graph-anchor/graph-anchor.co
 import { OutLink } from '../out-link.class';
 import { GraphViewComponent } from 'src/app/graph-view/graph-view.component';
 import { AnchorItem } from '../interfaces/anchor-item.interface';
-import { GraphUtils } from '../graph-utils.class';
 import { GraphTimer } from '../graph-timer.class';
 import { GraphTrigger } from '../graph-trigger.class';
 import { GraphAnchor } from '../graph-anchor.class';
+import { Variable } from '../../game-structures/variable/variable.class';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +38,7 @@ export class GraphService {
   graphTimerItems = new DataBank<GraphTimer>(Configuration.GRAPH_TIMERS_STORAGE_KEY, GraphTimer);
   graphTriggerItems = new DataBank<GraphTrigger>(Configuration.GRAPH_TRIGGERS_STORAGE_KEY, GraphTrigger);
   graphAnchorItems = new DataBank<GraphAnchor>(Configuration.GRAPH_ANCHORS_STORAGE_KEY, GraphAnchor);
+  variableItems = new DataBank<Variable>(Configuration.VARIABLE_STORAGE_KEY, Variable);
   
 
   targetDrawAnchor: GraphAnchorComponent;
@@ -248,6 +249,7 @@ export class GraphService {
     this.graphTimerItems.save();
     this.graphTriggerItems.save();
     this.graphAnchorItems.save();
+    this.variableItems.save();
   }
 
   

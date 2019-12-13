@@ -21,6 +21,10 @@
     background-color: maroon;
   }
 
+  &.variable {
+    background-color: rgb(11, 187, 11);
+  }
+
   border: 1px solid black;
   position: absolute;
   border-radius: 10px;
