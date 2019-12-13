@@ -1,14 +1,10 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { AnchorItem } from './interfaces/anchor-item.interface';
 import { GraphTarget } from './interfaces/graph-target.interface';
-import { GraphItem } from './graph-item.class';
-import { GraphService } from './services/graph.service';
+import { BaseGameStructure } from '../game-structures/base-game-structure.class';
 
 @JsonObject("GraphTimer")
-export class GraphTimer implements GraphTarget {
-
-  parentGraphItem: GraphItem;
-  graphService: GraphService;
+export class GraphTimer extends BaseGameStructure implements GraphTarget {
 
   startAnchor: AnchorItem = {
     id: "start",
@@ -43,16 +39,9 @@ export class GraphTimer implements GraphTarget {
     this.onTimeoutAnchor
   ];
 
-  constructor() {}
-
-  @JsonProperty("id", String)
-  id = "";
-
-  @JsonProperty("n", String)
-  name = "";
-
-  @JsonProperty("desc", String)
-  description ="";
+  constructor() {
+    super();
+  }
 
   @JsonProperty("d", Number)
   duration = 0;

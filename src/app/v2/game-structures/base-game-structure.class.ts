@@ -5,21 +5,23 @@ import { GraphTarget } from '../graph-view/interfaces/graph-target.interface';
 import { GraphItem } from '../graph-view/graph-item.class';
 
 export class BaseGameStructure {
+
   graphService: GraphService;
   cloudService: CloudService;
+  parentGraphItem: GraphItem;
 
   @JsonProperty("id", String)
   id: string = "";
 
-  @JsonProperty("n", String)
+  @JsonProperty("name", String)
   name: string = "";
 
-  @JsonProperty("desc", String)
+  @JsonProperty("description", String)
   description: string = "";
 
   // pas certain que les arguments soient les bons
   init(targetItem: GraphTarget, graphService: GraphService, item: GraphItem) {
-
+    
   }
   
 }

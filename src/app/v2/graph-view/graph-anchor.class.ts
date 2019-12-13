@@ -1,14 +1,10 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
 import { GraphTarget } from './interfaces/graph-target.interface';
-import { GraphItem } from './graph-item.class';
-import { GraphService } from './services/graph.service';
 import { AnchorItem } from './interfaces/anchor-item.interface';
+import { BaseGameStructure } from '../game-structures/base-game-structure.class';
 
 @JsonObject("GraphAnchor")
-export class GraphAnchor implements GraphTarget {
-
-  parentGraphItem: GraphItem;
-  graphService: GraphService;
+export class GraphAnchor extends BaseGameStructure implements GraphTarget {
 
   inAnchors: AnchorItem[] = [];
   outAnchors: AnchorItem[] = [];
@@ -43,15 +39,6 @@ export class GraphAnchor implements GraphTarget {
       ];
     }
   }
-
-  @JsonProperty("id")
-  id = "";
-
-  @JsonProperty("n")
-  name = "";
-
-  @JsonProperty("d")
-  description = "";
 
   @JsonProperty("t")
   type = "";

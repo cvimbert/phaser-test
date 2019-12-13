@@ -2,9 +2,7 @@ import { JsonObject, JsonProperty, Any } from 'json2typescript';
 import { StateDisplayerType } from '../../enums/state-displayer-type.enum';
 import { GraphTarget } from '../../graph-view/interfaces/graph-target.interface';
 import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
-import { GraphService } from '../../graph-view/services/graph.service';
 import { GraphItem } from '../../graph-view/graph-item.class';
-import { CloudService } from '../../services/cloud.service';
 import { TransitionsService } from '../../services/transitions.service';
 import { BaseGameStructure } from '../base-game-structure.class';
 
@@ -14,7 +12,6 @@ export class Transition extends BaseGameStructure implements GraphTarget {
   // ou bien un graph manager, ce qui permettrait de sortir de la structure d'angular
   
   transitionsService: TransitionsService;
-  parentGraphItem: GraphItem;
 
   playItem: AnchorItem = {
     id: "play",

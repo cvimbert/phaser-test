@@ -4,12 +4,10 @@ import { GraphService } from './services/graph.service';
 import { AnchorItem } from './interfaces/anchor-item.interface';
 import { GraphTarget } from './interfaces/graph-target.interface';
 import { TriggerType } from '../trigger-type.class';
+import { BaseGameStructure } from '../game-structures/base-game-structure.class';
 
 @JsonObject("GraphTrigger")
-export class GraphTrigger implements GraphTarget {
-
-  parentGraphItem: GraphItem;
-  graphService: GraphService;
+export class GraphTrigger extends BaseGameStructure implements GraphTarget {
 
   onTriggerAnchor: AnchorItem = {
     id: "ontrigger",
@@ -26,7 +24,7 @@ export class GraphTrigger implements GraphTarget {
   ];
 
   constructor() {
-
+    super();
   };
 
   init() {
@@ -40,15 +38,6 @@ export class GraphTrigger implements GraphTarget {
       });
     }
   }
-
-  @JsonProperty("id")
-  id = "";
-
-  @JsonProperty("n")
-  name = "";
-
-  @JsonProperty("d")
-  description = "";
 
   @JsonProperty("t")
   type = "";
