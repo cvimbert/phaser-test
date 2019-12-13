@@ -30,6 +30,14 @@ export class GraphItem {
 
   targetItem: GraphTarget;
 
+  init(target: GraphTarget, graphService: GraphService) {
+    this.targetItem = target;
+    target.graphService = graphService;
+    target.parentGraphItem = this;
+
+    target.init();
+  }
+
   removeLink(link: OutLink) {
     let index = this.outLinks.indexOf(link);
     

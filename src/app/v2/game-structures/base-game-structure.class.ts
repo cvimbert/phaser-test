@@ -20,8 +20,8 @@ export class BaseGameStructure {
   description: string = "";
 
   // pas certain que les arguments soient les bons
-  init(targetItem: GraphTarget, graphService: GraphService, item: GraphItem) {
-    
+  init() {
+
   }
   
 }

@@ -23,6 +23,13 @@ import { DataBank } from '../v2/data-bank.class';
 })
 export class GraphViewComponent implements OnInit {
 
+  banks: { [key: string]: DataBank<any> } = {
+    [GraphItemType.TRANSITION]: this.transitionsService,
+    [GraphItemType.TIMER]: this.graphService.graphTimerItems,
+    [GraphItemType.TRIGGER]: this.graphService.graphTriggerItems,
+    [GraphItemType.ANCHOR]: this.graphService.graphAnchorItems
+  };
+
   @ViewChild("canvasElement") canvasElement: ElementRef;
   @ViewChild("canvasContainer") canvasContainer: ElementRef;
   @ViewChildren("itemComponent") itemComponents: QueryList<BaseGraphItemComponent>;
@@ -78,13 +85,6 @@ export class GraphViewComponent implements OnInit {
     }; 
 
     this.items = [];
-
-    /*for (let key in this.testItems) {
-      let item = this.testItems[key];
-      item.id = key;
-      this.items.push(item);
-    }*/
-
     this.game = new Game(config);
     
     // en attendant mieux
@@ -96,33 +96,22 @@ export class GraphViewComponent implements OnInit {
     });
 
     // on set ici toutes les targets, à savoir si c'est une bonne idée...
+    // effectivement non, ça ne se fait qu'à l'init...
     this.graphService.graphItems.items.forEach(item => {
-      // en attendant mieux
-
-      let banks: { [key: string]: DataBank<any> } = {
-        [GraphItemType.TRANSITION]: this.transitionsService,
-        [GraphItemType.TIMER]: this.graphService.graphTimerItems,
-        [GraphItemType.TRIGGER]: this.graphService.graphTriggerItems,
-        [GraphItemType.ANCHOR]: this.graphService.graphAnchorItems
-      };
-
-      let tItem = banks[item.type].getItemById(item.itemId);
-      item.targetItem = tItem;
-
-      console.log(item.type, item.itemId, item.targetItem);
-
-      item.targetItem.graphService = this.graphService;
-      item.targetItem.parentGraphItem = item;
-      
-      if (item.targetItem.init) {
-        item.targetItem.init(tItem, this.graphService, item);
-      }
-
-      if (item.type === GraphItemType.TRANSITION) {
-        (<Transition>item.targetItem).cloudService = this.cloudService;
-        (<Transition>item.targetItem).transitionsService = this.transitionsService;
-      }
+      this.initGraphItem(item);
     });
+  }
+
+  initGraphItem(item: GraphItem) {
+    let tItem = this.banks[item.type].getItemById(item.itemId);
+
+    item.init(tItem, this.graphService);
+
+    // attention, cas particulier
+    if (item.type === GraphItemType.TRANSITION) {
+      (<Transition>item.targetItem).cloudService = this.cloudService;
+      (<Transition>item.targetItem).transitionsService = this.transitionsService;
+    }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -144,7 +133,8 @@ export class GraphViewComponent implements OnInit {
       }
     }).afterClosed().subscribe((target: GraphTarget) => {      
       if (target) {
-        this.graphService.createGraphItem(this.selectedGraphItemType, target);
+        let newItem = this.graphService.createGraphItem(this.selectedGraphItemType, target);
+        this.initGraphItem(newItem);
         this.update();
       }
     });

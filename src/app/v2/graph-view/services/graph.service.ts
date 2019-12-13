@@ -225,7 +225,7 @@ export class GraphService {
     }
   }
 
-  createGraphItem(type: string, target: GraphTarget) {
+  createGraphItem(type: string, target: GraphTarget): GraphItem {
     let item = this.graphItems.createItem({
       description: "",
       name: ""
@@ -238,6 +238,8 @@ export class GraphService {
     item.targetItem = target;
     item.targetItem.parentGraphItem = item;
     item.graphService = this;
+
+    return item;
   }
 
   saveGraphItems() {
