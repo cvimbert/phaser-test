@@ -78,7 +78,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   // les deux méthodes suivantes peuvent être réunies en une seule
   triggerIn(anchor: AnchorItem) {
-    console.log("triggered:", anchor);
+    // console.log("triggered:", anchor);
     anchor.callback();
 
     // highlighting de l'ancre
@@ -88,7 +88,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   triggerOut(anchor: AnchorItem) {
 
     // ces ancres là ne sont que des sorties, on n'éxécute pas de code particulier
-    console.log("triggered:", anchor);
+    // console.log("triggered:", anchor);
     
     // anchor.callback();
     this.graphservice.playOut(anchor, this.data);

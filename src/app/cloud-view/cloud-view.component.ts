@@ -401,7 +401,7 @@ export class CloudViewComponent implements OnInit, OnDestroy {
             completedTweenPropsCount++;
 
             if (completedTweenPropsCount === propsNumber) {
-              console.log("tween complete");
+              // console.log("tween complete");
 
               if (data.onComplete) {
                 data.onComplete();

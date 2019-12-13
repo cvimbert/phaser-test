@@ -235,6 +235,7 @@ export class GraphService {
     item.itemId = target.id;
 
     // Peut-être pas une bonne idée de passer la target dans l'objet... à voir
+    // A priori plus utile, c'est fait ailleurs
     item.targetItem = target;
     item.targetItem.parentGraphItem = item;
     item.graphService = this;

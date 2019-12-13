@@ -55,13 +55,13 @@ export class TransitionsService extends DataBank<Transition> {
         easing: Number(transition.easingType),
         state: targetState,
         onComplete: () => {
-          console.log("Completed 2");
+          // console.log("Completed 2");
           if (onComplete) {
             onComplete();
           }
         },
         onStart: () => {
-          console.log("Started 2");
+          // console.log("Started 2");
           if (onStart) {
             onStart();
           }
