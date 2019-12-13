@@ -10,5 +10,6 @@ export interface GraphTarget {
     outAnchors: AnchorItem[];
     graphService: GraphService;
     parentGraphItem: GraphItem;
+    label: string;
     init?(): void;
 }

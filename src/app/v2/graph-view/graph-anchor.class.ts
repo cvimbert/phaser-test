@@ -9,6 +9,8 @@ export class GraphAnchor extends BaseGameStructure implements GraphTarget {
   inAnchors: AnchorItem[] = [];
   outAnchors: AnchorItem[] = [];
 
+  label = "";
+
   baseOutAnchor: AnchorItem = {
     id: "ontriggered",
     label: "On triggered",
@@ -38,6 +40,8 @@ export class GraphAnchor extends BaseGameStructure implements GraphTarget {
         this.baseInAnchor
       ];
     }
+
+    this.label = this.name;
   }
 
   @JsonProperty("t")

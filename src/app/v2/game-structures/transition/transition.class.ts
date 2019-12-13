@@ -12,6 +12,7 @@ export class Transition extends BaseGameStructure implements GraphTarget {
   // ou bien un graph manager, ce qui permettrait de sortir de la structure d'angular
   
   transitionsService: TransitionsService;
+  label = "";
 
   playItem: AnchorItem = {
     id: "play",
@@ -66,6 +67,10 @@ export class Transition extends BaseGameStructure implements GraphTarget {
 
   constructor() {
     super();
+  }
+
+  init() {
+    this.label = this.name;
   }
 
   @JsonProperty("stid", String)

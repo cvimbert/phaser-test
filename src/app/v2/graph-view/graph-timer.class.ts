@@ -39,8 +39,14 @@ export class GraphTimer extends BaseGameStructure implements GraphTarget {
     this.onTimeoutAnchor
   ];
 
+  label = "";
+
   constructor() {
     super();
+  }
+
+  init() {
+    this.label = "Timer: " + this.duration + "s";
   }
 
   @JsonProperty("d", Number)

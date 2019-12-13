@@ -23,6 +23,8 @@ export class GraphTrigger extends BaseGameStructure implements GraphTarget {
     this.onTriggerAnchor
   ];
 
+  label = "";
+
   constructor() {
     super();
   };
@@ -37,6 +39,8 @@ export class GraphTrigger extends BaseGameStructure implements GraphTarget {
         }
       });
     }
+
+    // this.label = this.name
   }
 
   @JsonProperty("t")

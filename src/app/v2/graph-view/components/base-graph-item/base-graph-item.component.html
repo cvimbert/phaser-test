@@ -2,15 +2,12 @@
   
   <div class="tools-container">
     <div class="tools">
-      <!-- <span id="drag-anchor-{{ pos }}" class="drag-anchor tool">
-        <i class="fas fa-arrows-alt"></i>
-      </span> -->
       <span class="tool deletion" (click)="tryDeleteItem()">
         <i class="fa fa-trash-alt"></i>
       </span>
     </div>
 
-    <div #triggerElement class="item-type">{{ data.targetItem.name }}</div>
+    <div #triggerElement class="item-type">{{ data.targetItem.label }}</div>
   </div>
  
   <div class="content">
