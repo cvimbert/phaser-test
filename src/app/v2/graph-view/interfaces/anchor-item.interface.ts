@@ -3,4 +3,5 @@ export interface AnchorItem {
   label: string;
   type?: string;
   callback?: Function;
+  displayCondition?(): boolean;
 }

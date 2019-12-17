@@ -63,7 +63,9 @@ export class GraphService {
   addAnchor(item: GraphItem, anchors: AnchorItem[], inOut: string) {
     this.dialog.open(AddAnchorModalComponent, {
       data: <AddAnchorModalData>{
-        anchors: anchors,
+        anchors: anchors.filter(anchor => {
+          return anchor.displayCondition ? anchor.displayCondition() : true;
+        }),
         graphItem: item
       }
     }).afterClosed().subscribe((serializableItem: SerializableAnchorItem) => {

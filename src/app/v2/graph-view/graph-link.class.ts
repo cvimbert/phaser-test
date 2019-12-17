@@ -34,7 +34,7 @@ export class GraphLink {
   }
 
   drawLink(color = 0x000000) {
-    if (!this.scene) return;
+    if (!this.scene || !this.scene.add) return;
 
     if (!this.lineGraphics) {
       this.lineGraphics = this.scene.add.graphics();
