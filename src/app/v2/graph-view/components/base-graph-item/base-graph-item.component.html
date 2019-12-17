@@ -5,9 +5,6 @@
       <span class="tool deletion" (click)="tryDeleteItem()">
         <i class="fa fa-trash-alt"></i>
       </span>
-      <span class="tool add" (click)="addAnchor()">
-        <i class="fa fa-plus"></i>
-      </span>
     </div>
 
     <div #triggerElement class="item-type">{{ data.targetItem.label }}</div>
@@ -15,9 +12,9 @@
  
   <div class="content">
 
-    <div class="column left-column" *ngIf="inAnchors.length > 0" [class.no-right-border]="outAnchors.length === 0">
+    <div class="column left-column">
       <div class="command in"
-        *ngFor="let anchor of inAnchors"
+        *ngFor="let anchor of data.inAnchors"
         (click)="triggerIn(anchor)"
       >
       <graph-anchor
@@ -28,11 +25,16 @@
         [parentItem]="this"
       ></graph-anchor>
       </div>
+      <div class="add-container" (click)="addAnchor(inAnchors, 'in')">
+        <span>
+          <i class="fa fa-plus"></i>
+        </span>
+      </div>
     </div>
 
-    <div class="column right-column" *ngIf="outAnchors.length > 0">
+    <div class="column right-column">
       <div class="command out"
-        *ngFor="let anchor of outAnchors"
+        *ngFor="let anchor of data.outAnchors"
         (click)="triggerOut(anchor)"
       >
       <graph-anchor
@@ -42,6 +44,12 @@
         [id]="anchor.id"
         [parentItem]="this"
       ></graph-anchor>
+      </div>
+
+      <div class="add-container" (click)="addAnchor(outAnchors, 'out')">
+        <span>
+          <i class="fa fa-plus"></i>
+        </span>
       </div>
     </div>
     

@@ -130,8 +130,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     this.graphservice.tryDeleteItem(this);
   }
 
-  addAnchor() {
-    this.graphservice.addAnchor();
+  addAnchor(anchors: AnchorItem[], inOut: string) {
+    this.graphservice.addAnchor(this.data, anchors, inOut);
   }
 
   sendPosition(positionPoint: Point) {

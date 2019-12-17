@@ -56,7 +56,7 @@ export class GraphTimer extends BaseGameStructure implements GraphTarget {
 
   start() {
     this.timeout = setTimeout(() => {
-      this.graphService.playIn(this.onTimeoutAnchor, this.parentGraphItem);
+      this.graphService.playAllIn(this.onTimeoutAnchor, this.parentGraphItem);
     }, this.duration * 1000);
   }
 

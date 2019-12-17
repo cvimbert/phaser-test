@@ -34,8 +34,21 @@
   display: flex;
   white-space: nowrap;
   padding: 12px;
+  padding-left: 5px;
   padding-top: 5px;
-  padding-bottom: 3px;
+  padding-bottom: 5px;
+}
+
+.add-container {
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+
+  opacity: 0.5;
+  
+  &:hover {
+   opacity: 1;
+  }
 }
 
 .tools {
@@ -55,6 +68,12 @@
 
   .deletion, .add {
     cursor: pointer;
+
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 

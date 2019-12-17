@@ -20,6 +20,8 @@ import { GraphTrigger } from '../graph-trigger.class';
 import { GraphAnchor } from '../graph-anchor.class';
 import { Variable } from '../../game-structures/variable/variable.class';
 import { AddAnchorModalComponent } from '../components/add-anchor-modal/add-anchor-modal.component';
+import { SerializableAnchorItem } from '../serializable-anchor-item.class';
+import { AddAnchorModalData } from '../interfaces/add-anchor-modal-data.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -58,9 +60,14 @@ export class GraphService {
     return this.pTempDrawing;
   }
 
-  addAnchor() {
-    this.dialog.open(AddAnchorModalComponent).afterClosed().subscribe(() => {
-
+  addAnchor(item: GraphItem, anchors: AnchorItem[], inOut: string) {
+    this.dialog.open(AddAnchorModalComponent, {
+      data: <AddAnchorModalData>{
+        anchors: anchors,
+        graphItem: item
+      }
+    }).afterClosed().subscribe((serializableItem: SerializableAnchorItem) => {
+      item.pushItem(serializableItem, inOut);
     });
   }
 
@@ -211,7 +218,7 @@ export class GraphService {
 
     outLinks.forEach(link => {
       let targetItem = this.graphItems.items.find(item => item.id === link.targetObject);      
-      let targetProp = targetItem.targetItem.inAnchors.find(anchor => anchor.id === link.targetProperty);
+      let targetProp = targetItem.inAnchors.find(anchor => anchor.id === link.targetProperty);
 
       if (!targetProp) {
         console.warn("No targetProp for", targetItem);
@@ -222,10 +229,24 @@ export class GraphService {
     });
   }
 
+  playAllIn(inAnchor: AnchorItem, graphItem: GraphItem) {
+    // GraphUtils.timeLog("play in: " + graphItem.id + " -> " + inAnchor.id);
+
+    // pas clean de filtrer sur les callback, on devrait le faire sur un type
+    let incs = graphItem.outAnchors.filter(anchor => anchor.type === inAnchor.id);
+    
+    incs.forEach(inc => {
+      this.playIn(inc, graphItem);
+      this.playOut(inc, graphItem);
+    });
+  }
+
   playIn(inAnchor: AnchorItem, graphItem: GraphItem) {
     // GraphUtils.timeLog("play in: " + graphItem.id + " -> " + inAnchor.id);
 
+    // on doit activer tous les liens du type donné
     let baseItem = this.mainView.itemComponents.find(item => item.data.id === graphItem.id);
+    
     baseItem.getAnchor(inAnchor.id).highlight();
 
     if (inAnchor.callback) {

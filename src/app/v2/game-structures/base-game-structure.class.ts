@@ -2,15 +2,13 @@ import { GraphService } from '../graph-view/services/graph.service';
 import { CloudService } from '../services/cloud.service';
 import { JsonProperty } from 'json2typescript';
 import { GraphItem } from '../graph-view/graph-item.class';
+import { SerializableAnchorItem } from '../graph-view/serializable-anchor-item.class';
 
 export class BaseGameStructure {
 
   graphService: GraphService;
   cloudService: CloudService;
   parentGraphItem: GraphItem;
-
-  @JsonProperty("ianchor", Number)
-  anchorIndex = 0;
 
   @JsonProperty("id", String)
   id = "";
@@ -24,5 +22,4 @@ export class BaseGameStructure {
   init() {
 
   }
-  
 }

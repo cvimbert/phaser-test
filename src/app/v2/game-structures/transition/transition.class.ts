@@ -94,9 +94,9 @@ export class Transition extends BaseGameStructure implements GraphTarget {
 
   play() {
     this.transitionsService.initiateTween(this, () => {
-      this.graphService.playIn(this.onStartItem, this.parentGraphItem);
+      this.graphService.playAllIn(this.onStartItem, this.parentGraphItem);
     }, () => {
-      this.graphService.playIn(this.onCompleteItem, this.parentGraphItem);
+      this.graphService.playAllIn(this.onCompleteItem, this.parentGraphItem);
     });
   }
 
