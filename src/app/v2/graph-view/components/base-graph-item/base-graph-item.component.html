@@ -5,6 +5,9 @@
       <span class="tool deletion" (click)="tryDeleteItem()">
         <i class="fa fa-trash-alt"></i>
       </span>
+      <span class="tool add" (click)="addAnchor()">
+        <i class="fa fa-plus"></i>
+      </span>
     </div>
 
     <div #triggerElement class="item-type">{{ data.targetItem.label }}</div>

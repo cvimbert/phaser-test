@@ -17,6 +17,10 @@ export class Variable extends BaseGameStructure implements GraphTarget {
       }
     }
   ];
+
+  init() {
+    this.label = this.type + " (" + this.value + ")";
+  }
   
   @JsonProperty("type", String)
   type = "";

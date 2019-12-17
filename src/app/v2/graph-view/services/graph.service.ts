@@ -19,6 +19,7 @@ import { GraphTimer } from '../graph-timer.class';
 import { GraphTrigger } from '../graph-trigger.class';
 import { GraphAnchor } from '../graph-anchor.class';
 import { Variable } from '../../game-structures/variable/variable.class';
+import { AddAnchorModalComponent } from '../components/add-anchor-modal/add-anchor-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,12 @@ export class GraphService {
 
   get tempDrawing(): boolean {
     return this.pTempDrawing;
+  }
+
+  addAnchor() {
+    this.dialog.open(AddAnchorModalComponent).afterClosed().subscribe(() => {
+
+    });
   }
 
   getGraphItemByTarget(target: GraphTarget) {

@@ -31,7 +31,7 @@ export class Transition extends BaseGameStructure implements GraphTarget {
 
   resetItem = {
     id: "reset",
-    label: "Reset the animation",
+    label: "Reset",
     callback: () => {
       this.reset();
     }

@@ -1,7 +1,6 @@
 import { GraphService } from '../graph-view/services/graph.service';
 import { CloudService } from '../services/cloud.service';
 import { JsonProperty } from 'json2typescript';
-import { GraphTarget } from '../graph-view/interfaces/graph-target.interface';
 import { GraphItem } from '../graph-view/graph-item.class';
 
 export class BaseGameStructure {
@@ -10,16 +9,18 @@ export class BaseGameStructure {
   cloudService: CloudService;
   parentGraphItem: GraphItem;
 
+  @JsonProperty("ianchor", Number)
+  anchorIndex = 0;
+
   @JsonProperty("id", String)
-  id: string = "";
+  id = "";
 
   @JsonProperty("name", String)
-  name: string = "";
+  name = "";
 
   @JsonProperty("description", String)
-  description: string = "";
+  description = "";
 
-  // pas certain que les arguments soient les bons
   init() {
 
   }

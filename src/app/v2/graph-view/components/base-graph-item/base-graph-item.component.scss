@@ -44,14 +44,16 @@
   font-size: 15px;
 
   .tool {
+    // padding-right: 4px;
+
     &.drag-anchor {
       margin-right: 15px;
     }
 
-    margin-right: 4px;
+    margin-right: 6px;
   }
 
-  .deletion {
+  .deletion, .add {
     cursor: pointer;
   }
 }
