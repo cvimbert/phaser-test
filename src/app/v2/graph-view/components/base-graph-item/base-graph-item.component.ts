@@ -80,6 +80,11 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
 
   toggleEditionMode() {
     this.editionMode = !this.editionMode;
+
+    // pour refresh des liens, un peu tordu
+    setTimeout(() => {
+      this.sendPosition(this.currentPos);
+    });
   }
 
   // les deux méthodes suivantes peuvent être réunies en une seule

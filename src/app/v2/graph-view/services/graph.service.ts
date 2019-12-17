@@ -67,7 +67,9 @@ export class GraphService {
         graphItem: item
       }
     }).afterClosed().subscribe((serializableItem: SerializableAnchorItem) => {
-      item.pushItem(serializableItem, inOut);
+      if (serializableItem) {
+        item.pushItem(serializableItem, inOut);
+      }
     });
   }
 
