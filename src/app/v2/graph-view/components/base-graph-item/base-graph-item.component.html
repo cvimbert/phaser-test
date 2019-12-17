@@ -12,7 +12,7 @@
  
   <div class="content">
 
-    <div class="column left-column">
+    <div class="column left-column" *ngIf="inAnchors.length > 0" [class.no-right-border]="outAnchors.length === 0">
       <div class="command in"
         *ngFor="let anchor of data.inAnchors"
         (click)="triggerIn(anchor)"
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="column right-column">
+    <div class="column right-column" *ngIf="outAnchors.length > 0">
       <div class="command out"
         *ngFor="let anchor of data.outAnchors"
         (click)="triggerOut(anchor)"
