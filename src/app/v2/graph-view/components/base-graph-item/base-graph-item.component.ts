@@ -35,6 +35,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   // utile ou pas ?
   links: GraphLink[] = [];
 
+  editionMode = false;
+
   constructor(
     public graphservice: GraphService
   ) { }
@@ -74,6 +76,10 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     })[0];
 
     this.graphservice.registerItemComponent(this.data.id, this);
+  }
+
+  toggleEditionMode() {
+    this.editionMode = !this.editionMode;
   }
 
   // les deux méthodes suivantes peuvent être réunies en une seule

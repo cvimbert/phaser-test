@@ -1,7 +1,7 @@
 <div [class.highlighted]="highlighted">
-  <span class="deletion right" *ngIf="type === 'right'" (click)="deleteAnchor($event)"><i class="fa fa-minus"></i></span>
+  <span class="deletion right" *ngIf="parentItem.editionMode && type === 'right'" (click)="deleteAnchor($event)"><i class="fa fa-minus"></i></span>
   <span class="anchor-label">{{ data.label }}</span>
-  <span class="deletion left" *ngIf="type === 'left'" (click)="deleteAnchor($event)"><i class="fa fa-minus"></i></span>
+  <span class="deletion left" *ngIf="parentItem.editionMode && type === 'left'" (click)="deleteAnchor($event)"><i class="fa fa-minus"></i></span>
   <div
     #banchor
     (mousedown)="onAnchorClicked()"

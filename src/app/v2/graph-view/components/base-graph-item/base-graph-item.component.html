@@ -5,6 +5,13 @@
       <span class="tool deletion" (click)="tryDeleteItem()">
         <i class="fa fa-trash-alt"></i>
       </span>
+      <span class="tool lock">
+        <i class="fas fa-lock"
+          [class.fa-lock]="!editionMode"
+          [class.fa-lock-open]="editionMode"
+          (click)="toggleEditionMode()"
+        ></i>
+      </span>
     </div>
 
     <div #triggerElement class="item-type">{{ data.targetItem.label }}</div>
@@ -25,7 +32,7 @@
         [parentItem]="this"
       ></graph-anchor>
       </div>
-      <div class="add-container" (click)="addAnchor(inAnchors, 'in')">
+      <div class="add-container" (click)="addAnchor(inAnchors, 'in')" *ngIf="editionMode">
         <span>
           <i class="fa fa-plus"></i>
         </span>
@@ -46,7 +53,7 @@
       ></graph-anchor>
       </div>
 
-      <div class="add-container" (click)="addAnchor(outAnchors, 'out')">
+      <div class="add-container" (click)="addAnchor(outAnchors, 'out')" *ngIf="editionMode">
         <span>
           <i class="fa fa-plus"></i>
         </span>
