@@ -241,6 +241,32 @@ export class GraphService {
     });
   }
 
+  deleteAnchor(anchor: AnchorItem, graphItem: GraphItem) {
+    this.dialog.open(GenericMessageModalComponent, {
+      data: {
+        text: "Delete anchor ?"
+      }
+    }).afterClosed().subscribe((resp: string) => {
+      if (resp === GenericModalActions.YES) {
+        let anc = graphItem.inActiveAnchors.find(inAnchor => inAnchor.id === anchor.id);
+        let prov = graphItem.inActiveAnchors;
+
+        if (!anc) {
+          anc = graphItem.outActiveAnchors.find(outAnchor => outAnchor.id === anchor.id);
+          prov = graphItem.outActiveAnchors;
+        }
+
+        if (anc) {
+          let index = prov.indexOf(anc);
+          prov.splice(index, 1);
+          graphItem.generateAnchors();
+        } else {
+          console.warn("No anchor to delete.");
+        }
+      }
+    });
+  }
+
   playIn(inAnchor: AnchorItem, graphItem: GraphItem) {
     // GraphUtils.timeLog("play in: " + graphItem.id + " -> " + inAnchor.id);
 

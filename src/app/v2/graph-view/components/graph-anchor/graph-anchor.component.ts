@@ -73,6 +73,16 @@ export class GraphAnchorComponent implements OnInit {
     this.graphService.startDrawTemporaryLink(this);
   }
 
+  deleteAnchor(evt: MouseEvent) {
+
+    // lequel est le bon ?? :)
+    evt.stopImmediatePropagation();
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    this.graphService.deleteAnchor(this.data, this.parentItem.data);
+  }
+
   getClientPosition(): Point {
     let rect: DOMRect = this.bAnchor.nativeElement.getBoundingClientRect();
     
