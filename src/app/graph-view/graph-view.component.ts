@@ -150,12 +150,6 @@ export class GraphViewComponent implements OnInit {
   }
 
   loadPositions() {
-
-    // plus utile bientôt ??
-    //this.positionsDictionary.load();
-
-    //this.graphService.graphItems.load();
-
     let comps: { [key: string]: BaseGraphItemComponent } = {};
 
     this.itemComponents.forEach(item => {

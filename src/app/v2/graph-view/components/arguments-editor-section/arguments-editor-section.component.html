@@ -1,0 +1,40 @@
+<div class="arg-name section">{{ arg.name }}</div>
+<div class="type-buttons section">
+  <div class="button"
+    *ngIf="isOfType('string')"
+    [class.selected]="selectedType === 'string'"
+    (click)="select('string')"
+  >String</div>
+  <div class="button"
+    *ngIf="isOfType('number')"
+    [class.selected]="selectedType === 'number'"
+    (click)="select('number')"
+  >Number</div>
+  <div class="button"
+    *ngIf="isOfType('boolean')"
+    [class.selected]="selectedType === 'boolean'"
+    (click)="select('boolean')"
+  >Boolean</div>
+  <div class="button"
+    *ngIf="isOfType('reference')"
+    [class.selected]="selectedType === 'reference'"
+    (click)="select('reference')"
+  >Reference</div>
+</div>
+<div class="section">
+  <div *ngIf="selectedType === 'string'">
+    <input type="text" [(ngModel)]="value">
+  </div>
+  <div *ngIf="selectedType === 'number'">
+    <input type="number" [(ngModel)]="value">
+  </div>
+  <div *ngIf="selectedType === 'boolean'">
+    <select [(ngModel)]="value">
+      <option value="true">True</option>
+      <option value="false">False</option>
+    </select>
+  </div>
+  <div *ngIf="selectedType === 'reference'">
+    WIP
+  </div>
+</div>

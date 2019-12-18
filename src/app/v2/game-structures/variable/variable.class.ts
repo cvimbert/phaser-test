@@ -17,16 +17,22 @@ export class Variable extends BaseGameStructure implements GraphTarget {
     }
   };
 
-  outAnchors = [
+  outAnchors: AnchorItem[] = [
     this.afterAnchor
   ];
 
-  inAnchors = [
+  inAnchors: AnchorItem[] = [
     {
       id: "set",
       label: "Set",
       callback: () => {
 
+      },
+      arguments: {
+        value: {
+          name: "Value",
+          type: () => this.type
+        }
       }
     },
     {

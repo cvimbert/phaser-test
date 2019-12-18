@@ -22,6 +22,8 @@ import { Variable } from '../../game-structures/variable/variable.class';
 import { AddAnchorModalComponent } from '../components/add-anchor-modal/add-anchor-modal.component';
 import { SerializableAnchorItem } from '../serializable-anchor-item.class';
 import { AddAnchorModalData } from '../interfaces/add-anchor-modal-data.interface';
+import { ArgumentsEditorModalComponent } from '../components/arguments-editor-modal/arguments-editor-modal.component';
+import { ArgumentValue } from '../argument-value.class';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +73,22 @@ export class GraphService {
     }).afterClosed().subscribe((serializableItem: SerializableAnchorItem) => {
       if (serializableItem) {
         item.pushItem(serializableItem, inOut);
+
+        // arguments
+        let anchor = anchors.find(anchor => anchor.id === serializableItem.type);        
+
+        if (anchor.arguments) {
+          this.dialog.open(ArgumentsEditorModalComponent, {
+            data: {
+              arguments: anchor.arguments
+            }
+          }).afterClosed().subscribe((args: ArgumentValue[]) => {
+            if (args) {
+              serializableItem.arguments = args;
+            }
+          });
+        }
+        
       }
     });
   }

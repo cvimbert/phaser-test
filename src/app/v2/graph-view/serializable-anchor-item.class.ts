@@ -1,4 +1,5 @@
 import { JsonObject, JsonProperty } from 'json2typescript';
+import { ArgumentValue } from './argument-value.class';
 
 @JsonObject("SerializableAnchorItem")
 export class SerializableAnchorItem {
@@ -8,4 +9,7 @@ export class SerializableAnchorItem {
 
   @JsonProperty("type", String)
   type = "";
+
+  @JsonProperty("args", [ArgumentValue])
+  arguments: ArgumentValue[] = [];
 }

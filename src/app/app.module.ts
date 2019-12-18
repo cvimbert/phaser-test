@@ -38,6 +38,8 @@ import { TriggerCreationModalComponent } from './v2/graph-view/components/trigge
 import { GraphAnchorModalComponent } from './v2/graph-view/components/graph-anchor-modal/graph-anchor-modal.component';
 import { VariableEditionModalComponent } from './v2/game-structures/variable/variable-edition-modal/variable-edition-modal.component';
 import { AddAnchorModalComponent } from './v2/graph-view/components/add-anchor-modal/add-anchor-modal.component';
+import { ArgumentsEditorModalComponent } from './v2/graph-view/components/arguments-editor-modal/arguments-editor-modal.component';
+import { ArgumentsEditorSectionComponent } from './v2/graph-view/components/arguments-editor-section/arguments-editor-section.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { AddAnchorModalComponent } from './v2/graph-view/components/add-anchor-m
     TriggerCreationModalComponent,
     GraphAnchorModalComponent,
     VariableEditionModalComponent,
-    AddAnchorModalComponent
+    AddAnchorModalComponent,
+    ArgumentsEditorModalComponent,
+    ArgumentsEditorSectionComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +88,8 @@ import { AddAnchorModalComponent } from './v2/graph-view/components/add-anchor-m
     TriggerCreationModalComponent,
     GraphAnchorModalComponent,
     VariableEditionModalComponent,
-    AddAnchorModalComponent
+    AddAnchorModalComponent,
+    ArgumentsEditorModalComponent
   ],
   providers: [
     NodeEditorService,

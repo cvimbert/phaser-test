@@ -1,0 +1,20 @@
+.type-buttons {
+
+  .button {
+    display: inline;
+    border: 1px solid black;
+    padding: 3px;
+    opacity: 0.5;
+    margin: 3px;
+    cursor: pointer;
+
+    &.selected {
+      opacity: 1;
+    }
+  }
+}
+
+.section {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
