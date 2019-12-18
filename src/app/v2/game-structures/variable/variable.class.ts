@@ -2,13 +2,24 @@ import { BaseGameStructure } from '../base-game-structure.class';
 import { GraphTarget } from '../../graph-view/interfaces/graph-target.interface';
 import { JsonProperty, JsonObject, Any } from 'json2typescript';
 import { VariableType } from './variable-type.class';
+import { AnchorItem } from '../../graph-view/interfaces/anchor-item.interface';
 
 @JsonObject("Variable")
 export class Variable extends BaseGameStructure implements GraphTarget {
 
   label = "Test";
 
-  outAnchors = [];
+  afterAnchor: AnchorItem = {
+    id: "after",
+    label: "After",
+    callback: () => {
+      this.onAfter();
+    }
+  };
+
+  outAnchors = [
+    this.afterAnchor
+  ];
 
   inAnchors = [
     {
@@ -62,13 +73,23 @@ export class Variable extends BaseGameStructure implements GraphTarget {
 
   }
 
+  triggerAfter() {
+    this.graphService.playAllIn(this.afterAnchor, this.parentGraphItem);
+  }
+
   increment() {
     this.currentValue++;
     this.initLabel(true);
+    this.triggerAfter();
   }
 
   reset() {
     this.currentValue = this.value;
     this.initLabel(true);
+    this.triggerAfter();
+  }
+
+  onAfter() {
+    this.graphService.playOut(this.afterAnchor, this.parentGraphItem);
   }
 }

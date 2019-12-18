@@ -101,10 +101,8 @@ export class Transition extends BaseGameStructure implements GraphTarget {
   }
 
   stop() {
-    // console.log(this.id + ": stop");
   }
 
   reset() {
-    // console.log(this.id + ": reset");
   }
 }
