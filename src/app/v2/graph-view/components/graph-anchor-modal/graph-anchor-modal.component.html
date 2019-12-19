@@ -1,11 +1,11 @@
 <div>
-  <select [(ngModel)]="type">
+  <select [(ngModel)]="type" [disabled]="!!item">
     <option value="in">In</option>
     <option value="out">Out</option>
   </select>
 </div>
 <div>
-  <input type="text" [(ngModel)]="anchorId" placeholder="id">
+  <input type="text" [(ngModel)]="anchorId" placeholder="id" [disabled]="!!item">
 </div>
 <div>
   <input type="text" [(ngModel)]="anchorName" placeholder="name">

@@ -6,11 +6,14 @@ import Draggable from "gsap/Draggable";
 import { TweenLite } from 'gsap';
 import { GraphService } from '../../services/graph.service';
 import { BehaviorSubject, from } from 'rxjs';
-import { Rectangle } from 'src/app/v2/rectangle.class';
 import { GraphItem } from '../../graph-item.class';
 import { AnchorItem } from '../../interfaces/anchor-item.interface';
 import { GraphLink } from '../../graph-link.class';
 import { OutLink } from '../../out-link.class';
+import { GraphItemType } from '../../graph-item-type.class';
+import { MatDialog } from '@angular/material/dialog';
+import { GraphTarget } from '../../interfaces/graph-target.interface';
+import { GraphTargetSelectionModalComponent } from '../graph-target-selection-modal/graph-target-selection-modal.component';
 
 @Component({
   selector: 'base-graph-item',
@@ -38,7 +41,8 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   editionMode = false;
 
   constructor(
-    public graphservice: GraphService
+    public graphservice: GraphService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {  
@@ -142,7 +146,37 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   }
 
   editItem() {
-    
+    // this.graphservice.editItem(this.data);
+
+    let modalComponent: any = GraphItemType.ITEMS_CREATION_MODAL_COMPONENT[this.data.type];
+
+    let data: Object = {
+      item: this.data.targetItem
+    };
+
+    if (!modalComponent) {
+      modalComponent = GraphTargetSelectionModalComponent;
+      data["type"] = this.data.type;
+    }
+
+    this.dialog.open(modalComponent, {
+      data: data
+    }).afterClosed().subscribe((target: GraphTarget) => {
+
+      if (target) {
+
+        if (modalComponent === GraphTargetSelectionModalComponent) {
+          this.data.targetItem = target;
+          this.data.itemId = target.id;
+        }
+
+        if (this.data.targetItem.initLabel) {
+          this.data.targetItem.initLabel();
+          this.graphservice.mainView.update();
+        }
+      }
+      
+    });
   }
 
   addAnchor(anchors: AnchorItem[], inOut: string) {

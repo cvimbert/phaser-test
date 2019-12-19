@@ -81,7 +81,7 @@ export class Variable extends BaseGameStructure implements GraphTarget {
   }
 
   initLabel(update = false) {
-    this.label = this.type + " (" + this.currentValue + ")";
+    this.label = this.name + " - " + this.type + " (" + this.currentValue + ")";
 
     if (update) {
       this.graphService.mainView.update();

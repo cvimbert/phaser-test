@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GraphService } from '../../services/graph.service';
+import { GraphTimer } from '../../graph-timer.class';
 
 @Component({
   selector: 'app-graph-timer-modal',
@@ -10,23 +11,34 @@ import { GraphService } from '../../services/graph.service';
 export class GraphTimerModalComponent implements OnInit {
 
   timerValue = 0;
+  item: GraphTimer;
 
   constructor(
     private dialogRef: MatDialogRef<GraphTimerModalComponent>,
-    private graphService: GraphService
-  ) { }
+    private graphService: GraphService,
+    @Inject(MAT_DIALOG_DATA) data: Object
+  ) {
+    if (data["item"]) {
+      this.item = data["item"];
+      this.timerValue = this.item.duration;
+    }
+  }
 
   ngOnInit() {
   }
 
   validate() {
-    let timer = this.graphService.graphTimerItems.createItem({
-      name: "Timer",
-      description: ""
-    });
 
-    timer.duration = this.timerValue;
+    if (!this.item) {
+      this.item = this.graphService.graphTimerItems.createItem({
+        name: "Timer",
+        description: ""
+      });
+    }
+    
 
-    this.dialogRef.close(timer);
+    this.item.duration = this.timerValue;
+
+    this.dialogRef.close(this.item);
   }
 }

@@ -51,6 +51,10 @@ export class GraphTimer extends BaseGameStructure implements GraphTarget {
   }
 
   init() {
+    this.initLabel();
+  }
+
+  initLabel() {
     this.label = "Timer: " + this.duration + "s";
   }
 

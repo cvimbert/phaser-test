@@ -5,6 +5,7 @@ import { GraphTarget } from '../../interfaces/graph-target.interface';
 import { DiffsService } from 'src/app/v2/services/diffs.service';
 import { TransitionsService } from 'src/app/v2/services/transitions.service';
 import { GraphItemType } from '../../graph-item-type.class';
+import { Transition } from 'src/app/v2/game-structures/transition/transition.class';
 
 @Component({
   selector: 'app-graph-target-selection-modal',
@@ -16,18 +17,25 @@ export class GraphTargetSelectionModalComponent implements OnInit {
   selectedTargetId: string;
   graphTargets: GraphTarget[];
 
+  item: GraphTarget;
+
   constructor(
     private dialogRef: MatDialogRef<GraphTargetSelectionModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: GraphTargetModalData,
     public diffsService: DiffsService,
     public transitionsService: TransitionsService
-  ) { }
+  ) {
+    if (data["item"]) {
+      this.item = data["item"];
+      this.selectedTargetId = this.item.id;        
+    }
+  }
 
   ngOnInit() {
     if (this.data.type === GraphItemType.TRANSITION) {
       this.graphTargets = this.transitionsService.items;
 
-      if (this.graphTargets.length > 0) {
+      if (this.graphTargets.length > 0 && !this.item) {
         this.selectedTargetId = this.graphTargets[0].id;
       }
     }
@@ -45,5 +53,4 @@ export class GraphTargetSelectionModalComponent implements OnInit {
     // valeur de retour à améliorer potentiellement
     this.dialogRef.close(this.selectedTarget);
   }
-
 }

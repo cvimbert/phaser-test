@@ -1,9 +1,12 @@
-<div>
+<div *ngIf="!item">
   <select [(ngModel)]="type">
     <option value="string">String</option>
     <option value="number">Number</option>
     <option value="boolean">Boolean</option>
   </select>
+</div>
+<div>
+  Name: <input type="text" [(ngModel)]="name">
 </div>
 <div>
   <ng-container *ngIf="type === 'string'">

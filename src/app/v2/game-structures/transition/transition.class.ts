@@ -69,6 +69,10 @@ export class Transition extends BaseGameStructure implements GraphTarget {
   }
 
   init() {
+    this.initLabel();
+  }
+
+  initLabel() {
     this.label = this.name;
   }
 

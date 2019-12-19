@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnchorItem } from '../../interfaces/anchor-item.interface';
 import { SerializableAnchorItem } from '../../serializable-anchor-item.class';
-import { BaseGameStructure } from 'src/app/v2/game-structures/base-game-structure.class';
 import { AddAnchorModalData } from '../../interfaces/add-anchor-modal-data.interface';
 
 @Component({

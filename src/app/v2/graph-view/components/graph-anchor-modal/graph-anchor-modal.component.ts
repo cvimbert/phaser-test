@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { GraphService } from '../../services/graph.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GraphAnchor } from '../../graph-anchor.class';
 
 @Component({
@@ -14,23 +14,38 @@ export class GraphAnchorModalComponent implements OnInit {
   anchorName = "";
   anchorId = "";
 
+  item: GraphAnchor;
+
   constructor(
     private graphService: GraphService,
-    private dialogRef: MatDialogRef<GraphAnchorModalComponent, GraphAnchor>
-  ) { }
+    private dialogRef: MatDialogRef<GraphAnchorModalComponent, GraphAnchor>,
+    @Inject(MAT_DIALOG_DATA) data: Object
+  ) {
+    if (data["item"]) {
+      this.item = data["item"];
+      this.type = this.item.type;
+      this.anchorName = this.item.anchorName;
+      this.anchorId = this.item.anchorId;
+    }
+  }
 
   ngOnInit() {
+    
   }
 
   validate() {
-    let anchor = this.graphService.graphAnchorItems.createItem({
-      name: this.anchorName
-    });
+    if (!this.item) {
+      this.item = this.graphService.graphAnchorItems.createItem({
+        name: this.anchorName
+      });
+    } else {
+      this.item.name = this.anchorName;
+    }
+    
+    this.item.type = this.type;
+    this.item.anchorId = this.anchorId;
+    this.item.anchorName = this.anchorName;
 
-    anchor.type = this.type;
-    anchor.anchorId = this.anchorId;
-    anchor.anchorName = this.anchorName;
-
-    this.dialogRef.close(anchor);
+    this.dialogRef.close(this.item);
   }
 }

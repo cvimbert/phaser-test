@@ -12,4 +12,5 @@ export interface GraphTarget {
     parentGraphItem: GraphItem;
     label: string;
     init?(): void;
+    initLabel?(): void;
 }
