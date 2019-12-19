@@ -24,6 +24,8 @@ import { SerializableAnchorItem } from '../serializable-anchor-item.class';
 import { AddAnchorModalData } from '../interfaces/add-anchor-modal-data.interface';
 import { ArgumentsEditorModalComponent } from '../components/arguments-editor-modal/arguments-editor-modal.component';
 import { ArgumentValue } from '../argument-value.class';
+import { Argument } from '../interfaces/argument.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -78,19 +80,38 @@ export class GraphService {
         let anchor = anchors.find(anchor => anchor.id === serializableItem.type);        
 
         if (anchor.arguments) {
-          this.dialog.open(ArgumentsEditorModalComponent, {
-            data: {
-              arguments: anchor.arguments
-            }
-          }).afterClosed().subscribe((args: ArgumentValue[]) => {
+
+          this.displayArgumentModal(anchor.arguments).subscribe(args => {
             if (args) {
               serializableItem.arguments = args;
+              
+              // et dans les anchors affichées
+              //anchor.argumentValues = args;
+
+              let anchorToUpdate = item.inAnchors.find(anc => anc.id === serializableItem.id);
+              anchorToUpdate.argumentValues = args;
+
+              this.mainView.update();
             }
           });
         }
-        
       }
     });
+  }
+
+  displayArgumentModal(argsDic: { [key: string]: Argument }, values?: ArgumentValue[]): Observable<ArgumentValue[]> {
+
+    let data: Object = {
+      arguments: argsDic
+    };
+
+    if (values) {
+      data["values"] = values;
+    }
+
+    return this.dialog.open(ArgumentsEditorModalComponent, {
+      data: data
+    }).afterClosed();
   }
 
   getGraphItemByTarget(target: GraphTarget) {

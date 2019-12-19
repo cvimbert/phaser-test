@@ -2,15 +2,18 @@
   
   <div class="tools-container">
     <div class="tools">
-      <span class="tool deletion" (click)="tryDeleteItem()">
-        <i class="fa fa-trash-alt"></i>
-      </span>
       <span class="tool lock">
         <i class="fas fa-lock"
           [class.fa-lock]="!editionMode"
           [class.fa-lock-open]="editionMode"
           (click)="toggleEditionMode()"
         ></i>
+      </span>
+      <span class="tool edit" *ngIf="editionMode" (click)="editItem()">
+        <i class="fa fa-edit"></i>
+      </span>
+      <span class="tool deletion" *ngIf="editionMode" (click)="tryDeleteItem()">
+        <i class="fa fa-trash-alt"></i>
       </span>
     </div>
 

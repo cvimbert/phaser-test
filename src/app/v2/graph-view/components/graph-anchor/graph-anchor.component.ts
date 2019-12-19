@@ -5,6 +5,7 @@ import { BaseGraphItemComponent } from '../base-graph-item/base-graph-item.compo
 import { AnchorItem } from '../../interfaces/anchor-item.interface';
 import { trigger, state, style } from '@angular/animations';
 import { Configuration } from 'src/app/v2/configuration.class';
+import { Argument } from '../../interfaces/argument.interface';
 
 @Component({
   selector: 'graph-anchor',
@@ -74,12 +75,7 @@ export class GraphAnchorComponent implements OnInit {
   }
 
   deleteAnchor(evt: MouseEvent) {
-
-    // lequel est le bon ?? :)
-    evt.stopImmediatePropagation();
     evt.stopPropagation();
-    evt.preventDefault();
-
     this.graphService.deleteAnchor(this.data, this.parentItem.data);
   }
 
@@ -103,5 +99,22 @@ export class GraphAnchorComponent implements OnInit {
     } else {
       return this.data.label;
     }
+  }
+
+  displayArgs(evt: MouseEvent) {
+    evt.stopPropagation();
+
+    let argsDic: { [key: string]: Argument } = this.parentItem.data.targetItem.inAnchors.find(anchor => anchor.id === this.data.type).arguments;    
+    this.graphService.displayArgumentModal(argsDic, this.data.argumentValues).subscribe(args => {
+
+      if (args) {
+        this.data.argumentValues = args;
+
+        let elem = this.parentItem.data.inActiveAnchors.find(anchor => anchor.type === this.data.type);
+        elem.arguments = args;
+
+        this.graphService.mainView.update();
+      }
+    });
   }
 }

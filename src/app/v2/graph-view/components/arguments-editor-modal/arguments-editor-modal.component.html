@@ -1,4 +1,9 @@
-<arguments-editor-section #section *ngFor="let arg of argumentsArray" [arg]="arg"></arguments-editor-section>
+<arguments-editor-section
+  #section
+  *ngFor="let arg of argumentsArray"
+  [arg]="arg"
+  [values]="baseValues"
+></arguments-editor-section>
 <div>
   <input type="button" value="Validate" (click)="validate()">
 </div>

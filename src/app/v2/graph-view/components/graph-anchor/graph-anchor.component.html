@@ -1,12 +1,12 @@
-<div [class.highlighted]="highlighted">
-  <div class="args-displayer" *ngIf="hasArgs()">
+<div [class.highlighted]="highlighted" class="content">
+  <div class="args-displayer" *ngIf="hasArgs()" (click)="displayArgs($event)">
     <i class="fas fa-ellipsis-h"></i>
   </div>
   <span class="deletion right"
     *ngIf="parentItem.editionMode && type === 'right'"
     (click)="deleteAnchor($event)"
   ><i class="fa fa-minus"></i></span>
-  <span class="anchor-label">{{ getLabel() }}</span>
+  <span class="anchor-label" [innerHTML]="getLabel()"></span>
   <span class="deletion left"
     *ngIf="parentItem.editionMode && type === 'left'"
     (click)="deleteAnchor($event)"

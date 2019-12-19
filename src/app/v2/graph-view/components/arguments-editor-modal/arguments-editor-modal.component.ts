@@ -14,12 +14,17 @@ export class ArgumentsEditorModalComponent implements OnInit {
   @ViewChildren("section") sections: QueryList<ArgumentsEditorSectionComponent>;
   arguments: { [key: string]: Argument };
   argumentsArray: Argument[] = [];
+  baseValues: ArgumentValue[];
 
   constructor(
     private dialogRef: MatDialogRef<ArgumentsEditorModalComponent, ArgumentValue[]>,
-    @Inject(MAT_DIALOG_DATA) public data: Object
+    @Inject(MAT_DIALOG_DATA) data: Object
   ) {
     this.arguments = data["arguments"];
+
+    if (data["values"]) {
+      this.baseValues = data["values"];
+    }
   }
 
   ngOnInit() {

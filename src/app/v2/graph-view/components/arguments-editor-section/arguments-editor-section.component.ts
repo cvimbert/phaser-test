@@ -11,6 +11,7 @@ import { ArgumentValue } from '../../argument-value.class';
 export class ArgumentsEditorSectionComponent implements OnInit {
 
   @Input() arg: Argument;
+  @Input() values: ArgumentValue[];
   selectedType: string;
   value: any;
   argTypes: string | string[];
@@ -31,6 +32,14 @@ export class ArgumentsEditorSectionComponent implements OnInit {
     }
 
     this.select(this.selectedType);
+
+    if (this.values) {      
+      let valueArg = this.values.find(value => value.id === this.arg.id);
+
+      if (valueArg) {
+        this.value = valueArg.value;
+      }
+    }
   }
 
   select(type: string) {

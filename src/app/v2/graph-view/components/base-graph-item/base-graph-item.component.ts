@@ -141,6 +141,10 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
     this.graphservice.tryDeleteItem(this);
   }
 
+  editItem() {
+    
+  }
+
   addAnchor(anchors: AnchorItem[], inOut: string) {
     this.graphservice.addAnchor(this.data, anchors, inOut);
   }
@@ -157,11 +161,6 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes["data"]) {
       this.anchors = [];
-
-      // En attente
-      /* for (let key in this.data.anchors) {
-        this.anchors.push(this.data.anchors[key]);
-      } */
     }
   }
 
