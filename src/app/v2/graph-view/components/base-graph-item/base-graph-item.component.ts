@@ -90,7 +90,7 @@ export class BaseGraphItemComponent implements OnInit, OnChanges {
   // les deux méthodes suivantes peuvent être réunies en une seule
   triggerIn(anchor: AnchorItem) {
     // console.log("triggered:", anchor);
-    anchor.callback();
+    anchor.callback(anchor.argumentValues);
 
     // highlighting de l'ancre
     this.getAnchor(anchor.id).highlight();

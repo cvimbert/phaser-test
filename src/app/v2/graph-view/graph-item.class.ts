@@ -64,7 +64,9 @@ export class GraphItem {
         id: serItem.id,
         label: titem.label,
         type: serItem.type,
-        callback: titem.callback
+        callback: titem.callback,
+        nameGetter: titem.nameGetter,
+        argumentValues: serItem.arguments
       });
     }
 
@@ -77,7 +79,9 @@ export class GraphItem {
         id: serItem.id,
         label: titem.label,
         type: serItem.type,
-        callback: titem.callback
+        callback: titem.callback,
+        nameGetter: titem.nameGetter,
+        argumentValues: serItem.arguments
       });
     }
 

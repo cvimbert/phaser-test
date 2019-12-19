@@ -223,7 +223,7 @@ export class GraphService {
 
   playAnchor(anchor: AnchorItem, graphItem: GraphItem) {
     if (anchor.callback) {
-      anchor.callback();
+      anchor.callback(anchor.argumentValues);
     } else {
       this.playOut(anchor, graphItem);
     }
@@ -298,7 +298,7 @@ export class GraphService {
     baseItem.getAnchor(inAnchor.id).highlight();
 
     if (inAnchor.callback) {
-      inAnchor.callback();
+      inAnchor.callback(inAnchor.argumentValues);
     }
   }
 

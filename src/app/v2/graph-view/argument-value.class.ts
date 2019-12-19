@@ -10,5 +10,5 @@ export class ArgumentValue {
   type = "";
 
   @JsonProperty("value", Any)
-  value: any;
+  value: any = undefined;
 }

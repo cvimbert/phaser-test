@@ -1,7 +1,16 @@
 <div [class.highlighted]="highlighted">
-  <span class="deletion right" *ngIf="parentItem.editionMode && type === 'right'" (click)="deleteAnchor($event)"><i class="fa fa-minus"></i></span>
-  <span class="anchor-label">{{ data.label }}</span>
-  <span class="deletion left" *ngIf="parentItem.editionMode && type === 'left'" (click)="deleteAnchor($event)"><i class="fa fa-minus"></i></span>
+  <div class="args-displayer" *ngIf="hasArgs()">
+    <i class="fas fa-ellipsis-h"></i>
+  </div>
+  <span class="deletion right"
+    *ngIf="parentItem.editionMode && type === 'right'"
+    (click)="deleteAnchor($event)"
+  ><i class="fa fa-minus"></i></span>
+  <span class="anchor-label">{{ getLabel() }}</span>
+  <span class="deletion left"
+    *ngIf="parentItem.editionMode && type === 'left'"
+    (click)="deleteAnchor($event)"
+  ><i class="fa fa-minus"></i></span>
   <div
     #banchor
     (mousedown)="onAnchorClicked()"
@@ -9,5 +18,6 @@
     (mouseover)="onOver()"
     (mouseout)="onOut()"
     class="base-anchor {{ type }}"
+    [class.with-args]="hasArgs()"
   ></div>
 </div>

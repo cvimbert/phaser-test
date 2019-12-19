@@ -30,13 +30,7 @@ export class ArgumentsEditorModalComponent implements OnInit {
   }
 
   validate() {
-    let values: ArgumentValue[] = [];
-
-    this.sections.forEach(section => {
-      values.push(section.getArgumentValue());
-    });
-    
+    let values = this.sections.map(section => section.getArgumentValue());
     this.dialogRef.close(values);
   }
-
 }

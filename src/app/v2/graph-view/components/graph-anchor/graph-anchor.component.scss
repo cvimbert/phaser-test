@@ -9,16 +9,50 @@
   &.left {
     transform: translate(-50%, -50%);
     left: 0;
+
+    &.with-args {
+      left: -25px;
+    }
   }
 
   &.right {
     transform: translate(50%, -50%);
     right: 0;
+
+    &.with-args {
+
+    }
   }
 
   &:hover {
     width: 12px;
     height: 12px;
+  }
+}
+
+.args-displayer {
+  width: 17px;
+  height: 20px;
+  background-color: coral;
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  border: 1px solid black;
+  border-right: none;
+  border-bottom-left-radius: 13px;
+  border-top-left-radius: 13px;
+  line-height: 21px;
+  padding-left: 5px;
+  padding-right: 2px;
+  cursor: pointer;
+
+  i {
+    margin-left: 2px;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 

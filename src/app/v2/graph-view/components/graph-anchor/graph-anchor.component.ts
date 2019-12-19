@@ -92,4 +92,16 @@ export class GraphAnchorComponent implements OnInit {
       y: rect.top + rect.height / 2 - this.graphService.canvasContainerOffset.y + 8
     }
   }
+
+  hasArgs(): boolean {    
+    return this.data.argumentValues.length > 0;
+  }
+
+  getLabel(): string {
+    if (this.data.nameGetter) {
+      return (this.data.nameGetter(this.data.argumentValues));
+    } else {
+      return this.data.label;
+    }
+  }
 }
