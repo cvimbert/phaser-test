@@ -39,7 +39,7 @@ export class Variable extends BaseGameStructure implements GraphTarget {
         let valueArg = this.getArg(args, "value");
 
         if (valueArg) {
-          return "Set to " + this.getSeparated(valueArg.value);
+          return "Set to " + this.getSeparatedText(valueArg.value);
         }
       }
     },
@@ -75,9 +75,9 @@ export class Variable extends BaseGameStructure implements GraphTarget {
     this.initLabel(false);
   }
 
-  getSeparated(str: string): string {
+  getSeparatedText(str: string): string {
     let sep = this.type === VariableType.STRING ? '"' : "";
-    return `${sep}<b>${str}</b>${sep}`;
+    return `<b>${sep}${str}${sep}</b>`;
   }
 
   initLabel(update = false) {

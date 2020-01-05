@@ -40,6 +40,7 @@ import { VariableEditionModalComponent } from './v2/game-structures/variable/var
 import { AddAnchorModalComponent } from './v2/graph-view/components/add-anchor-modal/add-anchor-modal.component';
 import { ArgumentsEditorModalComponent } from './v2/graph-view/components/arguments-editor-modal/arguments-editor-modal.component';
 import { ArgumentsEditorSectionComponent } from './v2/graph-view/components/arguments-editor-section/arguments-editor-section.component';
+import { DataProviderService } from './v2/graph-view/services/data-provider.service';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { ArgumentsEditorSectionComponent } from './v2/graph-view/components/argu
     DiffsService,
     TransitionsService,
     CloudService,
-    GraphService
+    GraphService,
+    DataProviderService
   ],
   bootstrap: [AppComponent]
 })

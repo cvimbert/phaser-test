@@ -26,11 +26,7 @@ import { ArgumentsEditorModalComponent } from '../components/arguments-editor-mo
 import { ArgumentValue } from '../argument-value.class';
 import { Argument } from '../interfaces/argument.interface';
 import { Observable } from 'rxjs';
-import { GraphItemType } from '../graph-item-type.class';
-import { GraphTimerModalComponent } from '../components/graph-timer-modal/graph-timer-modal.component';
-import { TriggerCreationModalComponent } from '../components/trigger-creation-modal/trigger-creation-modal.component';
-import { GraphAnchorModalComponent } from '../components/graph-anchor-modal/graph-anchor-modal.component';
-import { VariableEditionModalComponent } from '../../game-structures/variable/variable-edition-modal/variable-edition-modal.component';
+import { DataProviderService } from './data-provider.service';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +53,8 @@ export class GraphService {
   initialDrawAnchor: GraphAnchorComponent;
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    dataProvider: DataProviderService 
   ) {}
 
   set tempDrawing(value: boolean) {
